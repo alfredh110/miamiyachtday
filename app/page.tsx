@@ -32,7 +32,7 @@ const galleryPhotos = [
   "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80"
 ];
 
-const yachtCards = [
+const initialYachtCards = [
   {
     name: "Sunseeker 88 Yacht",
     desc: "88ft • 12 Guests • 5 Cabins • Crew Included",
@@ -54,6 +54,8 @@ export default function Home() {
   const [showOwnerForm, setShowOwnerForm] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+  const [yachtCards, setYachtCards] = useState(initialYachtCards);
+  const [toast, setToast] = useState<string | null>(null);
 
   React.useEffect(() => {
     if (navOpen) {
@@ -212,6 +214,9 @@ export default function Home() {
         )}
       </nav>
 
+      {/* Toast notification */}
+      {toast && <Toast message={toast} onClose={() => setToast(null)} />}
+
       {/* Hero Section */}
       <section style={{
         flex: 1, display: "flex", flexDirection: "column",
@@ -343,14 +348,32 @@ export default function Home() {
       {/* Owner Form Modal */}
       {showOwnerForm && (
         <Modal onClose={() => setShowOwnerForm(false)}>
-          <OwnerForm />
+          <OwnerForm
+            onSubmit={data => {
+              setYachtCards(prev => [
+                {
+                  name: data.yachtName,
+                  desc: `${data.yachtLength}ft • ${data.guestCapacity} Guests${data.amenities ? " • " + data.amenities : ""}`,
+                  img: data.imgUrl || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
+                },
+                ...prev
+              ]);
+              setShowOwnerForm(false);
+              setToast("Yacht listing submitted! Your yacht is now featured.");
+            }}
+          />
         </Modal>
       )}
 
       {/* Booking Form Modal */}
       {showBookingForm && (
         <Modal onClose={() => setShowBookingForm(false)}>
-          <BookingForm />
+          <BookingForm
+            onSubmit={() => {
+              setShowBookingForm(false);
+              setToast("Booking inquiry sent! We'll contact you soon.");
+            }}
+          />
         </Modal>
       )}
 
@@ -501,33 +524,113 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
   );
 }
 
-// Owner Listing Form
-function OwnerForm() {
+// Toast notification
+function Toast({ message, onClose }: { message: string, onClose: () => void }) {
+  React.useEffect(() => {
+    const t = setTimeout(onClose, 3500);
+    return () => clearTimeout(t);
+  }, [onClose]);
   return (
-    <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+    <div style={{
+      position: "fixed",
+      top: 24,
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: "#fff",
+      color: "#16203a",
+      borderRadius: 16,
+      padding: "1.1rem 2.2rem",
+      fontWeight: 600,
+      fontSize: "1.2rem",
+      boxShadow: "0 2px 24px #0ef0f655",
+      zIndex: 9999,
+      letterSpacing: "0.02em",
+      border: "2px solid #0ef0f6"
+    }}>
+      {message}
+    </div>
+  );
+}
+
+// Owner Listing Form
+type OwnerFormProps = {
+  onSubmit: (data: {
+    yachtName: string;
+    yachtLength: string;
+    guestCapacity: string;
+    amenities: string;
+    imgUrl?: string;
+  }) => void;
+};
+function OwnerForm({ onSubmit }: OwnerFormProps) {
+  const [yachtName, setYachtName] = useState("");
+  const [yachtLength, setYachtLength] = useState("");
+  const [guestCapacity, setGuestCapacity] = useState("");
+  const [amenities, setAmenities] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!yachtName.trim() || !yachtLength.trim() || !guestCapacity.trim()) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    setError(null);
+    onSubmit({
+      yachtName: yachtName.trim(),
+      yachtLength: yachtLength.trim(),
+      guestCapacity: guestCapacity.trim(),
+      amenities: amenities.trim(),
+      imgUrl: imgUrl.trim()
+    });
+  }
+
+  return (
+    <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
       <h3 style={{ marginBottom: 8, color: "#16203a" }}>List Your Yacht</h3>
-      <input style={inputStyle} placeholder="Your Name" required />
-      <input style={inputStyle} placeholder="Email" type="email" required />
-      <input style={inputStyle} placeholder="Yacht Name" required />
-      <input style={inputStyle} placeholder="Yacht Length (ft)" required />
-      <input style={inputStyle} placeholder="Guest Capacity" required />
-      <textarea style={inputStyle} placeholder="Describe your yacht & amenities" rows={3} required />
+      <input style={inputStyle} placeholder="Yacht Name*" required value={yachtName} onChange={e => setYachtName(e.target.value)} />
+      <input style={inputStyle} placeholder="Yacht Length (ft)*" required value={yachtLength} onChange={e => setYachtLength(e.target.value)} />
+      <input style={inputStyle} placeholder="Guest Capacity*" required value={guestCapacity} onChange={e => setGuestCapacity(e.target.value)} />
+      <input style={inputStyle} placeholder="Amenities (WiFi, Jetski, etc)" value={amenities} onChange={e => setAmenities(e.target.value)} />
+      <input style={inputStyle} placeholder="Yacht Image URL (optional)" value={imgUrl} onChange={e => setImgUrl(e.target.value)} />
+      {error && <div style={{ color: "#e60040", fontWeight: 600, fontSize: 14 }}>{error}</div>}
       <button type="submit" style={primaryBtnStyle}>Submit Listing</button>
+      <div style={{ fontSize: 12, color: "#999" }}>* required</div>
     </form>
   );
 }
 
 // Booking Inquiry Form
-function BookingForm() {
+function BookingForm({ onSubmit }: { onSubmit: () => void }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [date, setDate] = useState("");
+  const [guests, setGuests] = useState("");
+  const [occasion, setOccasion] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !date.trim() || !guests.trim()) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    setError(null);
+    onSubmit();
+  }
+
   return (
-    <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+    <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
       <h3 style={{ marginBottom: 8, color: "#16203a" }}>Book a Yacht</h3>
-      <input style={inputStyle} placeholder="Your Name" required />
-      <input style={inputStyle} placeholder="Email" type="email" required />
-      <input style={inputStyle} placeholder="Preferred Date" type="date" required />
-      <input style={inputStyle} placeholder="Number of Guests" required />
-      <textarea style={inputStyle} placeholder="Tell us about your occasion" rows={3} />
+      <input style={inputStyle} placeholder="Your Name*" required value={name} onChange={e => setName(e.target.value)} />
+      <input style={inputStyle} placeholder="Email*" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
+      <input style={inputStyle} placeholder="Preferred Date*" type="date" required value={date} onChange={e => setDate(e.target.value)} />
+      <input style={inputStyle} placeholder="Number of Guests*" required value={guests} onChange={e => setGuests(e.target.value)} />
+      <textarea style={inputStyle} placeholder="Tell us about your occasion" rows={3} value={occasion} onChange={e => setOccasion(e.target.value)} />
+      {error && <div style={{ color: "#e60040", fontWeight: 600, fontSize: 14 }}>{error}</div>}
       <button type="submit" style={primaryBtnStyle}>Send Inquiry</button>
+      <div style={{ fontSize: 12, color: "#999" }}>* required</div>
     </form>
   );
 }
