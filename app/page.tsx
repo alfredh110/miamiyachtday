@@ -51,18 +51,41 @@ const defaultYachtCards = [
 ];
 
 const STORAGE_KEY = "miami_yacht_day_listings_v1";
+const BOOKINGS_KEY = "miami_yacht_day_bookings_v1";
+const CONTACTS_KEY = "miami_yacht_day_contacts_v1";
+
+type Booking = {
+  name: string;
+  email: string;
+  date: string;
+  guests: string;
+  occasion: string;
+  submittedAt: string;
+};
+
+type ContactMessage = {
+  name: string;
+  email: string;
+  message: string;
+  submittedAt: string;
+};
 
 export default function Home() {
   const [showOwnerForm, setShowOwnerForm] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showNewsletter, setShowNewsletter] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showBookings, setShowBookings] = useState(false);
+  const [showContacts, setShowContacts] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [yachtCards, setYachtCards] = useState(defaultYachtCards);
   const [toast, setToast] = useState<string | null>(null);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [contacts, setContacts] = useState<ContactMessage[]>([]);
 
-  // Load yachts from localStorage on mount
+  // Load data from localStorage on mount
   useEffect(() => {
+    // Yacht cards
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
@@ -70,6 +93,22 @@ export default function Home() {
         if (Array.isArray(parsed) && parsed.length > 0) {
           setYachtCards([...parsed, ...defaultYachtCards]);
         }
+      } catch {}
+    }
+    // Bookings
+    const bookingsSaved = localStorage.getItem(BOOKINGS_KEY);
+    if (bookingsSaved) {
+      try {
+        const parsed = JSON.parse(bookingsSaved);
+        if (Array.isArray(parsed)) setBookings(parsed);
+      } catch {}
+    }
+    // Contacts
+    const contactsSaved = localStorage.getItem(CONTACTS_KEY);
+    if (contactsSaved) {
+      try {
+        const parsed = JSON.parse(contactsSaved);
+        if (Array.isArray(parsed)) setContacts(parsed);
       } catch {}
     }
   }, []);
@@ -88,6 +127,16 @@ export default function Home() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(onlyUserYachts));
   }, [yachtCards]);
 
+  // Save bookings to localStorage
+  useEffect(() => {
+    localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
+  }, [bookings]);
+
+  // Save contacts to localStorage
+  useEffect(() => {
+    localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts));
+  }, [contacts]);
+
   useEffect(() => {
     if (navOpen) {
       document.body.style.overflow = "hidden";
@@ -95,6 +144,16 @@ export default function Home() {
       document.body.style.overflow = "";
     }
   }, [navOpen]);
+
+  function addBooking(b: Omit<Booking, "submittedAt">) {
+    const booking: Booking = { ...b, submittedAt: new Date().toISOString() };
+    setBookings(prev => [booking, ...prev]);
+  }
+
+  function addContact(c: Omit<ContactMessage, "submittedAt">) {
+    const contact: ContactMessage = { ...c, submittedAt: new Date().toISOString() };
+    setContacts(prev => [contact, ...prev]);
+  }
 
   return (
     <main
@@ -109,7 +168,6 @@ export default function Home() {
         background: "linear-gradient(135deg, #151B26 60%, #232B3B 100%)"
       }}
     >
-      {/* Animated SVG Marine Background */}
       <WavesBackground />
 
       {/* Navigation */}
@@ -137,6 +195,8 @@ export default function Home() {
           <button onClick={() => setShowOwnerForm(true)} style={navBtnStyle}>List Your Yacht</button>
           <button onClick={() => setShowBookingForm(true)} style={navBtnStyle}>Book a Yacht</button>
           <button onClick={() => setShowNewsletter(true)} style={navBtnStyle}>Sign Up for Updates</button>
+          <button onClick={() => setShowBookings(true)} style={navBtnStyle}>Bookings</button>
+          <button onClick={() => setShowContacts(true)} style={navBtnStyle}>Contact Inbox</button>
           <button onClick={() => setShowAbout(true)} style={navBtnStyle}>About / Contact</button>
         </div>
         <button
@@ -175,6 +235,8 @@ export default function Home() {
             <button onClick={() => { setShowOwnerForm(true); setNavOpen(false); }} style={{...mobileNavBtnStyle, marginBottom: "2rem"}}>List Your Yacht</button>
             <button onClick={() => { setShowBookingForm(true); setNavOpen(false); }} style={mobileNavBtnStyle}>Book a Yacht</button>
             <button onClick={() => { setShowNewsletter(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>Sign Up for Updates</button>
+            <button onClick={() => { setShowBookings(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>Bookings</button>
+            <button onClick={() => { setShowContacts(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>Contact Inbox</button>
             <button onClick={() => { setShowAbout(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>About / Contact</button>
           </div>
         )}
@@ -335,7 +397,8 @@ export default function Home() {
       {showBookingForm && (
         <Modal onClose={() => setShowBookingForm(false)}>
           <BookingForm
-            onSubmit={() => {
+            onSubmit={bookingData => {
+              addBooking(bookingData);
               setShowBookingForm(false);
               setToast("Booking inquiry sent! We'll contact you soon.");
             }}
@@ -357,11 +420,24 @@ export default function Home() {
       {showAbout && (
         <Modal onClose={() => setShowAbout(false)}>
           <AboutContactForm
-            onSubmit={() => {
+            onSubmit={contactData => {
+              addContact(contactData);
               setShowAbout(false);
               setToast("Message sent! We'll get back to you soon.");
             }}
           />
+        </Modal>
+      )}
+
+      {showBookings && (
+        <Modal onClose={() => setShowBookings(false)}>
+          <BookingsDashboard bookings={bookings} />
+        </Modal>
+      )}
+
+      {showContacts && (
+        <Modal onClose={() => setShowContacts(false)}>
+          <ContactsDashboard contacts={contacts} />
         </Modal>
       )}
 
@@ -385,47 +461,155 @@ export default function Home() {
   );
 }
 
-// --- About / Contact Modal Form ---
-function AboutContactForm({ onSubmit }: { onSubmit: () => void }) {
+// --- Bookings Dashboard ---
+function BookingsDashboard({ bookings }: { bookings: Booking[] }) {
+  return (
+    <div style={{ maxWidth: 520, width: "100%" }}>
+      <h3 style={{ color: "#5EE6E6", marginBottom: 18 }}>Booking Requests</h3>
+      {bookings.length === 0 && (
+        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No bookings yet.</div>
+      )}
+      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 420, overflowY: "auto" }}>
+        {bookings.map((b, i) => (
+          <div key={i} style={{
+            background: "rgba(36,44,61,0.98)",
+            borderRadius: 12,
+            padding: 16,
+            border: "1.5px solid #23304b",
+            boxShadow: "0 2px 8px #151B2633"
+          }}>
+            <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{b.name}</div>
+            <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{b.email}</div>
+            <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.guests} guests • {b.date}</div>
+            <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.occasion}</div>
+            <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(b.submittedAt).toLocaleString()}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// --- Contacts Dashboard ---
+function ContactsDashboard({ contacts }: { contacts: ContactMessage[] }) {
+  return (
+    <div style={{ maxWidth: 520, width: "100%" }}>
+      <h3 style={{ color: "#5EE6E6", marginBottom: 18 }}>Contact Inbox</h3>
+      {contacts.length === 0 && (
+        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No messages yet.</div>
+      )}
+      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 420, overflowY: "auto" }}>
+        {contacts.map((c, i) => (
+          <div key={i} style={{
+            background: "rgba(36,44,61,0.98)",
+            borderRadius: 12,
+            padding: 16,
+            border: "1.5px solid #23304b",
+            boxShadow: "0 2px 8px #151B2633"
+          }}>
+            <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{c.name}</div>
+            <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{c.email}</div>
+            <div style={{ color: "#F5F7FA", marginBottom: 6, marginTop: 5 }}>{c.message}</div>
+            <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(c.submittedAt).toLocaleString()}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// --- Booking Inquiry Form ---
+function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt">) => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [date, setDate] = useState("");
+  const [guests, setGuests] = useState("");
+  const [occasion, setOccasion] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) {
-      setError("Please fill in all fields.");
-      return;
-    }
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
-      setError("Please enter a valid email address.");
+    if (!name.trim() || !email.trim() || !date.trim() || !guests.trim()) {
+      setError("Please fill in all required fields.");
       return;
     }
     setError(null);
-    onSubmit();
-    setName(""); setEmail(""); setMessage("");
+    onSubmit({
+      name: name.trim(),
+      email: email.trim(),
+      date: date.trim(),
+      guests: guests.trim(),
+      occasion: occasion.trim(),
+    });
+    setName(""); setEmail(""); setDate(""); setGuests(""); setOccasion("");
   }
 
   return (
-    <div style={{minWidth: 300, maxWidth: 400}}>
-      <h3 style={{ color: "#5EE6E6", marginBottom: 12 }}>About Miami Yacht Day</h3>
-      <p style={{ color: "#B0BED8", fontSize: 14, marginBottom: 16 }}>
-        Miami Yacht Day brings the city’s finest yachts and clients together for unforgettable experiences. Whether you’re a yacht owner or an adventurer, we’re here to help you enjoy Miami’s luxury lifestyle.
-      </p>
-      <hr style={{border: "none", borderTop: "1.5px solid #23304b", margin: "18px 0"}} />
-      <h4 style={{ color: "#F5F7FA", fontWeight: 700, marginBottom: 8 }}>Contact Us</h4>
-      <form style={{ display: "flex", flexDirection: "column", gap: 12 }} onSubmit={handleSubmit}>
-        <input style={inputStyle} placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} />
-        <input style={inputStyle} placeholder="Your Email" value={email} onChange={e => setEmail(e.target.value)} />
-        <textarea style={inputStyle} rows={3} placeholder="Your Message" value={message} onChange={e => setMessage(e.target.value)} />
-        {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-        <button type="submit" style={primaryBtnStyle}>Send Message</button>
-      </form>
-      <div style={{ color: "#7A8CA3", fontSize: 12, marginTop: 12 }}>
-        Or email us: <a href="mailto:info@miamiyachtday.com" style={{ color: "#5EE6E6" }}>info@miamiyachtday.com</a>
-      </div>
-    </div>
+    <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
+      <h3 style={{ marginBottom: 8, color: "#5EE6E6" }}>Book a Yacht</h3>
+      <input style={inputStyle} placeholder="Your Name*" required value={name} onChange={e => setName(e.target.value)} />
+      <input style={inputStyle} placeholder="Email*" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
+      <input style={inputStyle} placeholder="Preferred Date*" type="date" required value={date} onChange={e => setDate(e.target.value)} />
+      <input style={inputStyle} placeholder="Number of Guests*" required value={guests} onChange={e => setGuests(e.target.value)} />
+      <textarea style={inputStyle} placeholder="Tell us about your occasion" rows={3} value={occasion} onChange={e => setOccasion(e.target.value)} />
+      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+      <button type="submit" style={primaryBtnStyle}>Send Inquiry</button>
+      <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
+    </form>
+  );
+}
+
+// --- Owner Listing Form ---
+type OwnerFormProps = {
+  onSubmit: (data: {
+    yachtName: string;
+    yachtLength: string;
+    guestCapacity: string;
+    amenities: string;
+    imgUrl?: string;
+  }) => void;
+};
+function OwnerForm({ onSubmit }: OwnerFormProps) {
+  const [yachtName, setYachtName] = useState("");
+  const [yachtLength, setYachtLength] = useState("");
+  const [guestCapacity, setGuestCapacity] = useState("");
+  const [amenities, setAmenities] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!yachtName.trim() || !yachtLength.trim() || !guestCapacity.trim()) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    setError(null);
+    onSubmit({
+      yachtName: yachtName.trim(),
+      yachtLength: yachtLength.trim(),
+      guestCapacity: guestCapacity.trim(),
+      amenities: amenities.trim(),
+      imgUrl: imgUrl.trim()
+    });
+    setYachtName("");
+    setYachtLength("");
+    setGuestCapacity("");
+    setAmenities("");
+    setImgUrl("");
+  }
+
+  return (
+    <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
+      <h3 style={{ marginBottom: 8, color: "#5EE6E6" }}>List Your Yacht</h3>
+      <input style={inputStyle} placeholder="Yacht Name*" required value={yachtName} onChange={e => setYachtName(e.target.value)} />
+      <input style={inputStyle} placeholder="Yacht Length (ft)*" required value={yachtLength} onChange={e => setYachtLength(e.target.value)} />
+      <input style={inputStyle} placeholder="Guest Capacity*" required value={guestCapacity} onChange={e => setGuestCapacity(e.target.value)} />
+      <input style={inputStyle} placeholder="Amenities (WiFi, Jetski, etc)" value={amenities} onChange={e => setAmenities(e.target.value)} />
+      <input style={inputStyle} placeholder="Yacht Image URL (optional)" value={imgUrl} onChange={e => setImgUrl(e.target.value)} />
+      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+      <button type="submit" style={primaryBtnStyle}>Submit Listing</button>
+      <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
+    </form>
   );
 }
 
@@ -467,6 +651,54 @@ function NewsletterForm({ onSubmit }: { onSubmit: (email: string) => void }) {
       {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
       <button type="submit" style={primaryBtnStyle}>Subscribe</button>
     </form>
+  );
+}
+
+// --- About / Contact Modal Form ---
+function AboutContactForm({ onSubmit }: { onSubmit: (data: Omit<ContactMessage, "submittedAt">) => void }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setError(null);
+    onSubmit({
+      name: name.trim(),
+      email: email.trim(),
+      message: message.trim(),
+    });
+    setName(""); setEmail(""); setMessage("");
+  }
+
+  return (
+    <div style={{minWidth: 300, maxWidth: 400}}>
+      <h3 style={{ color: "#5EE6E6", marginBottom: 12 }}>About Miami Yacht Day</h3>
+      <p style={{ color: "#B0BED8", fontSize: 14, marginBottom: 16 }}>
+        Miami Yacht Day brings the city’s finest yachts and clients together for unforgettable experiences. Whether you’re a yacht owner or an adventurer, we’re here to help you enjoy Miami’s luxury lifestyle.
+      </p>
+      <hr style={{border: "none", borderTop: "1.5px solid #23304b", margin: "18px 0"}} />
+      <h4 style={{ color: "#F5F7FA", fontWeight: 700, marginBottom: 8 }}>Contact Us</h4>
+      <form style={{ display: "flex", flexDirection: "column", gap: 12 }} onSubmit={handleSubmit}>
+        <input style={inputStyle} placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} />
+        <input style={inputStyle} placeholder="Your Email" value={email} onChange={e => setEmail(e.target.value)} />
+        <textarea style={inputStyle} rows={3} placeholder="Your Message" value={message} onChange={e => setMessage(e.target.value)} />
+        {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+        <button type="submit" style={primaryBtnStyle}>Send Message</button>
+      </form>
+      <div style={{ color: "#7A8CA3", fontSize: 12, marginTop: 12 }}>
+        Or email us: <a href="mailto:info@miamiyachtday.com" style={{ color: "#5EE6E6" }}>info@miamiyachtday.com</a>
+      </div>
+    </div>
   );
 }
 
@@ -580,99 +812,6 @@ function WavesBackground() {
         }
       `}</style>
     </div>
-  );
-}
-
-// --- Owner Listing Form ---
-type OwnerFormProps = {
-  onSubmit: (data: {
-    yachtName: string;
-    yachtLength: string;
-    guestCapacity: string;
-    amenities: string;
-    imgUrl?: string;
-  }) => void;
-};
-function OwnerForm({ onSubmit }: OwnerFormProps) {
-  const [yachtName, setYachtName] = useState("");
-  const [yachtLength, setYachtLength] = useState("");
-  const [guestCapacity, setGuestCapacity] = useState("");
-  const [amenities, setAmenities] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!yachtName.trim() || !yachtLength.trim() || !guestCapacity.trim()) {
-      setError("Please fill in all required fields.");
-      return;
-    }
-    setError(null);
-    onSubmit({
-      yachtName: yachtName.trim(),
-      yachtLength: yachtLength.trim(),
-      guestCapacity: guestCapacity.trim(),
-      amenities: amenities.trim(),
-      imgUrl: imgUrl.trim()
-    });
-    setYachtName("");
-    setYachtLength("");
-    setGuestCapacity("");
-    setAmenities("");
-    setImgUrl("");
-  }
-
-  return (
-    <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
-      <h3 style={{ marginBottom: 8, color: "#5EE6E6" }}>List Your Yacht</h3>
-      <input style={inputStyle} placeholder="Yacht Name*" required value={yachtName} onChange={e => setYachtName(e.target.value)} />
-      <input style={inputStyle} placeholder="Yacht Length (ft)*" required value={yachtLength} onChange={e => setYachtLength(e.target.value)} />
-      <input style={inputStyle} placeholder="Guest Capacity*" required value={guestCapacity} onChange={e => setGuestCapacity(e.target.value)} />
-      <input style={inputStyle} placeholder="Amenities (WiFi, Jetski, etc)" value={amenities} onChange={e => setAmenities(e.target.value)} />
-      <input style={inputStyle} placeholder="Yacht Image URL (optional)" value={imgUrl} onChange={e => setImgUrl(e.target.value)} />
-      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-      <button type="submit" style={primaryBtnStyle}>Submit Listing</button>
-      <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
-    </form>
-  );
-}
-
-// --- Booking Inquiry Form ---
-function BookingForm({ onSubmit }: { onSubmit: () => void }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [date, setDate] = useState("");
-  const [guests, setGuests] = useState("");
-  const [occasion, setOccasion] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!name.trim() || !email.trim() || !date.trim() || !guests.trim()) {
-      setError("Please fill in all required fields.");
-      return;
-    }
-    setError(null);
-    onSubmit();
-    setName("");
-    setEmail("");
-    setDate("");
-    setGuests("");
-    setOccasion("");
-  }
-
-  return (
-    <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
-      <h3 style={{ marginBottom: 8, color: "#5EE6E6" }}>Book a Yacht</h3>
-      <input style={inputStyle} placeholder="Your Name*" required value={name} onChange={e => setName(e.target.value)} />
-      <input style={inputStyle} placeholder="Email*" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
-      <input style={inputStyle} placeholder="Preferred Date*" type="date" required value={date} onChange={e => setDate(e.target.value)} />
-      <input style={inputStyle} placeholder="Number of Guests*" required value={guests} onChange={e => setGuests(e.target.value)} />
-      <textarea style={inputStyle} placeholder="Tell us about your occasion" rows={3} value={occasion} onChange={e => setOccasion(e.target.value)} />
-      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-      <button type="submit" style={primaryBtnStyle}>Send Inquiry</button>
-      <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
-    </form>
   );
 }
 
