@@ -56,6 +56,7 @@ export default function Home() {
   const [showOwnerForm, setShowOwnerForm] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showNewsletter, setShowNewsletter] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [yachtCards, setYachtCards] = useState(defaultYachtCards);
   const [toast, setToast] = useState<string | null>(null);
@@ -133,29 +134,11 @@ export default function Home() {
           display: "flex",
           gap: "2rem"
         }}>
-          <button
-            onClick={() => setShowOwnerForm(true)}
-            style={navBtnStyle}
-            className="desktop-nav-btn"
-          >
-            List Your Yacht
-          </button>
-          <button
-            onClick={() => setShowBookingForm(true)}
-            style={navBtnStyle}
-            className="desktop-nav-btn"
-          >
-            Book a Yacht
-          </button>
-          <button
-            onClick={() => setShowNewsletter(true)}
-            style={navBtnStyle}
-            className="desktop-nav-btn"
-          >
-            Sign Up for Updates
-          </button>
+          <button onClick={() => setShowOwnerForm(true)} style={navBtnStyle}>List Your Yacht</button>
+          <button onClick={() => setShowBookingForm(true)} style={navBtnStyle}>Book a Yacht</button>
+          <button onClick={() => setShowNewsletter(true)} style={navBtnStyle}>Sign Up for Updates</button>
+          <button onClick={() => setShowAbout(true)} style={navBtnStyle}>About / Contact</button>
         </div>
-        {/* Hamburger icon for mobile */}
         <button
           aria-label="Open navigation menu"
           className="hamburger"
@@ -171,96 +154,32 @@ export default function Home() {
           }}
           onClick={() => setNavOpen(!navOpen)}
         >
-          <span style={{
-            display: "block",
-            width: 24,
-            height: 3,
-            background: "#B0BED8",
-            borderRadius: 2,
-            marginBottom: 4
-          }} />
-          <span style={{
-            display: "block",
-            width: 24,
-            height: 3,
-            background: "#B0BED8",
-            borderRadius: 2,
-            marginBottom: 4
-          }} />
-          <span style={{
-            display: "block",
-            width: 24,
-            height: 3,
-            background: "#B0BED8",
-            borderRadius: 2
-          }} />
+          <span style={{display: "block", width: 24, height: 3, background: "#B0BED8", borderRadius: 2, marginBottom: 4}} />
+          <span style={{display: "block", width: 24, height: 3, background: "#B0BED8", borderRadius: 2, marginBottom: 4}} />
+          <span style={{display: "block", width: 24, height: 3, background: "#B0BED8", borderRadius: 2}} />
         </button>
         {navOpen && (
-          <div
-            className="mobile-nav-overlay"
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: "rgba(21,27,38,0.95)",
-              zIndex: 200,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
+          <div className="mobile-nav-overlay" style={{
+            position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+            background: "rgba(21,27,38,0.95)", zIndex: 200,
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"
+          }}>
             <button
               onClick={() => setNavOpen(false)}
               aria-label="Close navigation menu"
               style={{
-                position: "absolute",
-                top: 30,
-                right: 36,
-                background: "none",
-                border: "none",
-                color: "#B06AB3",
-                fontSize: "2.5rem",
-                cursor: "pointer"
+                position: "absolute", top: 30, right: 36, background: "none",
+                border: "none", color: "#B06AB3", fontSize: "2.5rem", cursor: "pointer"
               }}
             >×</button>
-            <button
-              onClick={() => {
-                setShowOwnerForm(true);
-                setNavOpen(false);
-              }}
-              style={{
-                ...mobileNavBtnStyle,
-                marginBottom: "2rem"
-              }}
-            >
-              List Your Yacht
-            </button>
-            <button
-              onClick={() => {
-                setShowBookingForm(true);
-                setNavOpen(false);
-              }}
-              style={mobileNavBtnStyle}
-            >
-              Book a Yacht
-            </button>
-            <button
-              onClick={() => {
-                setShowNewsletter(true);
-                setNavOpen(false);
-              }}
-              style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}
-            >
-              Sign Up for Updates
-            </button>
+            <button onClick={() => { setShowOwnerForm(true); setNavOpen(false); }} style={{...mobileNavBtnStyle, marginBottom: "2rem"}}>List Your Yacht</button>
+            <button onClick={() => { setShowBookingForm(true); setNavOpen(false); }} style={mobileNavBtnStyle}>Book a Yacht</button>
+            <button onClick={() => { setShowNewsletter(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>Sign Up for Updates</button>
+            <button onClick={() => { setShowAbout(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>About / Contact</button>
           </div>
         )}
       </nav>
 
-      {/* Toast notification */}
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
       {/* Hero Section */}
@@ -435,6 +354,17 @@ export default function Home() {
         </Modal>
       )}
 
+      {showAbout && (
+        <Modal onClose={() => setShowAbout(false)}>
+          <AboutContactForm
+            onSubmit={() => {
+              setShowAbout(false);
+              setToast("Message sent! We'll get back to you soon.");
+            }}
+          />
+        </Modal>
+      )}
+
       {/* Responsive styles */}
       <style jsx global>{`
         @media (max-width: 900px) {
@@ -455,7 +385,142 @@ export default function Home() {
   );
 }
 
-// Animated SVG Marine Background Component
+// --- About / Contact Modal Form ---
+function AboutContactForm({ onSubmit }: { onSubmit: () => void }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setError(null);
+    onSubmit();
+    setName(""); setEmail(""); setMessage("");
+  }
+
+  return (
+    <div style={{minWidth: 300, maxWidth: 400}}>
+      <h3 style={{ color: "#5EE6E6", marginBottom: 12 }}>About Miami Yacht Day</h3>
+      <p style={{ color: "#B0BED8", fontSize: 14, marginBottom: 16 }}>
+        Miami Yacht Day brings the city’s finest yachts and clients together for unforgettable experiences. Whether you’re a yacht owner or an adventurer, we’re here to help you enjoy Miami’s luxury lifestyle.
+      </p>
+      <hr style={{border: "none", borderTop: "1.5px solid #23304b", margin: "18px 0"}} />
+      <h4 style={{ color: "#F5F7FA", fontWeight: 700, marginBottom: 8 }}>Contact Us</h4>
+      <form style={{ display: "flex", flexDirection: "column", gap: 12 }} onSubmit={handleSubmit}>
+        <input style={inputStyle} placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} />
+        <input style={inputStyle} placeholder="Your Email" value={email} onChange={e => setEmail(e.target.value)} />
+        <textarea style={inputStyle} rows={3} placeholder="Your Message" value={message} onChange={e => setMessage(e.target.value)} />
+        {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+        <button type="submit" style={primaryBtnStyle}>Send Message</button>
+      </form>
+      <div style={{ color: "#7A8CA3", fontSize: 12, marginTop: 12 }}>
+        Or email us: <a href="mailto:info@miamiyachtday.com" style={{ color: "#5EE6E6" }}>info@miamiyachtday.com</a>
+      </div>
+    </div>
+  );
+}
+
+// --- Newsletter Signup Form ---
+function NewsletterForm({ onSubmit }: { onSubmit: (email: string) => void }) {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setError(null);
+    onSubmit(email.trim());
+    setEmail("");
+  }
+
+  return (
+    <form style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 280 }} onSubmit={handleSubmit}>
+      <h3 style={{ color: "#5EE6E6", marginBottom: 4 }}>Sign Up for Miami Yacht Day Updates</h3>
+      <p style={{ color: "#B0BED8", marginBottom: 4, fontSize: 14 }}>
+        Be the first to hear about new yacht listings, special offers, and Miami yachting news.
+      </p>
+      <input
+        style={{
+          ...inputStyle,
+          background: "#19202c",
+          border: "1.5px solid #23304b",
+          color: "#F5F7FA",
+          marginBottom: 0
+        }}
+        placeholder="Your Email Address"
+        type="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+      />
+      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+      <button type="submit" style={primaryBtnStyle}>Subscribe</button>
+    </form>
+  );
+}
+
+// --- Toast notification ---
+function Toast({ message, onClose }: { message: string, onClose: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onClose, 3500);
+    return () => clearTimeout(t);
+  }, [onClose]);
+  return (
+    <div style={{
+      position: "fixed",
+      top: 24,
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: "#2A3143",
+      color: "#F5F7FA",
+      borderRadius: 16,
+      padding: "1.1rem 2.2rem",
+      fontWeight: 600,
+      fontSize: "1.1rem",
+      boxShadow: "0 2px 24px #151B2666",
+      zIndex: 9999,
+      letterSpacing: "0.02em",
+      border: "2px solid #5EE6E6"
+    }}>
+      {message}
+    </div>
+  );
+}
+
+// --- Modal Component ---
+function Modal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
+  return (
+    <div style={{
+      position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
+      background: "rgba(21,27,38,0.78)", display: "flex", alignItems: "center",
+      justifyContent: "center", zIndex: 1000
+    }}>
+      <div style={{
+        background: "#232B3B", borderRadius: "1.5rem", padding: "2rem", minWidth: 320,
+        boxShadow: "0 8px 48px #151B2688", position: "relative"
+      }}>
+        <button onClick={onClose} style={{
+          position: "absolute", top: 18, right: 22, background: "none", border: "none",
+          fontSize: "1.5rem", color: "#5EE6E6", cursor: "pointer"
+        }}>×</button>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// --- Animated SVG Marine Background Component ---
 function WavesBackground() {
   return (
     <div style={{
@@ -518,143 +583,7 @@ function WavesBackground() {
   );
 }
 
-// Button Styles
-const primaryBtnStyle = {
-  background: "linear-gradient(90deg, #4568DC 0%, #B06AB3 100%)",
-  color: "#F5F7FA",
-  padding: "0.85rem 2rem",
-  borderRadius: "2rem",
-  fontWeight: 700,
-  boxShadow: "0 2px 8px #151B2633",
-  fontSize: "1.05rem",
-  border: "none",
-  cursor: "pointer",
-  textDecoration: "none",
-  transition: "transform 0.08s"
-};
-const secondaryBtnStyle = {
-  background: "rgba(36,44,61,0.75)",
-  color: "#5EE6E6",
-  padding: "0.85rem 2rem",
-  borderRadius: "2rem",
-  fontWeight: 700,
-  fontSize: "1.05rem",
-  border: "2px solid #5EE6E6",
-  cursor: "pointer",
-  textDecoration: "none",
-  transition: "transform 0.08s"
-};
-const navBtnStyle = {
-  color: "#F5F7FA",
-  fontWeight: 600,
-  background: "rgba(36,44,61,0.72)",
-  padding: "0.7rem 1.5rem",
-  borderRadius: "1.2rem",
-  textDecoration: "none",
-  fontSize: "1rem",
-  boxShadow: "0 2px 8px #151B2633",
-  border: "none",
-  cursor: "pointer",
-  transition: "transform 0.08s"
-};
-const mobileNavBtnStyle = {
-  ...primaryBtnStyle,
-  fontSize: "1.2rem",
-  padding: "1.1rem 2.5rem"
-};
-
-// Modal Component
-function Modal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
-  return (
-    <div style={{
-      position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
-      background: "rgba(21,27,38,0.78)", display: "flex", alignItems: "center",
-      justifyContent: "center", zIndex: 1000
-    }}>
-      <div style={{
-        background: "#232B3B", borderRadius: "1.5rem", padding: "2rem", minWidth: 320,
-        boxShadow: "0 8px 48px #151B2688", position: "relative"
-      }}>
-        <button onClick={onClose} style={{
-          position: "absolute", top: 18, right: 22, background: "none", border: "none",
-          fontSize: "1.5rem", color: "#5EE6E6", cursor: "pointer"
-        }}>×</button>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-// Toast notification
-function Toast({ message, onClose }: { message: string, onClose: () => void }) {
-  useEffect(() => {
-    const t = setTimeout(onClose, 3500);
-    return () => clearTimeout(t);
-  }, [onClose]);
-  return (
-    <div style={{
-      position: "fixed",
-      top: 24,
-      left: "50%",
-      transform: "translateX(-50%)",
-      background: "#2A3143",
-      color: "#F5F7FA",
-      borderRadius: 16,
-      padding: "1.1rem 2.2rem",
-      fontWeight: 600,
-      fontSize: "1.1rem",
-      boxShadow: "0 2px 24px #151B2666",
-      zIndex: 9999,
-      letterSpacing: "0.02em",
-      border: "2px solid #5EE6E6"
-    }}>
-      {message}
-    </div>
-  );
-}
-
-// Newsletter Signup Form
-function NewsletterForm({ onSubmit }: { onSubmit: (email: string) => void }) {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-    setError(null);
-    onSubmit(email.trim());
-    setEmail("");
-  }
-
-  return (
-    <form style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 280 }} onSubmit={handleSubmit}>
-      <h3 style={{ color: "#5EE6E6", marginBottom: 4 }}>Sign Up for Miami Yacht Day Updates</h3>
-      <p style={{ color: "#B0BED8", marginBottom: 4, fontSize: 14 }}>
-        Be the first to hear about new yacht listings, special offers, and Miami yachting news.
-      </p>
-      <input
-        style={{
-          ...inputStyle,
-          background: "#19202c",
-          border: "1.5px solid #23304b",
-          color: "#F5F7FA",
-          marginBottom: 0
-        }}
-        placeholder="Your Email Address"
-        type="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-      />
-      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-      <button type="submit" style={primaryBtnStyle}>Subscribe</button>
-    </form>
-  );
-}
-
-// Owner Listing Form
+// --- Owner Listing Form ---
 type OwnerFormProps = {
   onSubmit: (data: {
     yachtName: string;
@@ -708,7 +637,7 @@ function OwnerForm({ onSubmit }: OwnerFormProps) {
   );
 }
 
-// Booking Inquiry Form
+// --- Booking Inquiry Form ---
 function BookingForm({ onSubmit }: { onSubmit: () => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -747,6 +676,50 @@ function BookingForm({ onSubmit }: { onSubmit: () => void }) {
   );
 }
 
+// --- Styles ---
+const primaryBtnStyle = {
+  background: "linear-gradient(90deg, #4568DC 0%, #B06AB3 100%)",
+  color: "#F5F7FA",
+  padding: "0.85rem 2rem",
+  borderRadius: "2rem",
+  fontWeight: 700,
+  boxShadow: "0 2px 8px #151B2633",
+  fontSize: "1.05rem",
+  border: "none",
+  cursor: "pointer",
+  textDecoration: "none",
+  transition: "transform 0.08s"
+};
+const secondaryBtnStyle = {
+  background: "rgba(36,44,61,0.75)",
+  color: "#5EE6E6",
+  padding: "0.85rem 2rem",
+  borderRadius: "2rem",
+  fontWeight: 700,
+  fontSize: "1.05rem",
+  border: "2px solid #5EE6E6",
+  cursor: "pointer",
+  textDecoration: "none",
+  transition: "transform 0.08s"
+};
+const navBtnStyle = {
+  color: "#F5F7FA",
+  fontWeight: 600,
+  background: "rgba(36,44,61,0.72)",
+  padding: "0.7rem 1.5rem",
+  borderRadius: "1.2rem",
+  textDecoration: "none",
+  fontSize: "1rem",
+  boxShadow: "0 2px 8px #151B2633",
+  border: "none",
+  cursor: "pointer",
+  transition: "transform 0.08s"
+};
+const mobileNavBtnStyle = {
+  ...primaryBtnStyle,
+  fontSize: "1.2rem",
+  padding: "1.1rem 2.5rem"
+};
 const inputStyle: React.CSSProperties = {
   border: "1.5px solid #292f3e",
   borderRadius: 8,
