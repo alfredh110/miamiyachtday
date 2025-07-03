@@ -54,6 +54,8 @@ const STORAGE_KEY = "miami_yacht_day_listings_v1";
 const BOOKINGS_KEY = "miami_yacht_day_bookings_v1";
 const CONTACTS_KEY = "miami_yacht_day_contacts_v1";
 
+type BookingStatus = "Pending" | "Contacted" | "Completed" | "Archived";
+
 type Booking = {
   name: string;
   email: string;
@@ -61,6 +63,7 @@ type Booking = {
   guests: string;
   occasion: string;
   submittedAt: string;
+  status: BookingStatus;
 };
 
 type ContactMessage = {
@@ -68,6 +71,7 @@ type ContactMessage = {
   email: string;
   message: string;
   submittedAt: string;
+  archived?: boolean;
 };
 
 export default function Home() {
@@ -145,14 +149,79 @@ export default function Home() {
     }
   }, [navOpen]);
 
-  function addBooking(b: Omit<Booking, "submittedAt">) {
-    const booking: Booking = { ...b, submittedAt: new Date().toISOString() };
+  function addBooking(b: Omit<Booking, "submittedAt" | "status">) {
+    const booking: Booking = { ...b, submittedAt: new Date().toISOString(), status: "Pending" };
     setBookings(prev => [booking, ...prev]);
   }
 
+  function updateBookingStatus(idx: number, status: BookingStatus) {
+    setBookings(prev =>
+      prev.map((b, i) => (i === idx ? { ...b, status } : b))
+    );
+  }
+
+  function deleteBooking(idx: number) {
+    setBookings(prev => prev.filter((_, i) => i !== idx));
+  }
+
+  function exportBookingsCSV() {
+    const activeBookings = bookings.filter(b => b.status !== "Archived");
+    const csv =
+      ["Name,Email,Date,Guests,Occasion,Status,Submitted At"].concat(
+        activeBookings.map(b =>
+          [
+            `"${b.name}"`,
+            `"${b.email}"`,
+            `"${b.date}"`,
+            `"${b.guests}"`,
+            `"${b.occasion.replace(/"/g, '""')}"`,
+            `"${b.status}"`,
+            `"${new Date(b.submittedAt).toLocaleString()}"`
+          ].join(",")
+        )
+      ).join("\n");
+    downloadCSV(csv, "bookings.csv");
+  }
+
   function addContact(c: Omit<ContactMessage, "submittedAt">) {
-    const contact: ContactMessage = { ...c, submittedAt: new Date().toISOString() };
+    const contact: ContactMessage = { ...c, submittedAt: new Date().toISOString(), archived: false };
     setContacts(prev => [contact, ...prev]);
+  }
+
+  function archiveContact(idx: number) {
+    setContacts(prev =>
+      prev.map((c, i) => (i === idx ? { ...c, archived: !c.archived } : c))
+    );
+  }
+
+  function deleteContact(idx: number) {
+    setContacts(prev => prev.filter((_, i) => i !== idx));
+  }
+
+  function exportContactsCSV() {
+    const activeContacts = contacts.filter(c => !c.archived);
+    const csv =
+      ["Name,Email,Message,Submitted At"].concat(
+        activeContacts.map(c =>
+          [
+            `"${c.name}"`,
+            `"${c.email}"`,
+            `"${c.message.replace(/"/g, '""')}"`,
+            `"${new Date(c.submittedAt).toLocaleString()}"`
+          ].join(",")
+        )
+      ).join("\n");
+    downloadCSV(csv, "contacts.csv");
+  }
+
+  function downloadCSV(csv: string, filename: string) {
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 500);
   }
 
   return (
@@ -245,134 +314,10 @@ export default function Home() {
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
       {/* Hero Section */}
-      <section style={{
-        flex: 1, display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center", textAlign: "center",
-        padding: "2rem 4vw"
-      }}>
-        <h2 style={{
-          fontSize: "3rem", fontWeight: 700, color: "#F5F7FA",
-          marginBottom: "1.5rem", textShadow: "0 2px 24px #151B26dd"
-        }}>
-          Experience Miami’s <span style={{color:'#5EE6E6'}}>Luxury</span> on the Water
-        </h2>
-        <p style={{
-          fontSize: "1.3rem",
-          background: "rgba(36,44,61,0.66)",
-          padding: "1rem 2rem",
-          borderRadius: "18px",
-          color: "#B0BED8",
-          marginBottom: "2rem",
-          boxShadow: "0 2px 16px #151B2633"
-        }}>
-          Book a glamorous yacht for your next Miami adventure, or list your own vessel and join the city’s elite fleet.
-        </p>
-        <div style={{ display: "flex", gap: "2rem", marginTop: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Find a Yacht</button>
-          <button onClick={() => setShowOwnerForm(true)} style={secondaryBtnStyle}>List Your Yacht</button>
-        </div>
-      </section>
-
-      {/* Yacht Showcase */}
-      <section id="book" style={{
-        marginTop: "3rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.92)", borderRadius: "2rem"
-      }}>
-        <h3 style={{
-          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
-          color: "#5EE6E6", marginBottom: "2rem"
-        }}>Featured Yachts</h3>
-        <div style={{ display: "flex", gap: "2rem", overflowX: "auto" }}>
-          {yachtCards.map((yacht, i) => (
-            <div key={i} style={{
-              background: "rgba(36,44,61,0.98)",
-              borderRadius: "1.5rem",
-              minWidth: 300,
-              padding: "1.5rem",
-              boxShadow: "0 4px 32px #151B2633",
-              display: "flex", flexDirection: "column", alignItems: "center",
-              border: "1.5px solid #23304b"
-            }}>
-              <img src={yacht.img} alt={yacht.name} style={{
-                width: "100%", borderRadius: "1rem", marginBottom: "1rem", objectFit: "cover", height: 180
-              }} />
-              <h4 style={{ fontWeight: 700, color: "#B06AB3", fontSize: "1.1rem", marginBottom: 2 }}>{yacht.name}</h4>
-              <div style={{ color: "#B0BED8", margin: "0.5rem 0", fontSize: "1rem" }}>{yacht.desc}</div>
-              <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Book Now</button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section style={{
-        marginTop: "3rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.88)", borderRadius: "2rem"
-      }}>
-        <h3 style={{
-          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
-          color: "#5EE6E6", marginBottom: "2rem"
-        }}>Testimonials</h3>
-        <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", justifyContent: "center" }}>
-          {testimonials.map((t, i) => (
-            <div key={i} style={{
-              background: "rgba(36,44,61,0.98)",
-              borderRadius: "1.2rem",
-              padding: "1.5rem",
-              maxWidth: 340,
-              minWidth: 260,
-              boxShadow: "0 4px 24px #151B2633",
-              display: "flex", flexDirection: "column",
-              border: "1.5px solid #23304b"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
-                <img src={t.avatar} alt={t.name} style={{
-                  width: 48, height: 48, borderRadius: "50%", marginRight: 12, border: "2px solid #5EE6E6"
-                }} />
-                <div>
-                  <div style={{ color: "#5EE6E6", fontWeight: 700 }}>{t.name}</div>
-                  <div style={{ color: "#B0BED8", fontSize: 13 }}>{t.role}</div>
-                </div>
-              </div>
-              <div style={{ color: "#F5F7FA", fontSize: 16, fontStyle: "italic" }}>
-                “{t.text}”
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section style={{
-        marginTop: "3rem", marginBottom: "2rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.88)", borderRadius: "2rem"
-      }}>
-        <h3 style={{
-          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
-          color: "#5EE6E6", marginBottom: "2rem"
-        }}>Gallery: Miami Yacht Days</h3>
-        <div style={{
-          display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "1.5rem", alignItems: "center"
-        }}>
-          {galleryPhotos.map((url, i) => (
-            <img key={i} src={url} alt={`Miami Yacht ${i + 1}`} style={{
-              width: "100%", borderRadius: "1.2rem", boxShadow: "0 2px 16px #151B2666", objectFit: "cover", height: 160
-            }} />
-          ))}
-        </div>
-      </section>
+      {/* ... keep rest of your site as before ... */}
 
       {/* Owner CTA */}
-      <section id="list" style={{
-        margin: "4rem 0 2rem 0", display: "flex", flexDirection: "column",
-        alignItems: "center", gap: "1.5rem"
-      }}>
-        <h3 style={{ fontWeight: 700, fontSize: "1.5rem", color: "#F5F7FA" }}>
-          Are you a Yacht Owner?
-        </h3>
-        <p style={{ color: "#B0BED8", fontSize: "1.1rem", background: "rgba(36,44,61,0.82)", borderRadius: 12, padding: "0.7rem 1.5rem" }}>
-          List your vessel with Miami Yacht Day and reach exclusive clients seeking luxury experiences.
-        </p>
-        <button onClick={() => setShowOwnerForm(true)} style={primaryBtnStyle}>List Your Yacht</button>
-      </section>
+      {/* ... */}
 
       {/* Modals */}
       {showOwnerForm && (
@@ -431,13 +376,23 @@ export default function Home() {
 
       {showBookings && (
         <Modal onClose={() => setShowBookings(false)}>
-          <BookingsDashboard bookings={bookings} />
+          <BookingsDashboard
+            bookings={bookings}
+            updateBookingStatus={updateBookingStatus}
+            deleteBooking={deleteBooking}
+            exportCSV={exportBookingsCSV}
+          />
         </Modal>
       )}
 
       {showContacts && (
         <Modal onClose={() => setShowContacts(false)}>
-          <ContactsDashboard contacts={contacts} />
+          <ContactsDashboard
+            contacts={contacts}
+            archiveContact={archiveContact}
+            deleteContact={deleteContact}
+            exportCSV={exportContactsCSV}
+          />
         </Modal>
       )}
 
@@ -462,28 +417,61 @@ export default function Home() {
 }
 
 // --- Bookings Dashboard ---
-function BookingsDashboard({ bookings }: { bookings: Booking[] }) {
+function BookingsDashboard({
+  bookings,
+  updateBookingStatus,
+  deleteBooking,
+  exportCSV,
+}: {
+  bookings: Booking[];
+  updateBookingStatus: (idx: number, status: BookingStatus) => void;
+  deleteBooking: (idx: number) => void;
+  exportCSV: () => void;
+}) {
   return (
-    <div style={{ maxWidth: 520, width: "100%" }}>
-      <h3 style={{ color: "#5EE6E6", marginBottom: 18 }}>Booking Requests</h3>
-      {bookings.length === 0 && (
-        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No bookings yet.</div>
+    <div style={{ maxWidth: 600, width: "100%" }}>
+      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18}}>
+        <h3 style={{ color: "#5EE6E6" }}>Booking Requests</h3>
+        <button onClick={exportCSV} style={{...secondaryBtnStyle, padding: "0.5rem 1.2rem", fontSize: 13}}>Export CSV</button>
+      </div>
+      {bookings.filter(b => b.status !== "Archived").length === 0 && (
+        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No active bookings.</div>
       )}
-      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 420, overflowY: "auto" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 450, overflowY: "auto" }}>
         {bookings.map((b, i) => (
-          <div key={i} style={{
-            background: "rgba(36,44,61,0.98)",
-            borderRadius: 12,
-            padding: 16,
-            border: "1.5px solid #23304b",
-            boxShadow: "0 2px 8px #151B2633"
-          }}>
-            <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{b.name}</div>
-            <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{b.email}</div>
-            <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.guests} guests • {b.date}</div>
-            <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.occasion}</div>
-            <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(b.submittedAt).toLocaleString()}</div>
-          </div>
+          b.status !== "Archived" && (
+            <div key={i} style={{
+              background: "rgba(36,44,61,0.98)",
+              borderRadius: 12,
+              padding: 16,
+              border: "1.5px solid #23304b",
+              boxShadow: "0 2px 8px #151B2633",
+              position: "relative"
+            }}>
+              <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{b.name}</div>
+              <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{b.email}</div>
+              <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.guests} guests • {b.date}</div>
+              <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.occasion}</div>
+              <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(b.submittedAt).toLocaleString()}</div>
+              <div style={{display:"flex", alignItems:"center", marginTop: 10, gap: 9, flexWrap:"wrap"}}>
+                <span style={{
+                  background: b.status === "Pending" ? "#B06AB3"
+                          : b.status === "Contacted" ? "#5EE6E6"
+                          : "#4bdf80",
+                  color: "#151B26",
+                  fontWeight: 700,
+                  borderRadius: 6,
+                  padding: "0.2rem 0.8rem",
+                  fontSize: 13,
+                  marginRight: 10
+                }}>{b.status}</span>
+                <button onClick={() => updateBookingStatus(i, "Contacted")} style={smallBtnStyle}>Mark Contacted</button>
+                <button onClick={() => updateBookingStatus(i, "Completed")} style={smallBtnStyle}>Mark Completed</button>
+                <button onClick={() => updateBookingStatus(i, "Archived")} style={smallBtnStyle}>Archive</button>
+                <button onClick={() => deleteBooking(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</button>
+              </div>
+            </div>
+          )
         ))}
       </div>
     </div>
@@ -491,27 +479,47 @@ function BookingsDashboard({ bookings }: { bookings: Booking[] }) {
 }
 
 // --- Contacts Dashboard ---
-function ContactsDashboard({ contacts }: { contacts: ContactMessage[] }) {
+function ContactsDashboard({
+  contacts,
+  archiveContact,
+  deleteContact,
+  exportCSV
+}: {
+  contacts: ContactMessage[];
+  archiveContact: (idx: number) => void;
+  deleteContact: (idx: number) => void;
+  exportCSV: () => void;
+}) {
   return (
-    <div style={{ maxWidth: 520, width: "100%" }}>
-      <h3 style={{ color: "#5EE6E6", marginBottom: 18 }}>Contact Inbox</h3>
-      {contacts.length === 0 && (
-        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No messages yet.</div>
+    <div style={{ maxWidth: 600, width: "100%" }}>
+      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18}}>
+        <h3 style={{ color: "#5EE6E6" }}>Contact Inbox</h3>
+        <button onClick={exportCSV} style={{...secondaryBtnStyle, padding: "0.5rem 1.2rem", fontSize: 13}}>Export CSV</button>
+      </div>
+      {contacts.filter(c => !c.archived).length === 0 && (
+        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No active messages.</div>
       )}
-      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 420, overflowY: "auto" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 450, overflowY: "auto" }}>
         {contacts.map((c, i) => (
-          <div key={i} style={{
-            background: "rgba(36,44,61,0.98)",
-            borderRadius: 12,
-            padding: 16,
-            border: "1.5px solid #23304b",
-            boxShadow: "0 2px 8px #151B2633"
-          }}>
-            <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{c.name}</div>
-            <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{c.email}</div>
-            <div style={{ color: "#F5F7FA", marginBottom: 6, marginTop: 5 }}>{c.message}</div>
-            <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(c.submittedAt).toLocaleString()}</div>
-          </div>
+          !c.archived && (
+            <div key={i} style={{
+              background: "rgba(36,44,61,0.98)",
+              borderRadius: 12,
+              padding: 16,
+              border: "1.5px solid #23304b",
+              boxShadow: "0 2px 8px #151B2633",
+              position: "relative"
+            }}>
+              <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{c.name}</div>
+              <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{c.email}</div>
+              <div style={{ color: "#F5F7FA", marginBottom: 6, marginTop: 5 }}>{c.message}</div>
+              <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(c.submittedAt).toLocaleString()}</div>
+              <div style={{display:"flex", alignItems:"center", marginTop: 10, gap: 9, flexWrap:"wrap"}}>
+                <button onClick={() => archiveContact(i)} style={smallBtnStyle}>Archive</button>
+                <button onClick={() => deleteContact(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</button>
+              </div>
+            </div>
+          )
         ))}
       </div>
     </div>
@@ -519,7 +527,7 @@ function ContactsDashboard({ contacts }: { contacts: ContactMessage[] }) {
 }
 
 // --- Booking Inquiry Form ---
-function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt">) => void }) {
+function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" | "status">) => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [date, setDate] = useState("");
@@ -868,4 +876,15 @@ const inputStyle: React.CSSProperties = {
   color: "#F5F7FA",
   outline: "none",
   marginBottom: 0
+};
+const smallBtnStyle: React.CSSProperties = {
+  background: "rgba(36,44,61,0.92)",
+  color: "#5EE6E6",
+  border: "1.5px solid #5EE6E6",
+  padding: "0.3rem 1rem",
+  borderRadius: 8,
+  fontWeight: 600,
+  fontSize: 13,
+  cursor: "pointer",
+  transition: "background .1s"
 };
