@@ -314,10 +314,134 @@ export default function Home() {
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
       {/* Hero Section */}
-      {/* ... keep rest of your site as before ... */}
+      <section style={{
+        flex: 1, display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center", textAlign: "center",
+        padding: "2rem 4vw"
+      }}>
+        <h2 style={{
+          fontSize: "3rem", fontWeight: 700, color: "#F5F7FA",
+          marginBottom: "1.5rem", textShadow: "0 2px 24px #151B26dd"
+        }}>
+          Experience Miami’s <span style={{color:'#5EE6E6'}}>Luxury</span> on the Water
+        </h2>
+        <p style={{
+          fontSize: "1.3rem",
+          background: "rgba(36,44,61,0.66)",
+          padding: "1rem 2rem",
+          borderRadius: "18px",
+          color: "#B0BED8",
+          marginBottom: "2rem",
+          boxShadow: "0 2px 16px #151B2633"
+        }}>
+          Book a glamorous yacht for your next Miami adventure, or list your own vessel and join the city’s elite fleet.
+        </p>
+        <div style={{ display: "flex", gap: "2rem", marginTop: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Find a Yacht</button>
+          <button onClick={() => setShowOwnerForm(true)} style={secondaryBtnStyle}>List Your Yacht</button>
+        </div>
+      </section>
+
+      {/* Yacht Showcase */}
+      <section id="book" style={{
+        marginTop: "3rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.92)", borderRadius: "2rem"
+      }}>
+        <h3 style={{
+          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
+          color: "#5EE6E6", marginBottom: "2rem"
+        }}>Featured Yachts</h3>
+        <div style={{ display: "flex", gap: "2rem", overflowX: "auto" }}>
+          {yachtCards.map((yacht, i) => (
+            <div key={i} style={{
+              background: "rgba(36,44,61,0.98)",
+              borderRadius: "1.5rem",
+              minWidth: 300,
+              padding: "1.5rem",
+              boxShadow: "0 4px 32px #151B2633",
+              display: "flex", flexDirection: "column", alignItems: "center",
+              border: "1.5px solid #23304b"
+            }}>
+              <img src={yacht.img} alt={yacht.name} style={{
+                width: "100%", borderRadius: "1rem", marginBottom: "1rem", objectFit: "cover", height: 180
+              }} />
+              <h4 style={{ fontWeight: 700, color: "#B06AB3", fontSize: "1.1rem", marginBottom: 2 }}>{yacht.name}</h4>
+              <div style={{ color: "#B0BED8", margin: "0.5rem 0", fontSize: "1rem" }}>{yacht.desc}</div>
+              <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Book Now</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section style={{
+        marginTop: "3rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.88)", borderRadius: "2rem"
+      }}>
+        <h3 style={{
+          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
+          color: "#5EE6E6", marginBottom: "2rem"
+        }}>Testimonials</h3>
+        <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", justifyContent: "center" }}>
+          {testimonials.map((t, i) => (
+            <div key={i} style={{
+              background: "rgba(36,44,61,0.98)",
+              borderRadius: "1.2rem",
+              padding: "1.5rem",
+              maxWidth: 340,
+              minWidth: 260,
+              boxShadow: "0 4px 24px #151B2633",
+              display: "flex", flexDirection: "column",
+              border: "1.5px solid #23304b"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
+                <img src={t.avatar} alt={t.name} style={{
+                  width: 48, height: 48, borderRadius: "50%", marginRight: 12, border: "2px solid #5EE6E6"
+                }} />
+                <div>
+                  <div style={{ color: "#5EE6E6", fontWeight: 700 }}>{t.name}</div>
+                  <div style={{ color: "#B0BED8", fontSize: 13 }}>{t.role}</div>
+                </div>
+              </div>
+              <div style={{ color: "#F5F7FA", fontSize: 16, fontStyle: "italic" }}>
+                “{t.text}”
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section style={{
+        marginTop: "3rem", marginBottom: "2rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.88)", borderRadius: "2rem"
+      }}>
+        <h3 style={{
+          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
+          color: "#5EE6E6", marginBottom: "2rem"
+        }}>Gallery: Miami Yacht Days</h3>
+        <div style={{
+          display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "1.5rem", alignItems: "center"
+        }}>
+          {galleryPhotos.map((url, i) => (
+            <img key={i} src={url} alt={`Miami Yacht ${i + 1}`} style={{
+              width: "100%", borderRadius: "1.2rem", boxShadow: "0 2px 16px #151B2666", objectFit: "cover", height: 160
+            }} />
+          ))}
+        </div>
+      </section>
 
       {/* Owner CTA */}
-      {/* ... */}
+      <section id="list" style={{
+        margin: "4rem 0 2rem 0", display: "flex", flexDirection: "column",
+        alignItems: "center", gap: "1.5rem"
+      }}>
+        <h3 style={{ fontWeight: 700, fontSize: "1.5rem", color: "#F5F7FA" }}>
+          Are you a Yacht Owner?
+        </h3>
+        <p style={{ color: "#B0BED8", fontSize: "1.1rem", background: "rgba(36,44,61,0.82)", borderRadius: 12, padding: "0.7rem 1.5rem" }}>
+          List your vessel with Miami Yacht Day and reach exclusive clients seeking luxury experiences.
+        </p>
+        <button onClick={() => setShowOwnerForm(true)} style={primaryBtnStyle}>List Your Yacht</button>
+      </section>
 
       {/* Modals */}
       {showOwnerForm && (
