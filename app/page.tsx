@@ -55,6 +55,7 @@ const STORAGE_KEY = "miami_yacht_day_listings_v1";
 export default function Home() {
   const [showOwnerForm, setShowOwnerForm] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
+  const [showNewsletter, setShowNewsletter] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [yachtCards, setYachtCards] = useState(defaultYachtCards);
   const [toast, setToast] = useState<string | null>(null);
@@ -145,6 +146,13 @@ export default function Home() {
             className="desktop-nav-btn"
           >
             Book a Yacht
+          </button>
+          <button
+            onClick={() => setShowNewsletter(true)}
+            style={navBtnStyle}
+            className="desktop-nav-btn"
+          >
+            Sign Up for Updates
           </button>
         </div>
         {/* Hamburger icon for mobile */}
@@ -238,6 +246,15 @@ export default function Home() {
               style={mobileNavBtnStyle}
             >
               Book a Yacht
+            </button>
+            <button
+              onClick={() => {
+                setShowNewsletter(true);
+                setNavOpen(false);
+              }}
+              style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}
+            >
+              Sign Up for Updates
             </button>
           </div>
         )}
@@ -376,7 +393,7 @@ export default function Home() {
         <button onClick={() => setShowOwnerForm(true)} style={primaryBtnStyle}>List Your Yacht</button>
       </section>
 
-      {/* Owner Form Modal */}
+      {/* Modals */}
       {showOwnerForm && (
         <Modal onClose={() => setShowOwnerForm(false)}>
           <OwnerForm
@@ -396,13 +413,23 @@ export default function Home() {
         </Modal>
       )}
 
-      {/* Booking Form Modal */}
       {showBookingForm && (
         <Modal onClose={() => setShowBookingForm(false)}>
           <BookingForm
             onSubmit={() => {
               setShowBookingForm(false);
               setToast("Booking inquiry sent! We'll contact you soon.");
+            }}
+          />
+        </Modal>
+      )}
+
+      {showNewsletter && (
+        <Modal onClose={() => setShowNewsletter(false)}>
+          <NewsletterForm
+            onSubmit={email => {
+              setShowNewsletter(false);
+              setToast("Thank you for subscribing! You'll get Miami Yacht Day updates.");
             }}
           />
         </Modal>
@@ -583,6 +610,47 @@ function Toast({ message, onClose }: { message: string, onClose: () => void }) {
     }}>
       {message}
     </div>
+  );
+}
+
+// Newsletter Signup Form
+function NewsletterForm({ onSubmit }: { onSubmit: (email: string) => void }) {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setError(null);
+    onSubmit(email.trim());
+    setEmail("");
+  }
+
+  return (
+    <form style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 280 }} onSubmit={handleSubmit}>
+      <h3 style={{ color: "#5EE6E6", marginBottom: 4 }}>Sign Up for Miami Yacht Day Updates</h3>
+      <p style={{ color: "#B0BED8", marginBottom: 4, fontSize: 14 }}>
+        Be the first to hear about new yacht listings, special offers, and Miami yachting news.
+      </p>
+      <input
+        style={{
+          ...inputStyle,
+          background: "#19202c",
+          border: "1.5px solid #23304b",
+          color: "#F5F7FA",
+          marginBottom: 0
+        }}
+        placeholder="Your Email Address"
+        type="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+      />
+      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+      <button type="submit" style={primaryBtnStyle}>Subscribe</button>
+    </form>
   );
 }
 
