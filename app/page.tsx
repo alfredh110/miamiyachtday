@@ -53,6 +53,16 @@ const yachtCards = [
 export default function Home() {
   const [showOwnerForm, setShowOwnerForm] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+
+  // lock scroll when nav open (mobile experience)
+  React.useEffect(() => {
+    if (navOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [navOpen]);
 
   return (
     <main
@@ -67,8 +77,14 @@ export default function Home() {
     >
       {/* Navigation */}
       <nav style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "2rem 4vw", background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)"
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "2rem 4vw",
+        background: "rgba(255,255,255,0.2)",
+        backdropFilter: "blur(8px)",
+        position: "relative",
+        zIndex: 100
       }}>
         <h1 style={{
           fontWeight: 900, fontSize: "2.2rem", letterSpacing: "1px",
@@ -76,10 +92,121 @@ export default function Home() {
         }}>
           Miami Yacht Day
         </h1>
-        <div style={{ display: "flex", gap: "2rem" }}>
-          <button onClick={() => setShowOwnerForm(true)} style={navBtnStyle}>List Your Yacht</button>
-          <button onClick={() => setShowBookingForm(true)} style={navBtnStyle}>Book a Yacht</button>
+        {/* Desktop nav */}
+        <div className="desktop-nav" style={{
+          display: "flex",
+          gap: "2rem"
+        }}>
+          <button
+            onClick={() => setShowOwnerForm(true)}
+            style={navBtnStyle}
+            className="desktop-nav-btn"
+          >
+            List Your Yacht
+          </button>
+          <button
+            onClick={() => setShowBookingForm(true)}
+            style={navBtnStyle}
+            className="desktop-nav-btn"
+          >
+            Book a Yacht
+          </button>
         </div>
+        {/* Hamburger icon for mobile */}
+        <button
+          aria-label="Open navigation menu"
+          className="hamburger"
+          style={{
+            background: "rgba(255,255,255,0.15)",
+            border: "none",
+            borderRadius: 8,
+            padding: 10,
+            display: "none",
+            flexDirection: "column",
+            gap: 4,
+            cursor: "pointer"
+          }}
+          onClick={() => setNavOpen(!navOpen)}
+        >
+          <span style={{
+            display: "block",
+            width: 24,
+            height: 3,
+            background: "#fff",
+            borderRadius: 2,
+            marginBottom: 4
+          }} />
+          <span style={{
+            display: "block",
+            width: 24,
+            height: 3,
+            background: "#fff",
+            borderRadius: 2,
+            marginBottom: 4
+          }} />
+          <span style={{
+            display: "block",
+            width: 24,
+            height: 3,
+            background: "#fff",
+            borderRadius: 2
+          }} />
+        </button>
+        {/* Mobile navigation overlay */}
+        {navOpen && (
+          <div
+            className="mobile-nav-overlay"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: "rgba(16,40,80,0.92)",
+              zIndex: 200,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <button
+              onClick={() => setNavOpen(false)}
+              aria-label="Close navigation menu"
+              style={{
+                position: "absolute",
+                top: 30,
+                right: 36,
+                background: "none",
+                border: "none",
+                color: "#0ef0f6",
+                fontSize: "2.5rem",
+                cursor: "pointer"
+              }}
+            >×</button>
+            <button
+              onClick={() => {
+                setShowOwnerForm(true);
+                setNavOpen(false);
+              }}
+              style={{
+                ...mobileNavBtnStyle,
+                marginBottom: "2rem"
+              }}
+            >
+              List Your Yacht
+            </button>
+            <button
+              onClick={() => {
+                setShowBookingForm(true);
+                setNavOpen(false);
+              }}
+              style={mobileNavBtnStyle}
+            >
+              Book a Yacht
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -105,7 +232,7 @@ export default function Home() {
         }}>
           Book a glamorous yacht for your next Miami adventure, or list your own vessel and join the city’s elite fleet.
         </p>
-        <div style={{ display: "flex", gap: "2rem", marginTop: "1rem", justifyContent: "center" }}>
+        <div style={{ display: "flex", gap: "2rem", marginTop: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
           <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Find a Yacht</button>
           <button onClick={() => setShowOwnerForm(true)} style={secondaryBtnStyle}>List Your Yacht</button>
         </div>
@@ -223,6 +350,23 @@ export default function Home() {
           <BookingForm />
         </Modal>
       )}
+
+      {/* Responsive styles */}
+      <style jsx global>{`
+        @media (max-width: 900px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          .hamburger {
+            display: flex !important;
+          }
+        }
+        @media (min-width: 901px) {
+          .hamburger {
+            display: none !important;
+          }
+        }
+      `}</style>
     </main>
   );
 }
@@ -262,6 +406,11 @@ const navBtnStyle = {
   boxShadow: "0 2px 8px #0ef0f622",
   border: "none",
   cursor: "pointer"
+};
+const mobileNavBtnStyle = {
+  ...primaryBtnStyle,
+  fontSize: "1.3rem",
+  padding: "1.3rem 3rem"
 };
 
 // Modal Component
