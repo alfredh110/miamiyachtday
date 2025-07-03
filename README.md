@@ -1,42 +1,27 @@
 # Miami Yacht Day
 
-Miami Yacht Day is a platform that connects yacht owners with customers who want to rent yachts in Miami.  
-This project will feature user registration, yacht listings, search/filter, booking, messaging, reviews, and secure payments.
-
-## Features
-- User registration & authentication (owners/customers)
-- Yacht listings with images, descriptions, and locations
-- Advanced search and filter options
-- Booking management with calendar
-- Messaging system between owners and customers
-- Reviews and ratings
-- Payment integration (Stripe)
-
-## Tech Stack
-- Frontend: React.js
-- Backend: Node.js/Express
-- Database: MongoDB or PostgreSQL
-- Hosting: Vercel (frontend), Render/Heroku/AWS (backend)
+Miami Yacht Day is a yacht rental platform built with Next.js.
 
 ## Getting Started
 
-1. Clone the repository:
+1. Install dependencies:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/miamiyachtday.git
-   ```
-
-2. Install dependencies (for frontend):
-   ```bash
-   cd miamiyachtday-frontend
    npm install
    ```
 
-3. Start the development server:
+2. Run the development server:
    ```bash
-   npm start
+   npm run dev
    ```
 
-4. Update this README as you build the project!
+3. Open [http://localhost:3000](http://localhost:3000) to see your app.
 
-## License
-Add your preferred license here.
+## Deployment
+
+This project is ready to be deployed on [Vercel](https://vercel.com/).
+
+## Features
+
+- Next.js SSR/SSG
+- Yacht listings (coming soon)
+- User authentication (coming soon)
