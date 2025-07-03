@@ -55,7 +55,6 @@ export default function Home() {
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
 
-  // lock scroll when nav open (mobile experience)
   React.useEffect(() => {
     if (navOpen) {
       document.body.style.overflow = "hidden";
@@ -68,13 +67,17 @@ export default function Home() {
     <main
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #0ef0f6 0%, #5a88fa 100%)",
         fontFamily: "'Inter', system-ui, sans-serif",
         color: "#16203a",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        position: "relative",
+        overflow: "hidden"
       }}
     >
+      {/* Animated SVG Marine Background */}
+      <WavesBackground />
+
       {/* Navigation */}
       <nav style={{
         display: "flex",
@@ -368,6 +371,69 @@ export default function Home() {
         }
       `}</style>
     </main>
+  );
+}
+
+// Animated SVG Marine Background Component
+function WavesBackground() {
+  return (
+    <div style={{
+      position: "fixed",
+      width: "100vw",
+      height: "100vh",
+      top: 0,
+      left: 0,
+      zIndex: 0,
+      pointerEvents: "none",
+      overflow: "hidden"
+    }}>
+      <svg
+        width="100%"
+        height="100%"
+        viewBox="0 0 1440 900"
+        style={{ position: "absolute", bottom: 0, left: 0 }}
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="1">
+            <stop stopColor="#0ef0f6" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#5a88fa" stopOpacity="0.16" />
+          </linearGradient>
+          <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="1">
+            <stop stopColor="#5a88fa" stopOpacity="0.13" />
+            <stop offset="1" stopColor="#0ef0f6" stopOpacity="0.09" />
+          </linearGradient>
+        </defs>
+        <g>
+          <path
+            d="M0,800 Q360,740 720,800 T1440,800 V900 H0 Z"
+            fill="url(#wave1)"
+            style={{
+              animation: "waveMove1 18s linear infinite alternate"
+            }}
+          />
+          <path
+            d="M0,850 Q400,770 900,850 T1440,860 V900 H0 Z"
+            fill="url(#wave2)"
+            style={{
+              animation: "waveMove2 24s linear infinite alternate"
+            }}
+          />
+        </g>
+      </svg>
+      <style jsx global>{`
+        @keyframes waveMove1 {
+          0% { transform: translateY(0px) scaleX(1); }
+          50% { transform: translateY(18px) scaleX(1.03); }
+          100% { transform: translateY(0px) scaleX(1); }
+        }
+        @keyframes waveMove2 {
+          0% { transform: translateY(0px) scaleX(1); }
+          50% { transform: translateY(-16px) scaleX(1.02); }
+          100% { transform: translateY(0px) scaleX(1); }
+        }
+      `}</style>
+    </div>
   );
 }
 
