@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // --- Testimonials and Gallery Data ---
 const testimonials = [
@@ -32,7 +32,7 @@ const galleryPhotos = [
   "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80"
 ];
 
-const initialYachtCards = [
+const defaultYachtCards = [
   {
     name: "Sunseeker 88 Yacht",
     desc: "88ft • 12 Guests • 5 Cabins • Crew Included",
@@ -50,14 +50,43 @@ const initialYachtCards = [
   }
 ];
 
+const STORAGE_KEY = "miami_yacht_day_listings_v1";
+
 export default function Home() {
   const [showOwnerForm, setShowOwnerForm] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
-  const [yachtCards, setYachtCards] = useState(initialYachtCards);
+  const [yachtCards, setYachtCards] = useState(defaultYachtCards);
   const [toast, setToast] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  // Load yachts from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setYachtCards([...parsed, ...defaultYachtCards]);
+        }
+      } catch {}
+    }
+  }, []);
+
+  // Save only user-added yachts to localStorage
+  useEffect(() => {
+    const onlyUserYachts = yachtCards.filter(
+      yc =>
+        !defaultYachtCards.some(
+          d =>
+            d.name === yc.name &&
+            d.desc === yc.desc &&
+            d.img === yc.img
+        )
+    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(onlyUserYachts));
+  }, [yachtCards]);
+
+  useEffect(() => {
     if (navOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -70,11 +99,12 @@ export default function Home() {
       style={{
         minHeight: "100vh",
         fontFamily: "'Inter', system-ui, sans-serif",
-        color: "#16203a",
+        color: "#F5F7FA",
         display: "flex",
         flexDirection: "column",
         position: "relative",
-        overflow: "hidden"
+        overflow: "hidden",
+        background: "linear-gradient(135deg, #151B26 60%, #232B3B 100%)"
       }}
     >
       {/* Animated SVG Marine Background */}
@@ -86,18 +116,18 @@ export default function Home() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "2rem 4vw",
-        background: "rgba(255,255,255,0.2)",
+        background: "rgba(21,27,38,0.82)",
         backdropFilter: "blur(8px)",
         position: "relative",
-        zIndex: 100
+        zIndex: 100,
+        borderBottom: "1px solid #23304b"
       }}>
         <h1 style={{
           fontWeight: 900, fontSize: "2.2rem", letterSpacing: "1px",
-          color: "#fff", textShadow: "0 2px 16px #0ef0f644"
+          color: "#B0BED8", textShadow: "0 2px 12px #151B2666"
         }}>
           Miami Yacht Day
         </h1>
-        {/* Desktop nav */}
         <div className="desktop-nav" style={{
           display: "flex",
           gap: "2rem"
@@ -122,7 +152,7 @@ export default function Home() {
           aria-label="Open navigation menu"
           className="hamburger"
           style={{
-            background: "rgba(255,255,255,0.15)",
+            background: "rgba(36,44,61,0.7)",
             border: "none",
             borderRadius: 8,
             padding: 10,
@@ -137,7 +167,7 @@ export default function Home() {
             display: "block",
             width: 24,
             height: 3,
-            background: "#fff",
+            background: "#B0BED8",
             borderRadius: 2,
             marginBottom: 4
           }} />
@@ -145,7 +175,7 @@ export default function Home() {
             display: "block",
             width: 24,
             height: 3,
-            background: "#fff",
+            background: "#B0BED8",
             borderRadius: 2,
             marginBottom: 4
           }} />
@@ -153,11 +183,10 @@ export default function Home() {
             display: "block",
             width: 24,
             height: 3,
-            background: "#fff",
+            background: "#B0BED8",
             borderRadius: 2
           }} />
         </button>
-        {/* Mobile navigation overlay */}
         {navOpen && (
           <div
             className="mobile-nav-overlay"
@@ -167,7 +196,7 @@ export default function Home() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: "rgba(16,40,80,0.92)",
+              background: "rgba(21,27,38,0.95)",
               zIndex: 200,
               display: "flex",
               flexDirection: "column",
@@ -184,7 +213,7 @@ export default function Home() {
                 right: 36,
                 background: "none",
                 border: "none",
-                color: "#0ef0f6",
+                color: "#B06AB3",
                 fontSize: "2.5rem",
                 cursor: "pointer"
               }}
@@ -224,19 +253,19 @@ export default function Home() {
         padding: "2rem 4vw"
       }}>
         <h2 style={{
-          fontSize: "3rem", fontWeight: 700, color: "#fff",
-          marginBottom: "1.5rem", textShadow: "0 2px 24px #0ef0f6bb"
+          fontSize: "3rem", fontWeight: 700, color: "#F5F7FA",
+          marginBottom: "1.5rem", textShadow: "0 2px 24px #151B26dd"
         }}>
-          Experience Miami’s <span style={{color:'#0ef0f6'}}>Luxury</span> on the Water
+          Experience Miami’s <span style={{color:'#5EE6E6'}}>Luxury</span> on the Water
         </h2>
         <p style={{
-          fontSize: "1.4rem",
-          background: "rgba(255,255,255,0.25)",
+          fontSize: "1.3rem",
+          background: "rgba(36,44,61,0.66)",
           padding: "1rem 2rem",
           borderRadius: "18px",
-          color: "#fff",
+          color: "#B0BED8",
           marginBottom: "2rem",
-          boxShadow: "0 2px 16px #5a88fa44"
+          boxShadow: "0 2px 16px #151B2633"
         }}>
           Book a glamorous yacht for your next Miami adventure, or list your own vessel and join the city’s elite fleet.
         </p>
@@ -246,29 +275,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Yacht Showcase Example */}
+      {/* Yacht Showcase */}
       <section id="book" style={{
-        marginTop: "4rem", padding: "2rem 4vw", background: "rgba(255,255,255,0.08)", borderRadius: "2rem"
+        marginTop: "3rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.92)", borderRadius: "2rem"
       }}>
         <h3 style={{
-          fontSize: "2rem", fontWeight: 600, letterSpacing: "0.02em",
-          color: "#fff", marginBottom: "2rem"
+          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
+          color: "#5EE6E6", marginBottom: "2rem"
         }}>Featured Yachts</h3>
         <div style={{ display: "flex", gap: "2rem", overflowX: "auto" }}>
           {yachtCards.map((yacht, i) => (
             <div key={i} style={{
-              background: "rgba(255,255,255,0.18)",
+              background: "rgba(36,44,61,0.98)",
               borderRadius: "1.5rem",
               minWidth: 300,
               padding: "1.5rem",
-              boxShadow: "0 4px 32px #0ef0f622",
-              display: "flex", flexDirection: "column", alignItems: "center"
+              boxShadow: "0 4px 32px #151B2633",
+              display: "flex", flexDirection: "column", alignItems: "center",
+              border: "1.5px solid #23304b"
             }}>
               <img src={yacht.img} alt={yacht.name} style={{
                 width: "100%", borderRadius: "1rem", marginBottom: "1rem", objectFit: "cover", height: 180
               }} />
-              <h4 style={{ fontWeight: 700, color: "#0ef0f6", fontSize: "1.2rem" }}>{yacht.name}</h4>
-              <div style={{ color: "#fff", margin: "0.5rem 0" }}>{yacht.desc}</div>
+              <h4 style={{ fontWeight: 700, color: "#B06AB3", fontSize: "1.1rem", marginBottom: 2 }}>{yacht.name}</h4>
+              <div style={{ color: "#B0BED8", margin: "0.5rem 0", fontSize: "1rem" }}>{yacht.desc}</div>
               <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Book Now</button>
             </div>
           ))}
@@ -277,33 +307,34 @@ export default function Home() {
 
       {/* Testimonials Section */}
       <section style={{
-        marginTop: "4rem", padding: "2rem 4vw", background: "rgba(255,255,255,0.12)", borderRadius: "2rem"
+        marginTop: "3rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.88)", borderRadius: "2rem"
       }}>
         <h3 style={{
-          fontSize: "2rem", fontWeight: 600, letterSpacing: "0.02em",
-          color: "#fff", marginBottom: "2rem"
+          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
+          color: "#5EE6E6", marginBottom: "2rem"
         }}>Testimonials</h3>
         <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", justifyContent: "center" }}>
           {testimonials.map((t, i) => (
             <div key={i} style={{
-              background: "rgba(255,255,255,0.18)",
+              background: "rgba(36,44,61,0.98)",
               borderRadius: "1.2rem",
               padding: "1.5rem",
               maxWidth: 340,
               minWidth: 260,
-              boxShadow: "0 4px 24px #0ef0f622",
-              display: "flex", flexDirection: "column"
+              boxShadow: "0 4px 24px #151B2633",
+              display: "flex", flexDirection: "column",
+              border: "1.5px solid #23304b"
             }}>
               <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
                 <img src={t.avatar} alt={t.name} style={{
-                  width: 48, height: 48, borderRadius: "50%", marginRight: 12, border: "2px solid #0ef0f6"
+                  width: 48, height: 48, borderRadius: "50%", marginRight: 12, border: "2px solid #5EE6E6"
                 }} />
                 <div>
-                  <div style={{ color: "#0ef0f6", fontWeight: 700 }}>{t.name}</div>
-                  <div style={{ color: "#fff", fontSize: 13 }}>{t.role}</div>
+                  <div style={{ color: "#5EE6E6", fontWeight: 700 }}>{t.name}</div>
+                  <div style={{ color: "#B0BED8", fontSize: 13 }}>{t.role}</div>
                 </div>
               </div>
-              <div style={{ color: "#fff", fontSize: 16, fontStyle: "italic" }}>
+              <div style={{ color: "#F5F7FA", fontSize: 16, fontStyle: "italic" }}>
                 “{t.text}”
               </div>
             </div>
@@ -313,11 +344,11 @@ export default function Home() {
 
       {/* Gallery Section */}
       <section style={{
-        marginTop: "4rem", marginBottom: "2rem", padding: "2rem 4vw", background: "rgba(255,255,255,0.09)", borderRadius: "2rem"
+        marginTop: "3rem", marginBottom: "2rem", padding: "2rem 4vw", background: "rgba(36,44,61,0.88)", borderRadius: "2rem"
       }}>
         <h3 style={{
-          fontSize: "2rem", fontWeight: 600, letterSpacing: "0.02em",
-          color: "#fff", marginBottom: "2rem"
+          fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
+          color: "#5EE6E6", marginBottom: "2rem"
         }}>Gallery: Miami Yacht Days</h3>
         <div style={{
           display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
@@ -325,7 +356,7 @@ export default function Home() {
         }}>
           {galleryPhotos.map((url, i) => (
             <img key={i} src={url} alt={`Miami Yacht ${i + 1}`} style={{
-              width: "100%", borderRadius: "1.2rem", boxShadow: "0 2px 16px #0ef0f644", objectFit: "cover", height: 160
+              width: "100%", borderRadius: "1.2rem", boxShadow: "0 2px 16px #151B2666", objectFit: "cover", height: 160
             }} />
           ))}
         </div>
@@ -333,13 +364,13 @@ export default function Home() {
 
       {/* Owner CTA */}
       <section id="list" style={{
-        margin: "6rem 0 2rem 0", display: "flex", flexDirection: "column",
+        margin: "4rem 0 2rem 0", display: "flex", flexDirection: "column",
         alignItems: "center", gap: "1.5rem"
       }}>
-        <h3 style={{ fontWeight: 700, fontSize: "2rem", color: "#fff" }}>
+        <h3 style={{ fontWeight: 700, fontSize: "1.5rem", color: "#F5F7FA" }}>
           Are you a Yacht Owner?
         </h3>
-        <p style={{ color: "#fff", fontSize: "1.1rem", background: "rgba(0,0,0,0.13)", borderRadius: 12, padding: "0.7rem 1.5rem" }}>
+        <p style={{ color: "#B0BED8", fontSize: "1.1rem", background: "rgba(36,44,61,0.82)", borderRadius: 12, padding: "0.7rem 1.5rem" }}>
           List your vessel with Miami Yacht Day and reach exclusive clients seeking luxury experiences.
         </p>
         <button onClick={() => setShowOwnerForm(true)} style={primaryBtnStyle}>List Your Yacht</button>
@@ -419,12 +450,12 @@ function WavesBackground() {
       >
         <defs>
           <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="1">
-            <stop stopColor="#0ef0f6" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#5a88fa" stopOpacity="0.16" />
+            <stop stopColor="#4568DC" stopOpacity="0.13" />
+            <stop offset="1" stopColor="#B06AB3" stopOpacity="0.13" />
           </linearGradient>
           <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="1">
-            <stop stopColor="#5a88fa" stopOpacity="0.13" />
-            <stop offset="1" stopColor="#0ef0f6" stopOpacity="0.09" />
+            <stop stopColor="#5EE6E6" stopOpacity="0.11" />
+            <stop offset="1" stopColor="#232B3B" stopOpacity="0.08" />
           </linearGradient>
         </defs>
         <g>
@@ -447,12 +478,12 @@ function WavesBackground() {
       <style jsx global>{`
         @keyframes waveMove1 {
           0% { transform: translateY(0px) scaleX(1); }
-          50% { transform: translateY(18px) scaleX(1.03); }
+          50% { transform: translateY(16px) scaleX(1.02); }
           100% { transform: translateY(0px) scaleX(1); }
         }
         @keyframes waveMove2 {
           0% { transform: translateY(0px) scaleX(1); }
-          50% { transform: translateY(-16px) scaleX(1.02); }
+          50% { transform: translateY(-14px) scaleX(1.01); }
           100% { transform: translateY(0px) scaleX(1); }
         }
       `}</style>
@@ -462,44 +493,47 @@ function WavesBackground() {
 
 // Button Styles
 const primaryBtnStyle = {
-  background: "linear-gradient(90deg, #0ef0f6 0%, #5a88fa 100%)",
-  color: "#fff",
-  padding: "0.9rem 2rem",
+  background: "linear-gradient(90deg, #4568DC 0%, #B06AB3 100%)",
+  color: "#F5F7FA",
+  padding: "0.85rem 2rem",
   borderRadius: "2rem",
   fontWeight: 700,
-  boxShadow: "0 2px 8px #0ef0f633",
-  fontSize: "1.1rem",
+  boxShadow: "0 2px 8px #151B2633",
+  fontSize: "1.05rem",
   border: "none",
   cursor: "pointer",
-  textDecoration: "none"
+  textDecoration: "none",
+  transition: "transform 0.08s"
 };
 const secondaryBtnStyle = {
-  background: "rgba(255,255,255,0.18)",
-  color: "#0ef0f6",
-  padding: "0.9rem 2rem",
+  background: "rgba(36,44,61,0.75)",
+  color: "#5EE6E6",
+  padding: "0.85rem 2rem",
   borderRadius: "2rem",
   fontWeight: 700,
-  fontSize: "1.1rem",
-  border: "2px solid #0ef0f6",
+  fontSize: "1.05rem",
+  border: "2px solid #5EE6E6",
   cursor: "pointer",
-  textDecoration: "none"
+  textDecoration: "none",
+  transition: "transform 0.08s"
 };
 const navBtnStyle = {
-  color: "#fff",
+  color: "#F5F7FA",
   fontWeight: 600,
-  background: "rgba(255,255,255,0.12)",
+  background: "rgba(36,44,61,0.72)",
   padding: "0.7rem 1.5rem",
   borderRadius: "1.2rem",
   textDecoration: "none",
   fontSize: "1rem",
-  boxShadow: "0 2px 8px #0ef0f622",
+  boxShadow: "0 2px 8px #151B2633",
   border: "none",
-  cursor: "pointer"
+  cursor: "pointer",
+  transition: "transform 0.08s"
 };
 const mobileNavBtnStyle = {
   ...primaryBtnStyle,
-  fontSize: "1.3rem",
-  padding: "1.3rem 3rem"
+  fontSize: "1.2rem",
+  padding: "1.1rem 2.5rem"
 };
 
 // Modal Component
@@ -507,16 +541,16 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
   return (
     <div style={{
       position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
-      background: "rgba(16,40,80,0.68)", display: "flex", alignItems: "center",
+      background: "rgba(21,27,38,0.78)", display: "flex", alignItems: "center",
       justifyContent: "center", zIndex: 1000
     }}>
       <div style={{
-        background: "#fff", borderRadius: "1.5rem", padding: "2rem", minWidth: 320,
-        boxShadow: "0 8px 48px #0ef0f644", position: "relative"
+        background: "#232B3B", borderRadius: "1.5rem", padding: "2rem", minWidth: 320,
+        boxShadow: "0 8px 48px #151B2688", position: "relative"
       }}>
         <button onClick={onClose} style={{
           position: "absolute", top: 18, right: 22, background: "none", border: "none",
-          fontSize: "1.5rem", color: "#0ef0f6", cursor: "pointer"
+          fontSize: "1.5rem", color: "#5EE6E6", cursor: "pointer"
         }}>×</button>
         {children}
       </div>
@@ -526,7 +560,7 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
 
 // Toast notification
 function Toast({ message, onClose }: { message: string, onClose: () => void }) {
-  React.useEffect(() => {
+  useEffect(() => {
     const t = setTimeout(onClose, 3500);
     return () => clearTimeout(t);
   }, [onClose]);
@@ -536,16 +570,16 @@ function Toast({ message, onClose }: { message: string, onClose: () => void }) {
       top: 24,
       left: "50%",
       transform: "translateX(-50%)",
-      background: "#fff",
-      color: "#16203a",
+      background: "#2A3143",
+      color: "#F5F7FA",
       borderRadius: 16,
       padding: "1.1rem 2.2rem",
       fontWeight: 600,
-      fontSize: "1.2rem",
-      boxShadow: "0 2px 24px #0ef0f655",
+      fontSize: "1.1rem",
+      boxShadow: "0 2px 24px #151B2666",
       zIndex: 9999,
       letterSpacing: "0.02em",
-      border: "2px solid #0ef0f6"
+      border: "2px solid #5EE6E6"
     }}>
       {message}
     </div>
@@ -584,19 +618,24 @@ function OwnerForm({ onSubmit }: OwnerFormProps) {
       amenities: amenities.trim(),
       imgUrl: imgUrl.trim()
     });
+    setYachtName("");
+    setYachtLength("");
+    setGuestCapacity("");
+    setAmenities("");
+    setImgUrl("");
   }
 
   return (
     <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
-      <h3 style={{ marginBottom: 8, color: "#16203a" }}>List Your Yacht</h3>
+      <h3 style={{ marginBottom: 8, color: "#5EE6E6" }}>List Your Yacht</h3>
       <input style={inputStyle} placeholder="Yacht Name*" required value={yachtName} onChange={e => setYachtName(e.target.value)} />
       <input style={inputStyle} placeholder="Yacht Length (ft)*" required value={yachtLength} onChange={e => setYachtLength(e.target.value)} />
       <input style={inputStyle} placeholder="Guest Capacity*" required value={guestCapacity} onChange={e => setGuestCapacity(e.target.value)} />
       <input style={inputStyle} placeholder="Amenities (WiFi, Jetski, etc)" value={amenities} onChange={e => setAmenities(e.target.value)} />
       <input style={inputStyle} placeholder="Yacht Image URL (optional)" value={imgUrl} onChange={e => setImgUrl(e.target.value)} />
-      {error && <div style={{ color: "#e60040", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
       <button type="submit" style={primaryBtnStyle}>Submit Listing</button>
-      <div style={{ fontSize: 12, color: "#999" }}>* required</div>
+      <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
     </form>
   );
 }
@@ -618,28 +657,35 @@ function BookingForm({ onSubmit }: { onSubmit: () => void }) {
     }
     setError(null);
     onSubmit();
+    setName("");
+    setEmail("");
+    setDate("");
+    setGuests("");
+    setOccasion("");
   }
 
   return (
     <form style={{ display: "flex", flexDirection: "column", gap: 14 }} onSubmit={handleSubmit}>
-      <h3 style={{ marginBottom: 8, color: "#16203a" }}>Book a Yacht</h3>
+      <h3 style={{ marginBottom: 8, color: "#5EE6E6" }}>Book a Yacht</h3>
       <input style={inputStyle} placeholder="Your Name*" required value={name} onChange={e => setName(e.target.value)} />
       <input style={inputStyle} placeholder="Email*" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
       <input style={inputStyle} placeholder="Preferred Date*" type="date" required value={date} onChange={e => setDate(e.target.value)} />
       <input style={inputStyle} placeholder="Number of Guests*" required value={guests} onChange={e => setGuests(e.target.value)} />
       <textarea style={inputStyle} placeholder="Tell us about your occasion" rows={3} value={occasion} onChange={e => setOccasion(e.target.value)} />
-      {error && <div style={{ color: "#e60040", fontWeight: 600, fontSize: 14 }}>{error}</div>}
+      {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
       <button type="submit" style={primaryBtnStyle}>Send Inquiry</button>
-      <div style={{ fontSize: 12, color: "#999" }}>* required</div>
+      <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
     </form>
   );
 }
 
 const inputStyle: React.CSSProperties = {
-  border: "1px solid #0ef0f6",
+  border: "1.5px solid #292f3e",
   borderRadius: 8,
   padding: "0.7rem 1rem",
   fontSize: "1rem",
-  background: "rgba(240,248,255,0.7)",
-  outline: "none"
+  background: "rgba(21,27,38,0.5)",
+  color: "#F5F7FA",
+  outline: "none",
+  marginBottom: 0
 };
