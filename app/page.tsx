@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 // --- Testimonials and Gallery Data ---
 const testimonials = [
@@ -80,12 +80,10 @@ export default function Home() {
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showNewsletter, setShowNewsletter] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
-  const [showBookings, setShowBookings] = useState(false);
   const [showContacts, setShowContacts] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [yachtCards, setYachtCards] = useState(defaultYachtCards);
   const [toast, setToast] = useState<string | null>(null);
-  const [bookings, setBookings] = useState<Booking[]>([]);
   const [contacts, setContacts] = useState<ContactMessage[]>([]);
   const [confetti, setConfetti] = useState(false);
 
@@ -106,14 +104,6 @@ export default function Home() {
         if (Array.isArray(parsed) && parsed.length > 0) {
           setYachtCards([...parsed, ...defaultYachtCards]);
         }
-      } catch {}
-    }
-    // Bookings
-    const bookingsSaved = localStorage.getItem(BOOKINGS_KEY);
-    if (bookingsSaved) {
-      try {
-        const parsed = JSON.parse(bookingsSaved);
-        if (Array.isArray(parsed)) setBookings(parsed);
       } catch {}
     }
     // Contacts
@@ -142,11 +132,6 @@ export default function Home() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(onlyUserYachts));
   }, [yachtCards]);
 
-  // Save bookings to localStorage
-  useEffect(() => {
-    localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
-  }, [bookings]);
-
   // Save contacts to localStorage
   useEffect(() => {
     localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts));
@@ -159,41 +144,6 @@ export default function Home() {
       document.body.style.overflow = "";
     }
   }, [navOpen]);
-
-  function addBooking(b: Omit<Booking, "submittedAt" | "status">) {
-    const booking: Booking = { ...b, submittedAt: new Date().toISOString(), status: "Pending" };
-    setBookings(prev => [booking, ...prev]);
-    showConfetti();
-  }
-
-  function updateBookingStatus(idx: number, status: BookingStatus) {
-    setBookings(prev =>
-      prev.map((b, i) => (i === idx ? { ...b, status } : b))
-    );
-  }
-
-  function deleteBooking(idx: number) {
-    setBookings(prev => prev.filter((_, i) => i !== idx));
-  }
-
-  function exportBookingsCSV() {
-    const activeBookings = bookings.filter(b => b.status !== "Archived");
-    const csv =
-      ["Name,Email,Date,Guests,Occasion,Status,Submitted At"].concat(
-        activeBookings.map(b =>
-          [
-            `"${b.name}"`,
-            `"${b.email}"`,
-            `"${b.date}"`,
-            `"${b.guests}"`,
-            `"${b.occasion.replace(/"/g, '""')}"`,
-            `"${b.status}"`,
-            `"${new Date(b.submittedAt).toLocaleString()}"`
-          ].join(",")
-        )
-      ).join("\n");
-    downloadCSV(csv, "bookings.csv");
-  }
 
   function addContact(c: Omit<ContactMessage, "submittedAt">) {
     const contact: ContactMessage = { ...c, submittedAt: new Date().toISOString(), archived: false };
@@ -299,9 +249,10 @@ export default function Home() {
           <AnimatedButton onClick={() => setShowOwnerForm(true)}>List Your Yacht</AnimatedButton>
           <AnimatedButton onClick={() => setShowBookingForm(true)}>Book a Yacht</AnimatedButton>
           <AnimatedButton onClick={() => setShowNewsletter(true)}>Sign Up for Updates</AnimatedButton>
-          <AnimatedButton onClick={() => setShowBookings(true)}>Bookings</AnimatedButton>
           <AnimatedButton onClick={() => setShowContacts(true)}>Contact Inbox</AnimatedButton>
           <AnimatedButton onClick={() => setShowAbout(true)}>About / Contact</AnimatedButton>
+          {/* Optionally, add an admin link: */}
+          {/* <a href="/admin" style={{ ...secondaryBtnStyle, textDecoration: "none" }}>Admin</a> */}
         </div>
         <button
           aria-label="Open navigation menu"
@@ -339,9 +290,9 @@ export default function Home() {
             <button onClick={() => { setShowOwnerForm(true); setNavOpen(false); }} style={{...mobileNavBtnStyle, marginBottom: "2rem"}}>List Your Yacht</button>
             <button onClick={() => { setShowBookingForm(true); setNavOpen(false); }} style={mobileNavBtnStyle}>Book a Yacht</button>
             <button onClick={() => { setShowNewsletter(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>Sign Up for Updates</button>
-            <button onClick={() => { setShowBookings(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>Bookings</button>
             <button onClick={() => { setShowContacts(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>Contact Inbox</button>
             <button onClick={() => { setShowAbout(true); setNavOpen(false); }} style={{ ...mobileNavBtnStyle, marginTop: "2rem" }}>About / Contact</button>
+            {/* <a href="/admin" style={{ ...mobileNavBtnStyle, marginTop: "2rem", textAlign: "center" }}>Admin</a> */}
           </div>
         )}
       </nav>
@@ -492,7 +443,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-        {lightboxOpen && (
+      {lightboxOpen && (
         <LightboxGallery
           photos={galleryPhotos}
           idx={lightboxIdx}
@@ -543,9 +494,13 @@ export default function Home() {
         <AnimatedModal onClose={() => setShowBookingForm(false)}>
           <BookingForm
             onSubmit={bookingData => {
-              addBooking(bookingData);
+              // Save booking to localStorage for admin to view
+              const bookings = JSON.parse(localStorage.getItem(BOOKINGS_KEY) || "[]");
+              const booking = { ...bookingData, submittedAt: new Date().toISOString(), status: "Pending" };
+              localStorage.setItem(BOOKINGS_KEY, JSON.stringify([booking, ...bookings]));
               setShowBookingForm(false);
               setToast("Booking inquiry sent! We'll contact you soon.");
+              showConfetti();
             }}
           />
         </AnimatedModal>
@@ -570,17 +525,6 @@ export default function Home() {
               setShowAbout(false);
               setToast("Message sent! We'll get back to you soon.");
             }}
-          />
-        </AnimatedModal>
-      )}
-
-      {showBookings && (
-        <AnimatedModal onClose={() => setShowBookings(false)}>
-          <BookingsDashboard
-            bookings={bookings}
-            updateBookingStatus={updateBookingStatus}
-            deleteBooking={deleteBooking}
-            exportCSV={exportBookingsCSV}
           />
         </AnimatedModal>
       )}
@@ -690,10 +634,11 @@ function YachtCard({ yacht, onBook }: { yacht: { name: string, desc: string, img
 }
 
 // --- Animated Button with Ripple/Scale ---
-function AnimatedButton({ onClick, children, big, secondary, style }: any) {
+function AnimatedButton({ onClick, children, big, secondary, style, type = "button" }: any) {
   const [rippling, setRippling] = useState(false);
   return (
     <button
+      type={type}
       style={{
         ...(secondary ? secondaryBtnStyle : primaryBtnStyle),
         ...(big && { fontSize: "1.18rem", padding: "1.1rem 2.5rem" }),
@@ -848,69 +793,6 @@ function Toast({ message, onClose }: { message: string, onClose: () => void }) {
       border: "2px solid #5EE6E6"
     }}>
       {message}
-    </div>
-  );
-}
-
-// --- Bookings Dashboard ---
-function BookingsDashboard({
-  bookings,
-  updateBookingStatus,
-  deleteBooking,
-  exportCSV,
-}: {
-  bookings: Booking[];
-  updateBookingStatus: (idx: number, status: BookingStatus) => void;
-  deleteBooking: (idx: number) => void;
-  exportCSV: () => void;
-}) {
-  return (
-    <div style={{ maxWidth: 600, width: "100%" }}>
-      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18}}>
-        <h3 style={{ color: "#5EE6E6" }}>Booking Requests</h3>
-        <AnimatedButton onClick={exportCSV} style={{padding: "0.5rem 1.2rem", fontSize: 13}}>Export CSV</AnimatedButton>
-      </div>
-      {bookings.filter(b => b.status !== "Archived").length === 0 && (
-        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No active bookings.</div>
-      )}
-      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 450, overflowY: "auto" }}>
-        {bookings.map((b, i) => (
-          b.status !== "Archived" && (
-            <div key={i} style={{
-              background: "rgba(36,44,61,0.98)",
-              borderRadius: 12,
-              padding: 16,
-              border: "1.5px solid #23304b",
-              boxShadow: "0 2px 8px #151B2633",
-              position: "relative",
-              animation: "dashboardCardIn 0.6s cubic-bezier(.21,1.15,.65,1.01)"
-            }}>
-              <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{b.name}</div>
-              <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{b.email}</div>
-              <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.guests} guests • {b.date}</div>
-              <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.occasion}</div>
-              <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(b.submittedAt).toLocaleString()}</div>
-              <div style={{display:"flex", alignItems:"center", marginTop: 10, gap: 9, flexWrap:"wrap"}}>
-                <span style={{
-                  background: b.status === "Pending" ? "#B06AB3"
-                          : b.status === "Contacted" ? "#5EE6E6"
-                          : "#4bdf80",
-                  color: "#151B26",
-                  fontWeight: 700,
-                  borderRadius: 6,
-                  padding: "0.2rem 0.8rem",
-                  fontSize: 13,
-                  marginRight: 10
-                }}>{b.status}</span>
-                <AnimatedButton onClick={() => updateBookingStatus(i, "Contacted")} style={smallBtnStyle}>Mark Contacted</AnimatedButton>
-                <AnimatedButton onClick={() => updateBookingStatus(i, "Completed")} style={smallBtnStyle}>Mark Completed</AnimatedButton>
-                <AnimatedButton onClick={() => updateBookingStatus(i, "Archived")} style={smallBtnStyle}>Archive</AnimatedButton>
-                <AnimatedButton onClick={() => deleteBooking(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</AnimatedButton>
-              </div>
-            </div>
-          )
-        ))}
-      </div>
     </div>
   );
 }
