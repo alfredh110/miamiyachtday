@@ -1,11 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import SundeckSportBoatSection from "./components/SundeckSportBoatSection";
-
-// ...inside your main page component, in the place where you now show the gallery:
-
-<SundeckSportBoatSection />
 
 // --- Testimonials and Gallery Data ---
 const testimonials = [
@@ -497,8 +492,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <SundeckSportBoatSection />
-      {lightboxOpen && (
+        {lightboxOpen && (
         <LightboxGallery
           photos={galleryPhotos}
           idx={lightboxIdx}
