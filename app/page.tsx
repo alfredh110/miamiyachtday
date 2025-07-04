@@ -46,7 +46,7 @@ const defaultYachtCards = [
   {
     name: "31' BLACK PEAR AMBERJACK",
     desc: "31ft • 13 Guests • 1 Cabin",
-    img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80"
+    img: "/AB-31FT BLACK PEAR AMBERJACK.jpg"
   }
 ];
 
