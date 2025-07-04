@@ -36,7 +36,7 @@ const defaultYachtCards = [
   {
     name: "Sunseeker 88 Yacht",
     desc: "88ft • 12 Guests • 5 Cabins • Crew Included",
-    img: "https://images.boatsgroup.com/resize/1/61/10/8536110_20221011140934708_1_XLARGE.jpg
+    img: "https://images.boatsgroup.com/resize/1/61/10/8536110_20221011140934708_1_XLARGE.jpg"
   },
   {
     name: "Azimut Grande",
