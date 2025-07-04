@@ -39,9 +39,9 @@ const defaultYachtCards = [
     img: "/AB-MODELIT-BOAT-MIAMIYACHTDAY-18.JPG"
   },
   {
-    name: "Azimut Grande",
-    desc: "90ft • 14 Guests • 6 Cabins • Jet Ski & Toys",
-    img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80"
+    name: "30' HURRICANE GRANDSON",
+    desc: "30ft • 10 Guests • Crew Included",
+    img: "/AB-30FT HURRICANE GRANDSON.jpg"
   },
   {
     name: "Pershing 70",
