@@ -1,12 +1,11 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import SundeckSportBoatSection from "./components/SundeckSportBoatSection";
 
 // ...inside your main page component, in the place where you now show the gallery:
 
 <SundeckSportBoatSection />
-
-"use client";
-
-import React, { useState, useEffect, useRef } from "react";
 
 // --- Testimonials and Gallery Data ---
 const testimonials = [
