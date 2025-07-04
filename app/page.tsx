@@ -29,7 +29,7 @@ const galleryPhotos = [
   "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=600&q=80",
   "https://images.unsplash.com/photo-1465156799763-2c087c332922?auto=format&fit=crop&w=600&q=80",
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-  "/images/AB-MODELIT-BOAT-MIAMIYACHTDAY-18.JPG"
+  "/AB-MODELIT-BOAT-MIAMIYACHTDAY-18.JPG"
 ];
 
 const defaultYachtCards = [
