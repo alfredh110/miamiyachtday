@@ -29,7 +29,7 @@ const galleryPhotos = [
   "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=600&q=80",
   "https://images.unsplash.com/photo-1465156799763-2c087c332922?auto=format&fit=crop&w=600&q=80",
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-  C:\Users\ahiller\Downloads\AB MODELIT BOAT 26’ - 10 Guests Event or book 2 of them - available for up to 20 aboard for your party to book aboard from 3 hrs to 8 hrs with MANDY B’s @MIAMIYACHTDAY-18.JPG
+  "/images/AB-MODELIT-BOAT-MIAMIYACHTDAY-18.JPG"
 ];
 
 const defaultYachtCards = [
