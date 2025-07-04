@@ -1,68 +1,68 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
+import BookingsDashboard from "../components/BookingsDashboard"; // Adjust import path
 
-// Import your types, data keys, and (optionally) card/dashboard components
-// import { Booking, ContactMessage, STORAGE_KEY, BOOKINGS_KEY, CONTACTS_KEY } from "../path/to/your/types-and-utils";
+const BOOKINGS_KEY = "miami_yacht_day_bookings_v1";
 
 export default function AdminDashboard() {
-  const [tab, setTab] = useState("yachts");
-  const [yachts, setYachts] = useState<any[]>([]);
-  const [bookings, setBookings] = useState<any[]>([]);
-  const [contacts, setContacts] = useState<any[]>([]);
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    // Load yachts, bookings, contacts from localStorage (or your API if you have one)
-    setYachts(JSON.parse(localStorage.getItem("miami_yacht_day_listings_v1") || "[]"));
-    setBookings(JSON.parse(localStorage.getItem("miami_yacht_day_bookings_v1") || "[]"));
-    setContacts(JSON.parse(localStorage.getItem("miami_yacht_day_contacts_v1") || "[]"));
+    const saved = localStorage.getItem(BOOKINGS_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) setBookings(parsed);
+      } catch {}
+    }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
+  }, [bookings]);
+
+  function updateBookingStatus(idx, status) {
+    setBookings(prev =>
+      prev.map((b, i) => (i === idx ? { ...b, status } : b))
+    );
+  }
+  function deleteBooking(idx) {
+    setBookings(prev => prev.filter((_, i) => i !== idx));
+  }
+  function exportBookingsCSV() {
+    const activeBookings = bookings.filter(b => b.status !== "Archived");
+    const csv =
+      ["Name,Email,Date,Guests,Occasion,Status,Submitted At"].concat(
+        activeBookings.map(b =>
+          [
+            `"${b.name}"`,
+            `"${b.email}"`,
+            `"${b.date}"`,
+            `"${b.guests}"`,
+            `"${b.occasion.replace(/"/g, '""')}"`,
+            `"${b.status}"`,
+            `"${new Date(b.submittedAt).toLocaleString()}"`
+          ].join(",")
+        )
+      ).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "bookings.csv";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 500);
+  }
+
   return (
-    <main style={{ minHeight: "100vh", background: "#181F2B", color: "#F5F7FA", padding: 32 }}>
-      <h1 style={{ fontWeight: 900, fontSize: 36, marginBottom: 24, color: "#5EE6E6" }}>Admin Dashboard</h1>
-      <div style={{ display: "flex", gap: 18, marginBottom: 32 }}>
-        <button onClick={() => setTab("yachts")} style={tab === "yachts" ? tabSelected : tabBtn}>Yachts</button>
-        <button onClick={() => setTab("bookings")} style={tab === "bookings" ? tabSelected : tabBtn}>Bookings</button>
-        <button onClick={() => setTab("contacts")} style={tab === "contacts" ? tabSelected : tabBtn}>Contacts</button>
-      </div>
-      {tab === "yachts" && (
-        <section>
-          <h2>All Yachts</h2>
-          {/* Render yacht cards or table here */}
-          <pre>{JSON.stringify(yachts, null, 2)}</pre>
-        </section>
-      )}
-      {tab === "bookings" && (
-        <section>
-          <h2>All Bookings</h2>
-          {/* Render bookings dashboard/table here */}
-          <pre>{JSON.stringify(bookings, null, 2)}</pre>
-        </section>
-      )}
-      {tab === "contacts" && (
-        <section>
-          <h2>All Contacts</h2>
-          {/* Render contacts dashboard/table here */}
-          <pre>{JSON.stringify(contacts, null, 2)}</pre>
-        </section>
-      )}
+    <main style={{ padding: 32, background: "#181F2B", minHeight: "100vh" }}>
+      <h1 style={{ color: "#5EE6E6", fontWeight: 900, marginBottom: 32 }}>Admin Dashboard</h1>
+      <BookingsDashboard
+        bookings={bookings}
+        updateBookingStatus={updateBookingStatus}
+        deleteBooking={deleteBooking}
+        exportCSV={exportBookingsCSV}
+      />
     </main>
   );
 }
-
-const tabBtn: React.CSSProperties = {
-  background: "#23304b",
-  color: "#5EE6E6",
-  border: "none",
-  borderRadius: 8,
-  padding: "0.7rem 1.6rem",
-  fontWeight: 700,
-  cursor: "pointer",
-  fontSize: "1.1rem"
-};
-const tabSelected: React.CSSProperties = {
-  ...tabBtn,
-  background: "linear-gradient(90deg,#4568DC 0%,#B06AB3 100%)",
-  color: "#fff"
-};
