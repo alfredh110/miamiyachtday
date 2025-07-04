@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // --- Testimonials and Gallery Data ---
 const testimonials = [
@@ -54,6 +54,7 @@ const STORAGE_KEY = "miami_yacht_day_listings_v1";
 const BOOKINGS_KEY = "miami_yacht_day_bookings_v1";
 const CONTACTS_KEY = "miami_yacht_day_contacts_v1";
 
+// --- Types ---
 type BookingStatus = "Pending" | "Contacted" | "Completed" | "Archived";
 
 type Booking = {
@@ -86,6 +87,14 @@ export default function Home() {
   const [toast, setToast] = useState<string | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [contacts, setContacts] = useState<ContactMessage[]>([]);
+  const [confetti, setConfetti] = useState(false);
+
+  // Lightbox State
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIdx, setLightboxIdx] = useState(0);
+
+  // Hero Animation States
+  const [heroAnim, setHeroAnim] = useState(false);
 
   // Load data from localStorage on mount
   useEffect(() => {
@@ -115,6 +124,8 @@ export default function Home() {
         if (Array.isArray(parsed)) setContacts(parsed);
       } catch {}
     }
+    // Start hero animation
+    setTimeout(() => setHeroAnim(true), 100);
   }, []);
 
   // Save only user-added yachts to localStorage
@@ -152,6 +163,7 @@ export default function Home() {
   function addBooking(b: Omit<Booking, "submittedAt" | "status">) {
     const booking: Booking = { ...b, submittedAt: new Date().toISOString(), status: "Pending" };
     setBookings(prev => [booking, ...prev]);
+    showConfetti();
   }
 
   function updateBookingStatus(idx: number, status: BookingStatus) {
@@ -186,6 +198,7 @@ export default function Home() {
   function addContact(c: Omit<ContactMessage, "submittedAt">) {
     const contact: ContactMessage = { ...c, submittedAt: new Date().toISOString(), archived: false };
     setContacts(prev => [contact, ...prev]);
+    showConfetti();
   }
 
   function archiveContact(idx: number) {
@@ -222,6 +235,28 @@ export default function Home() {
     a.download = filename;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 500);
+  }
+
+  function showConfetti() {
+    setConfetti(true);
+    setTimeout(() => setConfetti(false), 2200);
+  }
+
+  // Lightbox handlers
+  function openLightbox(idx: number) {
+    setLightboxIdx(idx);
+    setLightboxOpen(true);
+    document.body.style.overflow = "hidden";
+  }
+  function closeLightbox() {
+    setLightboxOpen(false);
+    document.body.style.overflow = "";
+  }
+  function prevLightbox() {
+    setLightboxIdx(i => (i - 1 + galleryPhotos.length) % galleryPhotos.length);
+  }
+  function nextLightbox() {
+    setLightboxIdx(i => (i + 1) % galleryPhotos.length);
   }
 
   return (
@@ -261,12 +296,12 @@ export default function Home() {
           display: "flex",
           gap: "2rem"
         }}>
-          <button onClick={() => setShowOwnerForm(true)} style={navBtnStyle}>List Your Yacht</button>
-          <button onClick={() => setShowBookingForm(true)} style={navBtnStyle}>Book a Yacht</button>
-          <button onClick={() => setShowNewsletter(true)} style={navBtnStyle}>Sign Up for Updates</button>
-          <button onClick={() => setShowBookings(true)} style={navBtnStyle}>Bookings</button>
-          <button onClick={() => setShowContacts(true)} style={navBtnStyle}>Contact Inbox</button>
-          <button onClick={() => setShowAbout(true)} style={navBtnStyle}>About / Contact</button>
+          <AnimatedButton onClick={() => setShowOwnerForm(true)}>List Your Yacht</AnimatedButton>
+          <AnimatedButton onClick={() => setShowBookingForm(true)}>Book a Yacht</AnimatedButton>
+          <AnimatedButton onClick={() => setShowNewsletter(true)}>Sign Up for Updates</AnimatedButton>
+          <AnimatedButton onClick={() => setShowBookings(true)}>Bookings</AnimatedButton>
+          <AnimatedButton onClick={() => setShowContacts(true)}>Contact Inbox</AnimatedButton>
+          <AnimatedButton onClick={() => setShowAbout(true)}>About / Contact</AnimatedButton>
         </div>
         <button
           aria-label="Open navigation menu"
@@ -312,33 +347,58 @@ export default function Home() {
       </nav>
 
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
+      {confetti && <Confetti />}
 
       {/* Hero Section */}
-      <section style={{
-        flex: 1, display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center", textAlign: "center",
-        padding: "2rem 4vw"
-      }}>
-        <h2 style={{
-          fontSize: "3rem", fontWeight: 700, color: "#F5F7FA",
-          marginBottom: "1.5rem", textShadow: "0 2px 24px #151B26dd"
-        }}>
-          Experience Miami’s <span style={{color:'#5EE6E6'}}>Luxury</span> on the Water
-        </h2>
-        <p style={{
-          fontSize: "1.3rem",
-          background: "rgba(36,44,61,0.66)",
-          padding: "1rem 2rem",
-          borderRadius: "18px",
-          color: "#B0BED8",
-          marginBottom: "2rem",
-          boxShadow: "0 2px 16px #151B2633"
-        }}>
-          Book a glamorous yacht for your next Miami adventure, or list your own vessel and join the city’s elite fleet.
-        </p>
-        <div style={{ display: "flex", gap: "2rem", marginTop: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Find a Yacht</button>
-          <button onClick={() => setShowOwnerForm(true)} style={secondaryBtnStyle}>List Your Yacht</button>
+      <section
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          padding: "2rem 4vw"
+        }}
+      >
+        <div
+          style={{
+            opacity: heroAnim ? 1 : 0,
+            transform: heroAnim ? "translateY(0px)" : "translateY(40px)",
+            transition: "opacity 0.8s cubic-bezier(.35,.82,.47,1.08), transform 0.8s cubic-bezier(.35,.82,.47,1.08)",
+          }}
+        >
+          <h2 style={{
+            fontSize: "3rem", fontWeight: 700, color: "#F5F7FA",
+            marginBottom: "1.5rem", textShadow: "0 2px 24px #151B26dd"
+          }}>
+            <span style={{display: "inline-block", animation: heroAnim ? "fadeInLeft 1s .2s both" : "none"}}>
+              Experience Miami’s <span style={{color:'#5EE6E6'}}>Luxury</span> on the Water
+            </span>
+          </h2>
+          <p style={{
+            fontSize: "1.3rem",
+            background: "rgba(36,44,61,0.66)",
+            padding: "1rem 2rem",
+            borderRadius: "18px",
+            color: "#B0BED8",
+            marginBottom: "2rem",
+            boxShadow: "0 2px 16px #151B2633",
+            animation: heroAnim ? "fadeInUp 1s .55s both" : "none"
+          }}>
+            Book a glamorous yacht for your next Miami adventure, or list your own vessel and join the city’s elite fleet.
+          </p>
+          <div style={{
+            display: "flex", gap: "2rem", marginTop: "1rem", justifyContent: "center", flexWrap: "wrap",
+            animation: heroAnim ? "fadeInUp 1s .8s both" : "none"
+          }}>
+            <AnimatedButton onClick={() => setShowBookingForm(true)} big>
+              Find a Yacht
+            </AnimatedButton>
+            <AnimatedButton onClick={() => setShowOwnerForm(true)} big secondary>
+              List Your Yacht
+            </AnimatedButton>
+          </div>
         </div>
       </section>
 
@@ -350,24 +410,9 @@ export default function Home() {
           fontSize: "1.5rem", fontWeight: 600, letterSpacing: "0.02em",
           color: "#5EE6E6", marginBottom: "2rem"
         }}>Featured Yachts</h3>
-        <div style={{ display: "flex", gap: "2rem", overflowX: "auto" }}>
+        <div className="yacht-card-row" style={{ display: "flex", gap: "2rem", overflowX: "auto" }}>
           {yachtCards.map((yacht, i) => (
-            <div key={i} style={{
-              background: "rgba(36,44,61,0.98)",
-              borderRadius: "1.5rem",
-              minWidth: 300,
-              padding: "1.5rem",
-              boxShadow: "0 4px 32px #151B2633",
-              display: "flex", flexDirection: "column", alignItems: "center",
-              border: "1.5px solid #23304b"
-            }}>
-              <img src={yacht.img} alt={yacht.name} style={{
-                width: "100%", borderRadius: "1rem", marginBottom: "1rem", objectFit: "cover", height: 180
-              }} />
-              <h4 style={{ fontWeight: 700, color: "#B06AB3", fontSize: "1.1rem", marginBottom: 2 }}>{yacht.name}</h4>
-              <div style={{ color: "#B0BED8", margin: "0.5rem 0", fontSize: "1rem" }}>{yacht.desc}</div>
-              <button onClick={() => setShowBookingForm(true)} style={primaryBtnStyle}>Book Now</button>
-            </div>
+            <YachtCard yacht={yacht} key={i} onBook={() => setShowBookingForm(true)} />
           ))}
         </div>
       </section>
@@ -390,7 +435,9 @@ export default function Home() {
               minWidth: 260,
               boxShadow: "0 4px 24px #151B2633",
               display: "flex", flexDirection: "column",
-              border: "1.5px solid #23304b"
+              border: "1.5px solid #23304b",
+              transform: "scale(1)",
+              transition: "transform 0.2s"
             }}>
               <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
                 <img src={t.avatar} alt={t.name} style={{
@@ -422,12 +469,38 @@ export default function Home() {
           gap: "1.5rem", alignItems: "center"
         }}>
           {galleryPhotos.map((url, i) => (
-            <img key={i} src={url} alt={`Miami Yacht ${i + 1}`} style={{
-              width: "100%", borderRadius: "1.2rem", boxShadow: "0 2px 16px #151B2666", objectFit: "cover", height: 160
-            }} />
+            <div
+              key={i}
+              style={{
+                cursor: "pointer",
+                borderRadius: "1.2rem",
+                overflow: "hidden",
+                position: "relative"
+              }}
+              onClick={() => openLightbox(i)}
+            >
+              <img src={url} alt={`Miami Yacht ${i + 1}`} style={{
+                width: "100%", height: 160, objectFit: "cover",
+                transition: "transform 0.3s", borderRadius: "1.2rem"
+              }} />
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(180deg,rgba(0,0,0,0.0) 40%,rgba(36,44,61,0.5) 100%)",
+                pointerEvents: "none"
+              }} />
+            </div>
           ))}
         </div>
       </section>
+      {lightboxOpen && (
+        <LightboxGallery
+          photos={galleryPhotos}
+          idx={lightboxIdx}
+          onClose={closeLightbox}
+          onPrev={prevLightbox}
+          onNext={nextLightbox}
+        />
+      )}
 
       {/* Owner CTA */}
       <section id="list" style={{
@@ -440,12 +513,14 @@ export default function Home() {
         <p style={{ color: "#B0BED8", fontSize: "1.1rem", background: "rgba(36,44,61,0.82)", borderRadius: 12, padding: "0.7rem 1.5rem" }}>
           List your vessel with Miami Yacht Day and reach exclusive clients seeking luxury experiences.
         </p>
-        <button onClick={() => setShowOwnerForm(true)} style={primaryBtnStyle}>List Your Yacht</button>
+        <AnimatedButton onClick={() => setShowOwnerForm(true)} big>
+          List Your Yacht
+        </AnimatedButton>
       </section>
 
-      {/* Modals */}
+      {/* Modals (animated) */}
       {showOwnerForm && (
-        <Modal onClose={() => setShowOwnerForm(false)}>
+        <AnimatedModal onClose={() => setShowOwnerForm(false)}>
           <OwnerForm
             onSubmit={data => {
               setYachtCards(prev => [
@@ -458,13 +533,14 @@ export default function Home() {
               ]);
               setShowOwnerForm(false);
               setToast("Yacht listing submitted! Your yacht is now featured.");
+              showConfetti();
             }}
           />
-        </Modal>
+        </AnimatedModal>
       )}
 
       {showBookingForm && (
-        <Modal onClose={() => setShowBookingForm(false)}>
+        <AnimatedModal onClose={() => setShowBookingForm(false)}>
           <BookingForm
             onSubmit={bookingData => {
               addBooking(bookingData);
@@ -472,22 +548,22 @@ export default function Home() {
               setToast("Booking inquiry sent! We'll contact you soon.");
             }}
           />
-        </Modal>
+        </AnimatedModal>
       )}
 
       {showNewsletter && (
-        <Modal onClose={() => setShowNewsletter(false)}>
+        <AnimatedModal onClose={() => setShowNewsletter(false)}>
           <NewsletterForm
             onSubmit={email => {
               setShowNewsletter(false);
               setToast("Thank you for subscribing! You'll get Miami Yacht Day updates.");
             }}
           />
-        </Modal>
+        </AnimatedModal>
       )}
 
       {showAbout && (
-        <Modal onClose={() => setShowAbout(false)}>
+        <AnimatedModal onClose={() => setShowAbout(false)}>
           <AboutContactForm
             onSubmit={contactData => {
               addContact(contactData);
@@ -495,32 +571,32 @@ export default function Home() {
               setToast("Message sent! We'll get back to you soon.");
             }}
           />
-        </Modal>
+        </AnimatedModal>
       )}
 
       {showBookings && (
-        <Modal onClose={() => setShowBookings(false)}>
+        <AnimatedModal onClose={() => setShowBookings(false)}>
           <BookingsDashboard
             bookings={bookings}
             updateBookingStatus={updateBookingStatus}
             deleteBooking={deleteBooking}
             exportCSV={exportBookingsCSV}
           />
-        </Modal>
+        </AnimatedModal>
       )}
 
       {showContacts && (
-        <Modal onClose={() => setShowContacts(false)}>
+        <AnimatedModal onClose={() => setShowContacts(false)}>
           <ContactsDashboard
             contacts={contacts}
             archiveContact={archiveContact}
             deleteContact={deleteContact}
             exportCSV={exportContactsCSV}
           />
-        </Modal>
+        </AnimatedModal>
       )}
 
-      {/* Responsive styles */}
+      {/* Responsive styles and key animations */}
       <style jsx global>{`
         @media (max-width: 900px) {
           .desktop-nav {
@@ -535,8 +611,244 @@ export default function Home() {
             display: none !important;
           }
         }
+        @keyframes yachtFloat {
+          0% { transform: translateY(0px);}
+          50% { transform: translateY(-10px);}
+          100% { transform: translateY(0px);}
+        }
+        @keyframes fadeInLeft {
+          from { opacity:0; transform:translateX(-40px);}
+          to { opacity:1; transform:translateX(0);}
+        }
+        @keyframes fadeInUp {
+          from { opacity:0; transform:translateY(40px);}
+          to { opacity:1; transform:translateY(0);}
+        }
+        @keyframes modalIn {
+          from { opacity:0; transform:translateY(40px) scale(0.96);}
+          to { opacity:1; transform:translateY(0) scale(1);}
+        }
+        @keyframes dashboardCardIn {
+          from { opacity:0; transform: translateY(50px);}
+          to { opacity:1; transform: translateY(0);}
+        }
       `}</style>
     </main>
+  );
+}
+
+// --- Yacht Card with Animation and Hover Overlay ---
+function YachtCard({ yacht, onBook }: { yacht: { name: string, desc: string, img: string }, onBook: () => void }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      style={{
+        background: "rgba(36,44,61,0.98)",
+        borderRadius: "1.5rem",
+        minWidth: 300,
+        padding: "1.5rem",
+        boxShadow: hover ? "0 8px 36px #151B2666" : "0 4px 16px #151B2633",
+        display: "flex", flexDirection: "column", alignItems: "center",
+        border: hover ? "2px solid #5EE6E6" : "1.5px solid #23304b",
+        cursor: "pointer",
+        position: "relative",
+        transition: "transform 0.22s cubic-bezier(.21,1.15,.65,1.01), box-shadow 0.2s, border 0.2s",
+        transform: hover ? "scale(1.045)" : "scale(1)",
+        animation: "yachtFloat 5s ease-in-out infinite"
+      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      tabIndex={0}
+    >
+      <div style={{ position: "relative", width: "100%", height: 180 }}>
+        <img src={yacht.img} alt={yacht.name}
+          style={{
+            width: "100%", borderRadius: "1rem", objectFit: "cover", height: 180,
+            filter: hover ? "brightness(0.87)" : "brightness(1)",
+            transition: "filter 0.25s"
+          }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: hover ? "linear-gradient(180deg,rgba(94,230,230,0.09),rgba(36,44,61,0.16))" : "none"
+        }} />
+        {hover && (
+          <div style={{
+            position: "absolute", bottom: 12, left: 0, right: 0, textAlign: "center",
+            fontWeight: 700, letterSpacing: ".03em", color: "#5EE6E6",
+            fontSize: 20, textShadow: "0 2px 16px #151B26bb",
+            opacity: 0.86
+          }}>
+            {yacht.name}
+          </div>
+        )}
+      </div>
+      <h4 style={{ fontWeight: 700, color: "#B06AB3", fontSize: "1.1rem", marginBottom: 2, marginTop: "1rem" }}>{yacht.name}</h4>
+      <div style={{ color: "#B0BED8", margin: "0.5rem 0", fontSize: "1rem" }}>{yacht.desc}</div>
+      <AnimatedButton onClick={onBook} style={{ marginTop: 8 }}>Book Now</AnimatedButton>
+    </div>
+  );
+}
+
+// --- Animated Button with Ripple/Scale ---
+function AnimatedButton({ onClick, children, big, secondary, style }: any) {
+  const [rippling, setRippling] = useState(false);
+  return (
+    <button
+      style={{
+        ...(secondary ? secondaryBtnStyle : primaryBtnStyle),
+        ...(big && { fontSize: "1.18rem", padding: "1.1rem 2.5rem" }),
+        position: "relative",
+        overflow: "hidden",
+        ...style
+      }}
+      onClick={e => {
+        setRippling(true);
+        setTimeout(() => setRippling(false), 340);
+        setTimeout(() => onClick?.(e), 80);
+      }}
+    >
+      {children}
+      {rippling && (
+        <span style={{
+          position: "absolute", left: "50%", top: "50%",
+          width: 120, height: 120, background: "#5EE6E655",
+          borderRadius: "50%", transform: "translate(-50%,-50%) scale(1.6)",
+          animation: "rippleAnim .34s linear",
+          pointerEvents: "none"
+        }} />
+      )}
+      <style jsx>{`
+        @keyframes rippleAnim {
+          0% { opacity: 0.6; transform: translate(-50%,-50%) scale(0.8);}
+          90% { opacity: 0.15; }
+          100% { opacity:0; transform:translate(-50%,-50%) scale(1.6);}
+        }
+      `}</style>
+    </button>
+  );
+}
+
+// --- Gallery Lightbox Modal ---
+function LightboxGallery({ photos, idx, onClose, onPrev, onNext }: {
+  photos: string[], idx: number, onClose: () => void, onPrev: () => void, onNext: () => void
+}) {
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onPrev, onNext, onClose]);
+  return (
+    <div style={{
+      position: "fixed", inset: 0, background: "rgba(19,24,36,0.93)",
+      zIndex: 3000, display: "flex", alignItems: "center", justifyContent: "center"
+    }}>
+      <button onClick={onClose} aria-label="Close" style={{
+        position: "absolute", top: 36, right: 38, background: "none", border: "none",
+        color: "#fff", fontSize: 38, cursor: "pointer", zIndex: 10
+      }}>×</button>
+      <button onClick={onPrev} aria-label="Previous" style={{
+        position: "absolute", left: 30, top: "50%", background: "none", border: "none",
+        color: "#5EE6E6", fontSize: 48, cursor: "pointer", transform: "translateY(-50%)"
+      }}>&#8592;</button>
+      <img src={photos[idx]} style={{
+        maxWidth: "94vw", maxHeight: "82vh", borderRadius: "1.5rem", boxShadow: "0 8px 48px #151B2688"
+      }} />
+      <button onClick={onNext} aria-label="Next" style={{
+        position: "absolute", right: 30, top: "50%", background: "none", border: "none",
+        color: "#5EE6E6", fontSize: 48, cursor: "pointer", transform: "translateY(-50%)"
+      }}>&#8594;</button>
+    </div>
+  );
+}
+
+// --- Animated Modal ---
+function AnimatedModal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
+  return (
+    <div style={{
+      position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
+      background: "rgba(21,27,38,0.78)", display: "flex", alignItems: "center",
+      justifyContent: "center", zIndex: 1000
+    }}>
+      <div style={{
+        background: "#232B3B", borderRadius: "1.5rem", padding: "2rem", minWidth: 320,
+        boxShadow: "0 8px 48px #151B2688", position: "relative",
+        animation: "modalIn 0.44s cubic-bezier(.21,1.15,.65,1.01)"
+      }}>
+        <button onClick={onClose} style={{
+          position: "absolute", top: 18, right: 22, background: "none", border: "none",
+          fontSize: "1.5rem", color: "#5EE6E6", cursor: "pointer"
+        }}>×</button>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// --- Confetti Animation ---
+function Confetti() {
+  // Simple SVG confetti burst at top center
+  return (
+    <div style={{
+      position: "fixed", left: 0, right: 0, top: 0, zIndex: 99999,
+      pointerEvents: "none", width: "100vw", height: "0", textAlign: "center"
+    }}>
+      <svg width="280" height="120" style={{marginTop:0}}>
+        <g>
+          {[...Array(18)].map((_, i) => (
+            <circle key={i}
+              cx={140 + 70 * Math.cos((i/18)*2*Math.PI)}
+              cy={30 + 50 * Math.sin((i/18)*2*Math.PI)}
+              r={6 + Math.random()*3}
+              fill={["#5EE6E6","#B06AB3","#F5F7FA","#4568DC","#fff"][i%5]}
+              style={{
+                opacity: 0.81,
+                transformOrigin: "140px 60px",
+                animation: `confettiPop 1.7s ${(i/18)*.43}s cubic-bezier(.15,1.1,.7,1) both`
+              }}
+            />
+          ))}
+        </g>
+        <style>{`
+          @keyframes confettiPop {
+            0% { transform: scale(0.9) translateY(0);}
+            55% { transform: scale(1.1) translateY(-18px);}
+            100% { transform: scale(1) translateY(60px);}
+          }
+        `}</style>
+      </svg>
+    </div>
+  );
+}
+
+// --- Toast notification ---
+function Toast({ message, onClose }: { message: string, onClose: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onClose, 3500);
+    return () => clearTimeout(t);
+  }, [onClose]);
+  return (
+    <div style={{
+      position: "fixed",
+      top: 24,
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: "#2A3143",
+      color: "#F5F7FA",
+      borderRadius: 16,
+      padding: "1.1rem 2.2rem",
+      fontWeight: 600,
+      fontSize: "1.1rem",
+      boxShadow: "0 2px 24px #151B2666",
+      zIndex: 9999,
+      letterSpacing: "0.02em",
+      border: "2px solid #5EE6E6"
+    }}>
+      {message}
+    </div>
   );
 }
 
@@ -556,7 +868,7 @@ function BookingsDashboard({
     <div style={{ maxWidth: 600, width: "100%" }}>
       <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18}}>
         <h3 style={{ color: "#5EE6E6" }}>Booking Requests</h3>
-        <button onClick={exportCSV} style={{...secondaryBtnStyle, padding: "0.5rem 1.2rem", fontSize: 13}}>Export CSV</button>
+        <AnimatedButton onClick={exportCSV} style={{padding: "0.5rem 1.2rem", fontSize: 13}}>Export CSV</AnimatedButton>
       </div>
       {bookings.filter(b => b.status !== "Archived").length === 0 && (
         <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No active bookings.</div>
@@ -570,7 +882,8 @@ function BookingsDashboard({
               padding: 16,
               border: "1.5px solid #23304b",
               boxShadow: "0 2px 8px #151B2633",
-              position: "relative"
+              position: "relative",
+              animation: "dashboardCardIn 0.6s cubic-bezier(.21,1.15,.65,1.01)"
             }}>
               <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{b.name}</div>
               <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{b.email}</div>
@@ -589,10 +902,10 @@ function BookingsDashboard({
                   fontSize: 13,
                   marginRight: 10
                 }}>{b.status}</span>
-                <button onClick={() => updateBookingStatus(i, "Contacted")} style={smallBtnStyle}>Mark Contacted</button>
-                <button onClick={() => updateBookingStatus(i, "Completed")} style={smallBtnStyle}>Mark Completed</button>
-                <button onClick={() => updateBookingStatus(i, "Archived")} style={smallBtnStyle}>Archive</button>
-                <button onClick={() => deleteBooking(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</button>
+                <AnimatedButton onClick={() => updateBookingStatus(i, "Contacted")} style={smallBtnStyle}>Mark Contacted</AnimatedButton>
+                <AnimatedButton onClick={() => updateBookingStatus(i, "Completed")} style={smallBtnStyle}>Mark Completed</AnimatedButton>
+                <AnimatedButton onClick={() => updateBookingStatus(i, "Archived")} style={smallBtnStyle}>Archive</AnimatedButton>
+                <AnimatedButton onClick={() => deleteBooking(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</AnimatedButton>
               </div>
             </div>
           )
@@ -618,7 +931,7 @@ function ContactsDashboard({
     <div style={{ maxWidth: 600, width: "100%" }}>
       <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18}}>
         <h3 style={{ color: "#5EE6E6" }}>Contact Inbox</h3>
-        <button onClick={exportCSV} style={{...secondaryBtnStyle, padding: "0.5rem 1.2rem", fontSize: 13}}>Export CSV</button>
+        <AnimatedButton onClick={exportCSV} style={{padding: "0.5rem 1.2rem", fontSize: 13}}>Export CSV</AnimatedButton>
       </div>
       {contacts.filter(c => !c.archived).length === 0 && (
         <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No active messages.</div>
@@ -632,15 +945,16 @@ function ContactsDashboard({
               padding: 16,
               border: "1.5px solid #23304b",
               boxShadow: "0 2px 8px #151B2633",
-              position: "relative"
+              position: "relative",
+              animation: "dashboardCardIn 0.6s cubic-bezier(.21,1.15,.65,1.01)"
             }}>
               <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{c.name}</div>
               <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{c.email}</div>
               <div style={{ color: "#F5F7FA", marginBottom: 6, marginTop: 5 }}>{c.message}</div>
               <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(c.submittedAt).toLocaleString()}</div>
               <div style={{display:"flex", alignItems:"center", marginTop: 10, gap: 9, flexWrap:"wrap"}}>
-                <button onClick={() => archiveContact(i)} style={smallBtnStyle}>Archive</button>
-                <button onClick={() => deleteContact(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</button>
+                <AnimatedButton onClick={() => archiveContact(i)} style={smallBtnStyle}>Archive</AnimatedButton>
+                <AnimatedButton onClick={() => deleteContact(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</AnimatedButton>
               </div>
             </div>
           )
@@ -685,7 +999,7 @@ function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" |
       <input style={inputStyle} placeholder="Number of Guests*" required value={guests} onChange={e => setGuests(e.target.value)} />
       <textarea style={inputStyle} placeholder="Tell us about your occasion" rows={3} value={occasion} onChange={e => setOccasion(e.target.value)} />
       {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-      <button type="submit" style={primaryBtnStyle}>Send Inquiry</button>
+      <AnimatedButton type="submit" style={{marginTop: 5}}>Send Inquiry</AnimatedButton>
       <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
     </form>
   );
@@ -739,7 +1053,7 @@ function OwnerForm({ onSubmit }: OwnerFormProps) {
       <input style={inputStyle} placeholder="Amenities (WiFi, Jetski, etc)" value={amenities} onChange={e => setAmenities(e.target.value)} />
       <input style={inputStyle} placeholder="Yacht Image URL (optional)" value={imgUrl} onChange={e => setImgUrl(e.target.value)} />
       {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-      <button type="submit" style={primaryBtnStyle}>Submit Listing</button>
+      <AnimatedButton type="submit" style={{marginTop: 5}}>Submit Listing</AnimatedButton>
       <div style={{ fontSize: 12, color: "#7A8CA3" }}>* required</div>
     </form>
   );
@@ -781,7 +1095,7 @@ function NewsletterForm({ onSubmit }: { onSubmit: (email: string) => void }) {
         onChange={e => setEmail(e.target.value)}
       />
       {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-      <button type="submit" style={primaryBtnStyle}>Subscribe</button>
+      <AnimatedButton type="submit" style={{marginTop: 5}}>Subscribe</AnimatedButton>
     </form>
   );
 }
@@ -825,60 +1139,10 @@ function AboutContactForm({ onSubmit }: { onSubmit: (data: Omit<ContactMessage, 
         <input style={inputStyle} placeholder="Your Email" value={email} onChange={e => setEmail(e.target.value)} />
         <textarea style={inputStyle} rows={3} placeholder="Your Message" value={message} onChange={e => setMessage(e.target.value)} />
         {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
-        <button type="submit" style={primaryBtnStyle}>Send Message</button>
+        <AnimatedButton type="submit" style={{marginTop: 5}}>Send Message</AnimatedButton>
       </form>
       <div style={{ color: "#7A8CA3", fontSize: 12, marginTop: 12 }}>
         Or email us: <a href="mailto:info@miamiyachtday.com" style={{ color: "#5EE6E6" }}>info@miamiyachtday.com</a>
-      </div>
-    </div>
-  );
-}
-
-// --- Toast notification ---
-function Toast({ message, onClose }: { message: string, onClose: () => void }) {
-  useEffect(() => {
-    const t = setTimeout(onClose, 3500);
-    return () => clearTimeout(t);
-  }, [onClose]);
-  return (
-    <div style={{
-      position: "fixed",
-      top: 24,
-      left: "50%",
-      transform: "translateX(-50%)",
-      background: "#2A3143",
-      color: "#F5F7FA",
-      borderRadius: 16,
-      padding: "1.1rem 2.2rem",
-      fontWeight: 600,
-      fontSize: "1.1rem",
-      boxShadow: "0 2px 24px #151B2666",
-      zIndex: 9999,
-      letterSpacing: "0.02em",
-      border: "2px solid #5EE6E6"
-    }}>
-      {message}
-    </div>
-  );
-}
-
-// --- Modal Component ---
-function Modal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
-  return (
-    <div style={{
-      position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
-      background: "rgba(21,27,38,0.78)", display: "flex", alignItems: "center",
-      justifyContent: "center", zIndex: 1000
-    }}>
-      <div style={{
-        background: "#232B3B", borderRadius: "1.5rem", padding: "2rem", minWidth: 320,
-        boxShadow: "0 8px 48px #151B2688", position: "relative"
-      }}>
-        <button onClick={onClose} style={{
-          position: "absolute", top: 18, right: 22, background: "none", border: "none",
-          fontSize: "1.5rem", color: "#5EE6E6", cursor: "pointer"
-        }}>×</button>
-        {children}
       </div>
     </div>
   );
