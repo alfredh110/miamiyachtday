@@ -1,3 +1,9 @@
+import SundeckSportBoatSection from "./components/SundeckSportBoatSection";
+
+// ...inside your main page component, in the place where you now show the gallery:
+
+<SundeckSportBoatSection />
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -492,6 +498,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <SundeckSportBoatSection />
       {lightboxOpen && (
         <LightboxGallery
           photos={galleryPhotos}
