@@ -1,0 +1,35 @@
+.yacht-gallery-section {
+  margin: 40px 0;
+  padding: 20px;
+  background: #f8fbff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+.yacht-gallery-section h2 { color: #0077b6; }
+.yacht-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.yacht-gallery img {
+  max-width: 380px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  object-fit: cover;
+}
+.book-now-btn {
+  display: inline-block;
+  margin-top: 18px;
+  background: #0077b6;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.book-now-btn:hover {
+  background: #023e8a;
+}
