@@ -94,7 +94,49 @@ const smallBtnStyle: React.CSSProperties = {
   cursor: "pointer",
   transition: "background .1s"
 };
-
+const primaryBtnStyle = {
+  background: "linear-gradient(90deg, #4568DC 0%, #B06AB3 100%)",
+  color: "#F5F7FA",
+  padding: "0.85rem 2rem",
+  borderRadius: "2rem",
+  fontWeight: 700,
+  boxShadow: "0 2px 8px #151B2633",
+  fontSize: "1.05rem",
+  border: "none",
+  cursor: "pointer",
+  textDecoration: "none",
+  transition: "transform 0.08s"
+};
+const secondaryBtnStyle = {
+  background: "rgba(36,44,61,0.75)",
+  color: "#5EE6E6",
+  padding: "0.85rem 2rem",
+  borderRadius: "2rem",
+  fontWeight: 700,
+  fontSize: "1.05rem",
+  border: "2px solid #5EE6E6",
+  cursor: "pointer",
+  textDecoration: "none",
+  transition: "transform 0.08s"
+};
+const navBtnStyle = {
+  color: "#F5F7FA",
+  fontWeight: 600,
+  background: "rgba(36,44,61,0.72)",
+  padding: "0.7rem 1.5rem",
+  borderRadius: "1.2rem",
+  textDecoration: "none",
+  fontSize: "1rem",
+  boxShadow: "0 2px 8px #151B2633",
+  border: "none",
+  cursor: "pointer",
+  transition: "transform 0.08s"
+};
+const mobileNavBtnStyle = {
+  ...primaryBtnStyle,
+  fontSize: "1.2rem",
+  padding: "1.1rem 2.5rem"
+};
 // --- SVG MARINE BACKGROUND ---
 function PremiumSVGBackground() {
   return (
@@ -111,10 +153,9 @@ function PremiumSVGBackground() {
       }}
       aria-hidden="true"
     >
-      <svg width="1440" height="2600" viewBox="0 0 1440 2600" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position: "absolute", top: 0, left: 0}}>
-        {/* (SVG content unchanged from your previous code. Keep it as is or move to separate file if desired) */}
-        {/* ...SVG omitted for brevity... */}
-      </svg>
+      {/* Place your SVG here. 
+          To save space, it's omitted, but keep your SVG content in this function. */}
+      {/* ...SVG code omitted for brevity... */}
     </div>
   );
 }
@@ -288,8 +329,7 @@ function AnimatedModal({ children, onClose }: { children: React.ReactNode; onClo
     </div>
   );
 }
-
-// --- CONFETTI ---
+// --- Confetti Animation ---
 function Confetti() {
   // Simple SVG confetti burst at top center
   return (
@@ -325,7 +365,7 @@ function Confetti() {
   );
 }
 
-// --- TOAST NOTIFICATION ---
+// --- Toast notification ---
 function Toast({ message, onClose }: { message: string, onClose: () => void }) {
   useEffect(() => {
     const t = setTimeout(onClose, 3500);
@@ -353,7 +393,7 @@ function Toast({ message, onClose }: { message: string, onClose: () => void }) {
   );
 }
 
-// --- CONTACTS DASHBOARD ---
+// --- Contacts Dashboard ---
 function ContactsDashboard({
   contacts,
   archiveContact,
@@ -402,7 +442,7 @@ function ContactsDashboard({
   );
 }
 
-// --- BOOKING FORM ---
+// --- Booking Inquiry Form ---
 function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" | "status"> & { phone: string, yacht: string }) => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -467,7 +507,7 @@ function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" |
   );
 }
 
-// --- OWNER FORM ---
+// --- Owner Listing Form ---
 type OwnerFormProps = {
   onSubmit: (data: {
     yachtName: string;
@@ -520,7 +560,6 @@ function OwnerForm({ onSubmit }: OwnerFormProps) {
     </form>
   );
 }
-
 // --- Newsletter Signup Form ---
 function NewsletterForm({ onSubmit }: { onSubmit: (email: string) => void }) {
   const [email, setEmail] = useState("");
@@ -609,73 +648,6 @@ function AboutContactForm({ onSubmit }: { onSubmit: (data: Omit<ContactMessage, 
     </div>
   );
 }
-
-// --- Styles (as constants, already present above; if duplicated, keep only one copy!) ---
-const primaryBtnStyle = {
-  background: "linear-gradient(90deg, #4568DC 0%, #B06AB3 100%)",
-  color: "#F5F7FA",
-  padding: "0.85rem 2rem",
-  borderRadius: "2rem",
-  fontWeight: 700,
-  boxShadow: "0 2px 8px #151B2633",
-  fontSize: "1.05rem",
-  border: "none",
-  cursor: "pointer",
-  textDecoration: "none",
-  transition: "transform 0.08s"
-};
-const secondaryBtnStyle = {
-  background: "rgba(36,44,61,0.75)",
-  color: "#5EE6E6",
-  padding: "0.85rem 2rem",
-  borderRadius: "2rem",
-  fontWeight: 700,
-  fontSize: "1.05rem",
-  border: "2px solid #5EE6E6",
-  cursor: "pointer",
-  textDecoration: "none",
-  transition: "transform 0.08s"
-};
-const navBtnStyle = {
-  color: "#F5F7FA",
-  fontWeight: 600,
-  background: "rgba(36,44,61,0.72)",
-  padding: "0.7rem 1.5rem",
-  borderRadius: "1.2rem",
-  textDecoration: "none",
-  fontSize: "1rem",
-  boxShadow: "0 2px 8px #151B2633",
-  border: "none",
-  cursor: "pointer",
-  transition: "transform 0.08s"
-};
-const mobileNavBtnStyle = {
-  ...primaryBtnStyle,
-  fontSize: "1.2rem",
-  padding: "1.1rem 2.5rem"
-};
-const inputStyle: React.CSSProperties = {
-  border: "1.5px solid #292f3e",
-  borderRadius: 8,
-  padding: "0.7rem 1rem",
-  fontSize: "1rem",
-  background: "rgba(21,27,38,0.5)",
-  color: "#F5F7FA",
-  outline: "none",
-  marginBottom: 0
-};
-const smallBtnStyle: React.CSSProperties = {
-  background: "rgba(36,44,61,0.92)",
-  color: "#5EE6E6",
-  border: "1.5px solid #5EE6E6",
-  padding: "0.3rem 1rem",
-  borderRadius: 8,
-  fontWeight: 600,
-  fontSize: 13,
-  cursor: "pointer",
-  transition: "background .1s"
-};
-
 // --- Final export (with background at the top level) ---
 export default function App() {
   return (
@@ -823,7 +795,7 @@ function Home() {
 
   // --- Main Render ---
   return (
-        <main
+    <main
       style={{
         minHeight: "100vh",
         fontFamily: "'Inter', system-ui, sans-serif",
@@ -1185,7 +1157,6 @@ function Home() {
           to { opacity:1; transform: translateY(0);}
         }
       `}</style>
-          
     </main>
   );
 }
