@@ -153,9 +153,28 @@ function PremiumSVGBackground() {
       }}
       aria-hidden="true"
     >
-      {/* Place your SVG here. 
-          To save space, it's omitted, but keep your SVG content in this function. */}
-      {/* ...SVG code omitted for brevity... */}
+      <svg
+        width="1440"
+        height="1000"
+        viewBox="0 0 1440 1000"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ position: "absolute", top: 0, left: 0 }}
+      >
+        <defs>
+          <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#5EE6E6" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#4568DC" stopOpacity="0.10" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 700 Q 360 600 900 750 T 1440 700 V 1000 H 0 Z"
+          fill="url(#waveGradient)"
+        />
+        <ellipse cx="300" cy="250" rx="250" ry="80" fill="#B06AB344" />
+        <ellipse cx="1200" cy="200" rx="170" ry="60" fill="#4568DC33" />
+        {/* Add more shapes/waves if desired */}
+      </svg>
     </div>
   );
 }
