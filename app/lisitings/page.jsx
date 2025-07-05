@@ -1,8 +1,8 @@
 export const metadata = {
-  title: "Yacht Listings | YourAppName",
+  title: "Yacht Listings | MIAMI YACHT DAY",
   description: "Browse luxury yacht listings available for booking. Find the perfect yacht for your next adventure.",
   openGraph: {
-    title: "Yacht Listings | YourAppName",
+    title: "Yacht Listings | MIAMI YACHT DAY",
     description: "Browse luxury yacht listings available for booking. Find the perfect yacht for your next adventure.",
     images: [
       {
