@@ -11,7 +11,7 @@ const handler = NextAuth({
   callbacks: {
     async signIn({ user }) {
       // Only allow your admin email
-      return user.email === "alfredohiller01@gmail.com"; // <-- Change to your actual email if needed
+      return user.email === "hillercapitalinc@gmail.com"; // <-- Change to your actual email if needed
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
