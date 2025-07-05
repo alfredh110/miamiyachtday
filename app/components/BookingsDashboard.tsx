@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-// --- Types ---
 type BookingStatus = "Pending" | "Contacted" | "Completed" | "Archived";
 type Booking = {
   name: string;
@@ -38,7 +37,6 @@ const smallBtnStyle: React.CSSProperties = {
   transition: "background .1s"
 };
 
-// --- Bookings Dashboard ---
 export default function BookingsDashboard({
   bookings,
   updateBookingStatus,
