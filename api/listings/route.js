@@ -22,7 +22,7 @@ export async function GET(req) {
   }
 }
 
-// POST: Create a new listing
+// POST: Create a new listing (with basic validation)
 export async function POST(req) {
   try {
     const data = await req.json();
@@ -32,6 +32,20 @@ export async function POST(req) {
     if (!data.createdAt) data.createdAt = new Date();
     // Default approved to false unless specified
     if (typeof data.approved !== "boolean") data.approved = false;
+
+    // Basic validation
+    const required = ["yachtName", "ownerName", "email", "length", "guests"];
+    for (const field of required) {
+      if (!data[field]) {
+        return new Response(JSON.stringify({ error: `Missing field: ${field}` }), { status: 400 });
+      }
+    }
+
+    // Type checks
+    if (isNaN(Number(data.length)) || isNaN(Number(data.guests))) {
+      return new Response(JSON.stringify({ error: "Length and guests must be numbers." }), { status: 400 });
+    }
+
     const created = await prisma.listing.create({ data });
     return new Response(JSON.stringify(created), { status: 201 });
   } catch (err) {
