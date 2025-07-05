@@ -1,5 +1,7 @@
 "use client";
+import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useState, useEffect } from "react";
+import BookingsDashboard from "../components/BookingsDashboard";
 
 // --- Types ---
 type BookingStatus = "Pending" | "Contacted" | "Completed" | "Archived";
@@ -15,85 +17,27 @@ type Booking = {
 
 const BOOKINGS_KEY = "miami_yacht_day_bookings_v1";
 
-// --- Bookings Dashboard Component (copy from your main code, or import if in a shared file) ---
-function BookingsDashboard({
-  bookings,
-  updateBookingStatus,
-  deleteBooking,
-  exportCSV,
-}: {
-  bookings: Booking[];
-  updateBookingStatus: (idx: number, status: BookingStatus) => void;
-  deleteBooking: (idx: number) => void;
-  exportCSV: () => void;
-}) {
-  return (
-    <div style={{ maxWidth: 600, width: "100%" }}>
-      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18}}>
-        <h3 style={{ color: "#5EE6E6" }}>Booking Requests</h3>
-        <button onClick={exportCSV} style={{padding: "0.5rem 1.2rem", fontSize: 13, ...primaryBtnStyle}}>Export CSV</button>
-      </div>
-      {bookings.filter(b => b.status !== "Archived").length === 0 && (
-        <div style={{ color: "#B0BED8", fontSize: 15, marginBottom: 12 }}>No active bookings.</div>
-      )}
-      <div style={{ display: "flex", flexDirection: "column", gap: 18, maxHeight: 450, overflowY: "auto" }}>
-        {bookings.map((b, i) => (
-          b.status !== "Archived" && (
-            <div key={i} style={{
-              background: "rgba(36,44,61,0.98)",
-              borderRadius: 12,
-              padding: 16,
-              border: "1.5px solid #23304b",
-              boxShadow: "0 2px 8px #151B2633",
-              position: "relative",
-              animation: "dashboardCardIn 0.6s cubic-bezier(.21,1.15,.65,1.01)"
-            }}>
-              <div style={{ color: "#B06AB3", fontWeight: 700, fontSize: 17 }}>{b.name}</div>
-              <div style={{ color: "#B0BED8", fontSize: 13, marginBottom: 2 }}>{b.email}</div>
-              <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.guests} guests • {b.date}</div>
-              <div style={{ color: "#F5F7FA", marginBottom: 6 }}>{b.occasion}</div>
-              <div style={{ color: "#7A8CA3", fontSize: 12 }}>Submitted: {new Date(b.submittedAt).toLocaleString()}</div>
-              <div style={{display:"flex", alignItems:"center", marginTop: 10, gap: 9, flexWrap:"wrap"}}>
-                <span style={{
-                  background: b.status === "Pending" ? "#B06AB3"
-                          : b.status === "Contacted" ? "#5EE6E6"
-                          : "#4bdf80",
-                  color: "#151B26",
-                  fontWeight: 700,
-                  borderRadius: 6,
-                  padding: "0.2rem 0.8rem",
-                  fontSize: 13,
-                  marginRight: 10
-                }}>{b.status}</span>
-                <button onClick={() => updateBookingStatus(i, "Contacted")} style={smallBtnStyle}>Mark Contacted</button>
-                <button onClick={() => updateBookingStatus(i, "Completed")} style={smallBtnStyle}>Mark Completed</button>
-                <button onClick={() => updateBookingStatus(i, "Archived")} style={smallBtnStyle}>Archive</button>
-                <button onClick={() => deleteBooking(i)} style={{...smallBtnStyle, color:"#ff3a6a", borderColor: "#ff3a6a"}}>Delete</button>
-              </div>
-            </div>
-          )
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function AdminDashboard() {
+  const { data: session, status } = useSession();
   const [bookings, setBookings] = useState<Booking[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem(BOOKINGS_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) setBookings(parsed);
-      } catch {}
+    if (status === "authenticated") {
+      const saved = localStorage.getItem(BOOKINGS_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) setBookings(parsed);
+        } catch {}
+      }
     }
-  }, []);
+  }, [status]);
 
   useEffect(() => {
-    localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
-  }, [bookings]);
+    if (status === "authenticated") {
+      localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
+    }
+  }, [bookings, status]);
 
   function updateBookingStatus(idx: number, status: BookingStatus) {
     setBookings(prev =>
@@ -128,9 +72,68 @@ export default function AdminDashboard() {
     setTimeout(() => URL.revokeObjectURL(url), 500);
   }
 
+  if (status === "loading") {
+    return (
+      <div style={{ color: "#5EE6E6", textAlign: "center", marginTop: 60 }}>
+        Loading...
+      </div>
+    );
+  }
+
+  if (!session) {
+    return (
+      <main
+        style={{
+          minHeight: "100vh",
+          background: "#181F2B",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <h2 style={{ color: "#5EE6E6", marginBottom: 16 }}>Admin Login</h2>
+        <button
+          onClick={() => signIn()}
+          style={{
+            padding: "10px 24px",
+            borderRadius: 8,
+            fontWeight: 700,
+            background: "#5EE6E6",
+            color: "#151B26",
+            border: "none",
+            fontSize: 16,
+            cursor: "pointer",
+          }}
+        >
+          Sign in with GitHub
+        </button>
+      </main>
+    );
+  }
+
   return (
     <main style={{ padding: 32, background: "#181F2B", minHeight: "100vh" }}>
-      <h1 style={{ color: "#5EE6E6", fontWeight: 900, marginBottom: 32 }}>Admin Dashboard</h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1 style={{ color: "#5EE6E6", fontWeight: 900, marginBottom: 32 }}>
+          Admin Dashboard
+        </h1>
+        <button
+          onClick={() => signOut()}
+          style={{
+            padding: "8px 18px",
+            borderRadius: 7,
+            border: "none",
+            fontWeight: 700,
+            background: "#B06AB3",
+            color: "#fff",
+            fontSize: 15,
+            cursor: "pointer",
+          }}
+        >
+          Sign out
+        </button>
+      </div>
       <BookingsDashboard
         bookings={bookings}
         updateBookingStatus={updateBookingStatus}
@@ -146,29 +149,3 @@ export default function AdminDashboard() {
     </main>
   );
 }
-
-// --- Styles ---
-const primaryBtnStyle: React.CSSProperties = {
-  background: "linear-gradient(90deg, #4568DC 0%, #B06AB3 100%)",
-  color: "#F5F7FA",
-  padding: "0.85rem 2rem",
-  borderRadius: "2rem",
-  fontWeight: 700,
-  boxShadow: "0 2px 8px #151B2633",
-  fontSize: "1.05rem",
-  border: "none",
-  cursor: "pointer",
-  textDecoration: "none",
-  transition: "transform 0.08s"
-};
-const smallBtnStyle: React.CSSProperties = {
-  background: "rgba(36,44,61,0.92)",
-  color: "#5EE6E6",
-  border: "1.5px solid #5EE6E6",
-  padding: "0.3rem 1rem",
-  borderRadius: 8,
-  fontWeight: 600,
-  fontSize: 13,
-  cursor: "pointer",
-  transition: "background .1s"
-};
