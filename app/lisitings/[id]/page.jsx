@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import BookingModal from "../../components/BookingModal"; // adjust path if needed
 
 export default function YachtDetails() {
@@ -29,6 +30,17 @@ export default function YachtDetails() {
       padding: 16,
       color: "#fff"
     }}>
+      {/* Back to Listings Link */}
+      <Link href="/listings" style={{
+        color: "#5EE6E6",
+        textDecoration: "none",
+        fontWeight: 600,
+        fontSize: 18,
+        marginBottom: 24,
+        display: "inline-block"
+      }}>
+        ← Back to Listings
+      </Link>
       <div style={{
         background: "#232C3B",
         borderRadius: 18,
