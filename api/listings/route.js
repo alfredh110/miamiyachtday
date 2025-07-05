@@ -22,6 +22,26 @@ export async function GET(req) {
   }
 }
 
+// POST: Create a new listing
+export async function POST(req) {
+  try {
+    const data = await req.json();
+    // Remove id if present (to avoid accidental overwrite)
+    if (data.id) delete data.id;
+    // Set createdAt if not present
+    if (!data.createdAt) data.createdAt = new Date();
+    // Default approved to false unless specified
+    if (typeof data.approved !== "boolean") data.approved = false;
+    const created = await prisma.listing.create({ data });
+    return new Response(JSON.stringify(created), { status: 201 });
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ error: "Server error" }),
+      { status: 500 }
+    );
+  }
+}
+
 // PATCH: Edit or approve a listing
 export async function PATCH(req) {
   try {
