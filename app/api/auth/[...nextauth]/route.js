@@ -1,19 +1,19 @@
 import NextAuth from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+// Add other providers here if you want (ex: GitHubProvider)
 
 export const authOptions = {
   providers: [
-    GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    // Add more providers here (Google, Email, etc.)
+    // Add more providers if needed
   ],
   callbacks: {
-    async signIn({ user, account, profile, email }) {
-      // Optional: allow only your admin email(s)
-      // return user.email === "your-admin@email.com";
-      return true;
+    async signIn({ user }) {
+      // Only allow this email:
+      return user.email === "your.email@gmail.com"; // <-- CHANGE THIS!
     },
   },
 };
