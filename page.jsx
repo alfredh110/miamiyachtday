@@ -1,9 +1,9 @@
 export const metadata = {
-  title: "Luxury Yacht Charter Platform | YourAppName",
+  title: "Luxury Yacht Charter Platform | MIAMI YACHT DAY",
   description:
     "Book, browse, and list stunning yachts for charter. Discover luxury yacht experiences, explore featured yachts, and find your next adventure on the water.",
   openGraph: {
-    title: "Luxury Yacht Charter Platform | YourAppName",
+    title: "Luxury Yacht Charter Platform | MIAMI YACHT DAY",
     description:
       "Book, browse, and list stunning yachts for charter. Discover luxury yacht experiences, explore featured yachts, and find your next adventure on the water.",
     images: [
