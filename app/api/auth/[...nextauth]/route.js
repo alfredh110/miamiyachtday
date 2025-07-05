@@ -10,10 +10,11 @@ const handler = NextAuth({
   ],
   callbacks: {
     async signIn({ user }) {
-      // Only allow your admin email (change to your actual email)
-      return user.email === "your.email@gmail.com";
+      // Only allow your admin email
+      return user.email === "your.email@gmail.com"; // <-- Change to your actual email!
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export { handler as GET, handler as POST };
