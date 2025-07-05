@@ -11,6 +11,7 @@ export default function AdminListings() {
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [editing, setEditing] = useState(null);
+  const [creating, setCreating] = useState(false);
 
   const fetchListings = () => {
     setLoading(true);
@@ -78,6 +79,19 @@ export default function AdminListings() {
     setEditing(null);
   };
 
+  // CREATE HANDLERS
+  const handleCreate = () => setCreating(true);
+
+  const handleCreateSave = async (fields) => {
+    await fetch("/api/listings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fields),
+    });
+    setCreating(false);
+    fetchListings(); // refresh with new listing
+  };
+
   if (!authorized) {
     return (
       <div style={{ padding: "2rem", maxWidth: 400, margin: "80px auto", textAlign: "center" }}>
@@ -121,7 +135,24 @@ export default function AdminListings() {
 
   return (
     <div style={{ padding: "2rem", maxWidth: 1200, margin: "auto" }}>
-      <h1 style={{ color: "#5EE6E6", marginBottom: 32 }}>All Yacht Listings</h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32 }}>
+        <h1 style={{ color: "#5EE6E6" }}>All Yacht Listings</h1>
+        <button
+          onClick={handleCreate}
+          style={{
+            background: "linear-gradient(90deg, #46E6A6 0%, #5EE6E6 100%)",
+            color: "#222",
+            border: "none",
+            borderRadius: 10,
+            fontWeight: 700,
+            fontSize: 17,
+            padding: "0.7rem 1.2rem",
+            cursor: "pointer"
+          }}
+        >
+          + Add New Listing
+        </button>
+      </div>
       {loading ? (
         <div>Loading...</div>
       ) : listings.length === 0 ? (
@@ -228,10 +259,119 @@ export default function AdminListings() {
           onCancel={() => setEditing(null)}
         />
       )}
+      {creating && (
+        <CreateModal
+          onSave={handleCreateSave}
+          onCancel={() => setCreating(false)}
+        />
+      )}
     </div>
   );
 }
 
+// CLONE OF EDITMODAL, but starts blank and does POST
+function CreateModal({ onSave, onCancel }) {
+  const [form, setForm] = useState({
+    yachtName: "",
+    ownerName: "",
+    email: "",
+    phone: "",
+    length: "",
+    guests: "",
+    description: "",
+    photo: "",
+    approved: false,
+  });
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  const handleChange = (key, value) => setForm(f => ({ ...f, [key]: value }));
+
+  return (
+    <div style={{
+      position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
+      background: "rgba(30,40,56,0.93)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999
+    }}>
+      <div style={{ minWidth: 350, maxWidth: 420, background: "#232C3B", padding: 32, borderRadius: 12, color: "#fff" }}>
+        <h2 style={{ color: "#5EE6E6", marginBottom: 18 }}>Create New Listing</h2>
+        <div style={{ marginBottom: 10 }}>
+          <label>Yacht Name</label>
+          <input value={form.yachtName} onChange={e => handleChange("yachtName", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Owner Name</label>
+          <input value={form.ownerName} onChange={e => handleChange("ownerName", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Email</label>
+          <input value={form.email} onChange={e => handleChange("email", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Phone</label>
+          <input value={form.phone} onChange={e => handleChange("phone", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Length (ft)</label>
+          <input type="number" value={form.length} onChange={e => handleChange("length", Number(e.target.value))} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Max Guests</label>
+          <input type="number" value={form.guests} onChange={e => handleChange("guests", Number(e.target.value))} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Description</label>
+          <textarea value={form.description} onChange={e => handleChange("description", e.target.value)} style={{ ...inputStyle, minHeight: 60 }} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Photo URL</label>
+          <input
+            value={form.photo ?? ""}
+            onChange={e => handleChange("photo", e.target.value)}
+            style={inputStyle}
+            placeholder="Or upload below"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            style={{ marginTop: 8 }}
+            disabled={uploading}
+            onChange={async e => {
+              const file = e.target.files[0];
+              if (!file) return;
+              setUploading(true);
+              setUploadError("");
+              const formData = new FormData();
+              formData.append("file", file);
+              try {
+                const res = await fetch("/api/upload", {
+                  method: "POST",
+                  body: formData,
+                });
+                const data = await res.json();
+                if (data.url) {
+                  handleChange("photo", data.url);
+                } else {
+                  setUploadError("Upload failed");
+                }
+              } catch (err) {
+                setUploadError("Upload failed");
+              }
+              setUploading(false);
+            }}
+          />
+          {uploading && <div style={{ color: "#5EE6E6", marginTop: 6 }}>Uploading...</div>}
+          {uploadError && <div style={{ color: "#ED5B68", marginTop: 6 }}>{uploadError}</div>}
+        </div>
+        <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
+          <button onClick={() => onSave(form)} style={{ ...inputStyle, background: "#46E6A6", color: "#222", fontWeight: 700 }}>Save</button>
+          <button onClick={onCancel} style={{ ...inputStyle, background: "#ED5B68", color: "#fff", fontWeight: 700 }}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Existing EditModal remains unchanged (keep your previous version)
 function EditModal({ listing, onSave, onCancel }) {
   const [form, setForm] = useState({ ...listing });
   const [uploading, setUploading] = useState(false);
