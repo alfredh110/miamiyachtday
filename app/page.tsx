@@ -847,17 +847,28 @@ function ContactsDashboard({
 }
 
 // --- Booking Inquiry Form ---
-function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" | "status">) => void }) {
+function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" | "status"> & { phone: string, yacht: string }) => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [date, setDate] = useState("");
   const [guests, setGuests] = useState("");
+  const [yacht, setYacht] = useState("");
   const [occasion, setOccasion] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  // Available yachts for the dropdown
+  const yachtOptions = [
+    { value: "", label: "Select a Yacht*" },
+    { value: "Sundeck 26' Sport Boat", label: "Sundeck 26' Sport Boat" },
+    { value: "30' HURRICANE GRANDSON", label: "30' HURRICANE GRANDSON" },
+    { value: "31' BLACK PEAR AMBERJACK", label: "31' BLACK PEAR AMBERJACK" },
+    // Add more yacht names here if needed
+  ];
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !date.trim() || !guests.trim()) {
+    if (!name.trim() || !email.trim() || !phone.trim() || !date.trim() || !guests.trim() || !yacht.trim()) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -865,11 +876,13 @@ function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" |
     onSubmit({
       name: name.trim(),
       email: email.trim(),
+      phone: phone.trim(),
       date: date.trim(),
       guests: guests.trim(),
+      yacht: yacht.trim(),
       occasion: occasion.trim(),
     });
-    setName(""); setEmail(""); setDate(""); setGuests(""); setOccasion("");
+    setName(""); setEmail(""); setPhone(""); setDate(""); setGuests(""); setYacht(""); setOccasion("");
   }
 
   return (
@@ -877,8 +890,19 @@ function BookingForm({ onSubmit }: { onSubmit: (b: Omit<Booking, "submittedAt" |
       <h3 style={{ marginBottom: 8, color: "#5EE6E6" }}>Book a Yacht</h3>
       <input style={inputStyle} placeholder="Your Name*" required value={name} onChange={e => setName(e.target.value)} />
       <input style={inputStyle} placeholder="Email*" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
+      <input style={inputStyle} placeholder="Phone Number*" type="tel" required value={phone} onChange={e => setPhone(e.target.value)} />
       <input style={inputStyle} placeholder="Preferred Date*" type="date" required value={date} onChange={e => setDate(e.target.value)} />
       <input style={inputStyle} placeholder="Number of Guests*" required value={guests} onChange={e => setGuests(e.target.value)} />
+      <select
+        style={inputStyle}
+        required
+        value={yacht}
+        onChange={e => setYacht(e.target.value)}
+      >
+        {yachtOptions.map(opt => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
       <textarea style={inputStyle} placeholder="Tell us about your occasion" rows={3} value={occasion} onChange={e => setOccasion(e.target.value)} />
       {error && <div style={{ color: "#ff3a6a", fontWeight: 600, fontSize: 14 }}>{error}</div>}
       <AnimatedButton type="submit" style={{marginTop: 5}}>Send Inquiry</AnimatedButton>
