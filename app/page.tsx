@@ -1054,26 +1054,66 @@ function AboutContactForm({ onSubmit }: { onSubmit: (data: Omit<ContactMessage, 
   );
 }
 
-// --- Animated SVG Marine Background Component ---
-function WavesBackground() {
+// --- Premium SVG Marine Background (Full Wireframe Scenic Art, Animated!) ---
+function PremiumSVGBackground() {
   return (
-    <div style={{
-      position: "fixed",
-      width: "100vw",
-      height: "100vh",
-      top: 0,
-      left: 0,
-      zIndex: 0,
-      pointerEvents: "none",
-      overflow: "hidden"
-    }}>
-      <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 1440 900"
-        style={{ position: "absolute", bottom: 0, left: 0 }}
-        aria-hidden="true"
-      >
+    <div
+      style={{
+        position: "fixed",
+        width: "100vw",
+        height: "100vh",
+        top: 0,
+        left: 0,
+        zIndex: 0,
+        pointerEvents: "none",
+        overflow: "hidden"
+      }}
+      aria-hidden="true"
+    >
+      <svg width="100%" height="100%" viewBox="0 0 1440 2600" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position: "absolute", top: 0, left: 0}}>
+        <rect x="0" y="0" width="1440" height="90" fill="#23304B" fillOpacity="0.7"/>
+        <ellipse cx="720" cy="310" rx="520" ry="170" fill="#5EE6E6" fillOpacity="0.10"/>
+        <path d="M0 530 Q720 610 1440 530 V570 H0 V530Z" fill="#5EE6E6" fillOpacity="0.13">
+          <animate attributeName="d"
+            values="M0 530 Q720 610 1440 530 V570 H0 V530Z;M0 540 Q720 620 1440 540 V570 H0 V540Z;M0 530 Q720 610 1440 530 V570 H0 V530Z"
+            dur="10s" repeatCount="indefinite"
+          />
+        </path>
+        <path d="M0 980 Q720 1080 1440 980 V1020 H0 V980Z" fill="#4568DC" fillOpacity="0.13">
+          <animate attributeName="d"
+            values="M0 980 Q720 1080 1440 980 V1020 H0 V980Z;M0 1000 Q720 1060 1440 1000 V1020 H0 V1000Z;M0 980 Q720 1080 1440 980 V1020 H0 V980Z"
+            dur="14s" repeatCount="indefinite"
+          />
+        </path>
+        <path d="M0 1220 Q720 1300 1440 1220 V1300 H0 V1220Z" fill="#5EE6E6" fillOpacity="0.13">
+          <animate attributeName="d"
+            values="M0 1220 Q720 1300 1440 1220 V1300 H0 V1220Z;M0 1210 Q720 1310 1440 1210 V1300 H0 V1210Z;M0 1220 Q720 1300 1440 1220 V1300 H0 V1220Z"
+            dur="13s" repeatCount="indefinite"
+          />
+        </path>
+        <path d="M0 1700 Q720 1780 1440 1700 V1780 H0 V1700Z" fill="#4568DC" fillOpacity="0.13">
+          <animate attributeName="d"
+            values="M0 1700 Q720 1780 1440 1700 V1780 H0 V1700Z;M0 1720 Q720 1760 1440 1720 V1780 H0 V1720Z;M0 1700 Q720 1780 1440 1700 V1780 H0 V1700Z"
+            dur="11s" repeatCount="indefinite"
+          />
+        </path>
+        <path d="M0,800 Q360,740 720,800 T1440,800 V900 H0 Z" fill="url(#wave1)">
+          <animate attributeName="d"
+            values="M0,800 Q360,740 720,800 T1440,800 V900 H0 Z;M0,810 Q400,750 720,810 T1440,800 V900 H0 Z;M0,800 Q360,740 720,800 T1440,800 V900 H0 Z"
+            dur="18s" repeatCount="indefinite"
+          />
+        </path>
+        <path d="M0,850 Q400,770 900,850 T1440,860 V900 H0 Z" fill="url(#wave2)">
+          <animate attributeName="d"
+            values="M0,850 Q400,770 900,850 T1440,860 V900 H0 Z;M0,860 Q420,780 900,860 T1440,870 V900 H0 Z;M0,850 Q400,770 900,850 T1440,860 V900 H0 Z"
+            dur="24s" repeatCount="indefinite"
+          />
+        </path>
+        <ellipse cx="170" cy="2520" rx="65" ry="40" fill="#4568DC" fillOpacity="0.11"/>
+        <circle cx="170" cy="2520" r="24" fill="#FFD700"/>
+        <circle cx="1300" cy="2510" r="18" fill="#FFD700"/>
+        <circle cx="1340" cy="2510" r="18" fill="#FFD700"/>
+        <circle cx="1380" cy="2510" r="18" fill="#FFD700"/>
         <defs>
           <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="1">
             <stop stopColor="#4568DC" stopOpacity="0.13" />
@@ -1084,39 +1124,10 @@ function WavesBackground() {
             <stop offset="1" stopColor="#232B3B" stopOpacity="0.08" />
           </linearGradient>
         </defs>
-        <g>
-          <path
-            d="M0,800 Q360,740 720,800 T1440,800 V900 H0 Z"
-            fill="url(#wave1)"
-            style={{
-              animation: "waveMove1 18s linear infinite alternate"
-            }}
-          />
-          <path
-            d="M0,850 Q400,770 900,850 T1440,860 V900 H0 Z"
-            fill="url(#wave2)"
-            style={{
-              animation: "waveMove2 24s linear infinite alternate"
-            }}
-          />
-        </g>
       </svg>
-      <style jsx global>{`
-        @keyframes waveMove1 {
-          0% { transform: translateY(0px) scaleX(1); }
-          50% { transform: translateY(16px) scaleX(1.02); }
-          100% { transform: translateY(0px) scaleX(1); }
-        }
-        @keyframes waveMove2 {
-          0% { transform: translateY(0px) scaleX(1); }
-          50% { transform: translateY(-14px) scaleX(1.01); }
-          100% { transform: translateY(0px) scaleX(1); }
-        }
-      `}</style>
     </div>
   );
 }
-
 // --- Styles ---
 const primaryBtnStyle = {
   background: "linear-gradient(90deg, #4568DC 0%, #B06AB3 100%)",
