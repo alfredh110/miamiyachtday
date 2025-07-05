@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Fetch all listings
+// GET: Fetch all listings
 export async function GET(req) {
   try {
     const listings = await prisma.listing.findMany({
@@ -20,7 +20,7 @@ export async function GET(req) {
   }
 }
 
-// Delete a listing by ID
+// DELETE: Delete a listing by ID
 export async function DELETE(req) {
   try {
     const { id } = await req.json();
