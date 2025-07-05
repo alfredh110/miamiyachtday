@@ -74,7 +74,7 @@ type ContactMessage = {
   submittedAt: string;
   archived?: boolean;
 };
-export default function Home() {
+
 // --- Premium SVG Marine Background ---
 function PremiumSVGBackground() {
   return (
@@ -149,6 +149,11 @@ function PremiumSVGBackground() {
     </div>
   );
 }
+
+export default function Home(){
+  return (
+    <>
+      <PremiumSVGBackground />
 
 // --- Animated Button with Ripple/Scale ---
 function AnimatedButton({ onClick, children, big, secondary, style, type = "button" }: any) {
