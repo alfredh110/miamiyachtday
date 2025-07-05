@@ -10,6 +10,7 @@ export default function BookingModal({ onClose }) {
     yacht: "",
     message: ""
   });
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
@@ -19,21 +20,41 @@ export default function BookingModal({ onClose }) {
     setError(""); // Clear error on change
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    // Simple validation
     if (!form.name || !form.email || !form.phone || !form.date || !form.yacht) {
       setError("Please fill in all required fields.");
       return;
     }
-    // Optionally: Validate phone number format (simple US example)
+    // Simple phone validation
     const phoneDigits = form.phone.replace(/\D/g, "");
     if (phoneDigits.length < 10) {
       setError("Please enter a valid phone number.");
       return;
     }
-    // Here you could POST to your API or backend
-    setSubmitted(true);
+
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Submission failed.");
+        setSubmitting(false);
+        return;
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -126,7 +147,17 @@ export default function BookingModal({ onClose }) {
             />
           </label>
           {error && <div style={{ color: "#FFD700", marginBottom: 8 }}>{error}</div>}
-          <button type="submit" style={actionButtonStyle}>Submit Booking</button>
+          <button
+            type="submit"
+            style={{
+              ...actionButtonStyle,
+              opacity: submitting ? 0.6 : 1,
+              pointerEvents: submitting ? "none" : "auto",
+            }}
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit Booking"}
+          </button>
         </form>
       </div>
     </div>
