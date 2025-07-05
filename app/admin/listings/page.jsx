@@ -234,6 +234,8 @@ export default function AdminListings() {
 
 function EditModal({ listing, onSave, onCancel }) {
   const [form, setForm] = useState({ ...listing });
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   const handleChange = (key, value) => setForm(f => ({ ...f, [key]: value }));
 
@@ -274,7 +276,43 @@ function EditModal({ listing, onSave, onCancel }) {
         </div>
         <div style={{ marginBottom: 10 }}>
           <label>Photo URL</label>
-          <input value={form.photo ?? ""} onChange={e => handleChange("photo", e.target.value)} style={inputStyle} />
+          <input
+            value={form.photo ?? ""}
+            onChange={e => handleChange("photo", e.target.value)}
+            style={inputStyle}
+            placeholder="Or upload below"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            style={{ marginTop: 8 }}
+            disabled={uploading}
+            onChange={async e => {
+              const file = e.target.files[0];
+              if (!file) return;
+              setUploading(true);
+              setUploadError("");
+              const formData = new FormData();
+              formData.append("file", file);
+              try {
+                const res = await fetch("/api/upload", {
+                  method: "POST",
+                  body: formData,
+                });
+                const data = await res.json();
+                if (data.url) {
+                  handleChange("photo", data.url);
+                } else {
+                  setUploadError("Upload failed");
+                }
+              } catch (err) {
+                setUploadError("Upload failed");
+              }
+              setUploading(false);
+            }}
+          />
+          {uploading && <div style={{ color: "#5EE6E6", marginTop: 6 }}>Uploading...</div>}
+          {uploadError && <div style={{ color: "#ED5B68", marginTop: 6 }}>{uploadError}</div>}
         </div>
         <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
           <button onClick={() => onSave(form)} style={{ ...inputStyle, background: "#46E6A6", color: "#222", fontWeight: 700 }}>Save</button>
