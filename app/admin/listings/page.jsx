@@ -9,15 +9,21 @@ export default function AdminListings() {
   const [authorized, setAuthorized] = useState(false);
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState(null);
+
+  const fetchListings = () => {
+    setLoading(true);
+    fetch("/api/listings")
+      .then(res => res.json())
+      .then(data => {
+        setListings(data);
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     if (authorized) {
-      fetch("/api/listings")
-        .then(res => res.json())
-        .then(data => {
-          setListings(data);
-          setLoading(false);
-        });
+      fetchListings();
     }
   }, [authorized]);
 
@@ -29,6 +35,26 @@ export default function AdminListings() {
     } else {
       setError("Incorrect password.");
     }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this listing?")) return;
+    setDeletingId(id);
+    try {
+      const res = await fetch("/api/listings", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setListings(listings => listings.filter(l => l.id !== id));
+      } else {
+        alert("Failed to delete listing.");
+      }
+    } catch {
+      alert("Failed to delete listing.");
+    }
+    setDeletingId(null);
   };
 
   if (!authorized) {
@@ -93,6 +119,7 @@ export default function AdminListings() {
                 <th style={thStyle}>Description</th>
                 <th style={thStyle}>Photo</th>
                 <th style={thStyle}>Created</th>
+                <th style={thStyle}>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -115,6 +142,24 @@ export default function AdminListings() {
                     )}
                   </td>
                   <td style={tdStyle}>{new Date(l.createdAt).toLocaleString()}</td>
+                  <td style={tdStyle}>
+                    <button
+                      onClick={() => handleDelete(l.id)}
+                      style={{
+                        padding: "0.4em 1em",
+                        background: "#ED5B68",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: 7,
+                        fontWeight: 700,
+                        cursor: deletingId === l.id ? "wait" : "pointer",
+                        opacity: deletingId === l.id ? 0.6 : 1,
+                      }}
+                      disabled={deletingId === l.id}
+                    >
+                      {deletingId === l.id ? "..." : "Delete"}
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
