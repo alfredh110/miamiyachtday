@@ -91,69 +91,121 @@ function PremiumSVGBackground() {
       }}
       aria-hidden="true"
     >
-      <svg width="100%" height="100%" viewBox="0 0 1440 2600" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position: "absolute", top: 0, left: 0}}>
+      <svg width="1440" height="2600" viewBox="0 0 1440 2600" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position: "absolute", top: 0, left: 0}}>
+        {/* Background */}
+        <rect width="1440" height="2600" fill="#1A2330"/>
+        {/* Navbar */}
         <rect x="0" y="0" width="1440" height="90" fill="#23304B" fillOpacity="0.7"/>
+        <text x="80" y="62" fontFamily="Montserrat" fontSize="38" fill="#FFD700" fontWeight="bold">Miami Yacht Day</text>
+        <rect x="1160" y="26" width="120" height="38" rx="19" fill="url(#g1)"/>
+        <rect x="1300" y="26" width="120" height="38" rx="19" fill="url(#g1)"/>
+        <text x="1180" y="54" fontSize="17" fill="#fff" fontFamily="Montserrat">Book a Yacht</text>
+        <text x="1320" y="54" fontSize="17" fill="#fff" fontFamily="Montserrat">List Yacht</text>
+        {/* Hero: video/photo background, glassmorphism card overlay */}
+        <rect x="0" y="90" width="1440" height="440" rx="0" fill="url(#g2)"/>
         <ellipse cx="720" cy="310" rx="520" ry="170" fill="#5EE6E6" fillOpacity="0.10"/>
-        <path d="M0 530 Q720 610 1440 530 V570 H0 V530Z" fill="#5EE6E6" fillOpacity="0.13">
-          <animate attributeName="d"
-            values="M0 530 Q720 610 1440 530 V570 H0 V530Z;M0 540 Q720 620 1440 540 V570 H0 V540Z;M0 530 Q720 610 1440 530 V570 H0 V530Z"
-            dur="10s" repeatCount="indefinite"
-          />
-        </path>
-        <path d="M0 980 Q720 1080 1440 980 V1020 H0 V980Z" fill="#4568DC" fillOpacity="0.13">
-          <animate attributeName="d"
-            values="M0 980 Q720 1080 1440 980 V1020 H0 V980Z;M0 1000 Q720 1060 1440 1000 V1020 H0 V1000Z;M0 980 Q720 1080 1440 980 V1020 H0 V980Z"
-            dur="14s" repeatCount="indefinite"
-          />
-        </path>
-        <path d="M0 1220 Q720 1300 1440 1220 V1300 H0 V1220Z" fill="#5EE6E6" fillOpacity="0.13">
-          <animate attributeName="d"
-            values="M0 1220 Q720 1300 1440 1220 V1300 H0 V1220Z;M0 1210 Q720 1310 1440 1210 V1300 H0 V1210Z;M0 1220 Q720 1300 1440 1220 V1300 H0 V1220Z"
-            dur="13s" repeatCount="indefinite"
-          />
-        </path>
-        <path d="M0 1700 Q720 1780 1440 1700 V1780 H0 V1700Z" fill="#4568DC" fillOpacity="0.13">
-          <animate attributeName="d"
-            values="M0 1700 Q720 1780 1440 1700 V1780 H0 V1700Z;M0 1720 Q720 1760 1440 1720 V1780 H0 V1720Z;M0 1700 Q720 1780 1440 1700 V1780 H0 V1700Z"
-            dur="11s" repeatCount="indefinite"
-          />
-        </path>
-        <path d="M0,800 Q360,740 720,800 T1440,800 V900 H0 Z" fill="url(#wave1)">
-          <animate attributeName="d"
-            values="M0,800 Q360,740 720,800 T1440,800 V900 H0 Z;M0,810 Q400,750 720,810 T1440,800 V900 H0 Z;M0,800 Q360,740 720,800 T1440,800 V900 H0 Z"
-            dur="18s" repeatCount="indefinite"
-          />
-        </path>
-        <path d="M0,850 Q400,770 900,850 T1440,860 V900 H0 Z" fill="url(#wave2)">
-          <animate attributeName="d"
-            values="M0,850 Q400,770 900,850 T1440,860 V900 H0 Z;M0,860 Q420,780 900,860 T1440,870 V900 H0 Z;M0,850 Q400,770 900,850 T1440,860 V900 H0 Z"
-            dur="24s" repeatCount="indefinite"
-          />
-        </path>
+        <rect x="320" y="220" width="800" height="180" rx="36" fill="#23304B" fillOpacity="0.34" style={{backdropFilter: "blur(12px)"}}/>
+        <text x="390" y="310" fontSize="48" fill="#fff" fontFamily="Montserrat" fontWeight="bold">Charter Miami&apos;s Finest Yachts</text>
+        <text x="410" y="360" fontSize="24" fill="#B0BED8" fontFamily="Montserrat">Effortless booking. Unforgettable luxury.</text>
+        <rect x="580" y="380" width="140" height="48" rx="24" fill="url(#g1)"/>
+        <rect x="740" y="380" width="140" height="48" rx="24" fill="url(#g1)"/>
+        <text x="605" y="412" fontSize="18" fill="#fff" fontFamily="Montserrat" fontWeight="bold">Book Now</text>
+        <text x="770" y="412" fontSize="18" fill="#fff" fontFamily="Montserrat" fontWeight="bold">See Yachts</text>
+        {/* Animated wave SVG divider */}
+        <path d="M0 530 Q720 610 1440 530 V570 H0 V530Z" fill="#5EE6E6" fillOpacity="0.13"/>
+        {/* Featured Yachts carousel */}
+        <text x="90" y="650" fontSize="34" fill="#5EE6E6" fontFamily="Montserrat" fontWeight="600">Featured Yachts</text>
+        {/* Yacht cards with 3D tilt effect (visualized as shadow) */}
+        <rect x="120" y="680" width="340" height="260" rx="34" fill="#19202C" stroke="#FFD700" strokeWidth="2"/>
+        <rect x="550" y="680" width="340" height="260" rx="34" fill="#19202C" stroke="#FFD700" strokeWidth="2"/>
+        <rect x="980" y="680" width="340" height="260" rx="34" fill="#19202C" stroke="#FFD700" strokeWidth="2"/>
+        <text x="180" y="770" fontSize="22" fill="#fff" fontFamily="Montserrat">[Yacht 1 Name]</text>
+        <text x="610" y="770" fontSize="22" fill="#fff" fontFamily="Montserrat">[Yacht 2 Name]</text>
+        <text x="1040" y="770" fontSize="22" fill="#fff" fontFamily="Montserrat">[Yacht 3 Name]</text>
+        <rect x="210" y="860" width="160" height="44" rx="22" fill="url(#g1)"/>
+        <rect x="640" y="860" width="160" height="44" rx="22" fill="url(#g1)"/>
+        <rect x="1070" y="860" width="160" height="44" rx="22" fill="url(#g1)"/>
+        <text x="250" y="890" fontSize="16" fill="#fff" fontFamily="Montserrat">Book This Yacht</text>
+        <text x="682" y="890" fontSize="16" fill="#fff" fontFamily="Montserrat">Book This Yacht</text>
+        <text x="1112" y="890" fontSize="16" fill="#fff" fontFamily="Montserrat">Book This Yacht</text>
+        {/* Animated wave SVG divider */}
+        <path d="M0 980 Q720 1080 1440 980 V1020 H0 V980Z" fill="#4568DC" fillOpacity="0.13"/>
+        {/* How It Works, with animated icons */}
+        <rect x="0" y="1040" width="1440" height="180" fill="#232B3B" fillOpacity="0.73"/>
+        <text x="100" y="1120" fontSize="32" fill="#5EE6E6" fontFamily="Montserrat" fontWeight="600">How It Works</text>
+        <circle cx="380" cy="1160" r="44" fill="#5EE6E6" fillOpacity="0.11"/>
+        <circle cx="720" cy="1160" r="44" fill="#5EE6E6" fillOpacity="0.11"/>
+        <circle cx="1060" cy="1160" r="44" fill="#5EE6E6" fillOpacity="0.11"/>
+        <text x="360" y="1172" fontSize="34" fill="#fff">🔎</text>
+        <text x="705" y="1172" fontSize="34" fill="#fff">📝</text>
+        <text x="1038" y="1172" fontSize="34" fill="#fff">⛵</text>
+        <text x="320" y="1215" fontSize="18" fill="#B0BED8">Find Yacht</text>
+        <text x="670" y="1215" fontSize="18" fill="#B0BED8">Book Instantly</text>
+        <text x="1010" y="1215" fontSize="18" fill="#B0BED8">Enjoy Miami</text>
+        {/* Animated wave SVG divider */}
+        <path d="M0 1220 Q720 1300 1440 1220 V1300 H0 V1220Z" fill="#5EE6E6" fillOpacity="0.13"/>
+        {/* Gallery masonry grid */}
+        <text x="90" y="1380" fontSize="32" fill="#5EE6E6" fontFamily="Montserrat" fontWeight="600">Gallery</text>
+        <rect x="120" y="1410" width="260" height="160" rx="18" fill="#fff" fillOpacity="0.11"/>
+        <rect x="420" y="1410" width="220" height="120" rx="18" fill="#fff" fillOpacity="0.11"/>
+        <rect x="680" y="1410" width="340" height="220" rx="18" fill="#fff" fillOpacity="0.11"/>
+        <rect x="1050" y="1410" width="220" height="120" rx="18" fill="#fff" fillOpacity="0.11"/>
+        <rect x="210" y="1550" width="220" height="120" rx="18" fill="#fff" fillOpacity="0.11"/>
+        <rect x="480" y="1550" width="220" height="120" rx="18" fill="#fff" fillOpacity="0.11"/>
+        <rect x="750" y="1550" width="220" height="120" rx="18" fill="#fff" fillOpacity="0.11"/>
+        {/* Animated wave SVG divider */}
+        <path d="M0 1700 Q720 1780 1440 1700 V1780 H0 V1700Z" fill="#4568DC" fillOpacity="0.13"/>
+        {/* Testimonials: bobbing bubbles */}
+        <text x="90" y="1850" fontSize="32" fill="#5EE6E6" fontFamily="Montserrat" fontWeight="600">Testimonials</text>
+        <ellipse cx="350" cy="1900" rx="106" ry="52" fill="#23304B" fillOpacity="0.47"/>
+        <ellipse cx="720" cy="1940" rx="106" ry="52" fill="#23304B" fillOpacity="0.47"/>
+        <ellipse cx="1090" cy="1900" rx="106" ry="52" fill="#23304B" fillOpacity="0.47"/>
+        <circle cx="350" cy="1890" r="36" fill="#FFD700" stroke="#fff" strokeWidth="4"/>
+        <circle cx="720" cy="1930" r="36" fill="#FFD700" stroke="#fff" strokeWidth="4"/>
+        <circle cx="1090" cy="1890" r="36" fill="#FFD700" stroke="#fff" strokeWidth="4"/>
+        <text x="320" y="1920" fontSize="20" fill="#fff">"Best trip ever!"</text>
+        <text x="690" y="1960" fontSize="20" fill="#fff">"Booking was SO easy!"</text>
+        <text x="1040" y="1920" fontSize="20" fill="#fff">"Felt like royalty."</text>
+        {/* Multi-step booking modal (visualized as card) */}
+        <rect x="520" y="2100" width="400" height="155" rx="26" fill="#23304B" fillOpacity="0.88" stroke="#5EE6E6" strokeWidth="2"/>
+        <rect x="530" y="2112" width="380" height="18" rx="9" fill="#5EE6E6" fillOpacity="0.17"/>
+        <rect x="530" y="2112" width="127" height="18" rx="9" fill="#5EE6E6" />
+        <text x="570" y="2145" fontSize="18" fill="#fff" fontFamily="Montserrat">Your Info → Choose Yacht → Confirm</text>
+        <rect x="660" y="2160" width="120" height="38" rx="19" fill="url(#g1)"/>
+        <text x="687" y="2187" fontSize="17" fill="#fff" fontFamily="Montserrat">Continue</text>
+        {/* CTA Section */}
+        <rect x="400" y="2280" width="640" height="90" rx="40" fill="#4568DC" fillOpacity="0.15"/>
+        <text x="520" y="2330" fontSize="28" fill="#fff" fontFamily="Montserrat" fontWeight="bold">Ready to sail? Book your Miami Yacht Day!</text>
+        <rect x="610" y="2340" width="220" height="55" rx="28" fill="url(#g1)"/>
+        <text x="680" y="2375" fontSize="22" fill="#fff" fontFamily="Montserrat" fontWeight="bold">Book Now</text>
+        {/* Footer with nautical map, socials as ship wheel/compass */}
+        <rect x="0" y="2450" width="1440" height="150" fill="#23304B"/>
         <ellipse cx="170" cy="2520" rx="65" ry="40" fill="#4568DC" fillOpacity="0.11"/>
         <circle cx="170" cy="2520" r="24" fill="#FFD700"/>
+        <text x="210" y="2528" fontSize="22" fill="#FFD700" fontFamily="Montserrat">© Miami Yacht Day</text>
         <circle cx="1300" cy="2510" r="18" fill="#FFD700"/>
         <circle cx="1340" cy="2510" r="18" fill="#FFD700"/>
         <circle cx="1380" cy="2510" r="18" fill="#FFD700"/>
+        <text x="1287" y="2550" fontSize="16" fill="#FFD700" fontFamily="Montserrat">IG</text>
+        <text x="1327" y="2550" fontSize="16" fill="#FFD700" fontFamily="Montserrat">FB</text>
+        <text x="1367" y="2550" fontSize="16" fill="#FFD700" fontFamily="Montserrat">X</text>
         <defs>
-          <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="1">
-            <stop stopColor="#4568DC" stopOpacity="0.13" />
-            <stop offset="1" stopColor="#B06AB3" stopOpacity="0.13" />
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+            <stop stopColor="#4568DC"/>
+            <stop offset="1" stopColor="#5EE6E6"/>
           </linearGradient>
-          <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="1">
-            <stop stopColor="#5EE6E6" stopOpacity="0.11" />
-            <stop offset="1" stopColor="#232B3B" stopOpacity="0.08" />
+          <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+            <stop stopColor="#1A2330"/>
+            <stop offset="1" stopColor="#5EE6E6" stopOpacity="0.12"/>
           </linearGradient>
+          <filter id="shadow" x="0" y="0" width="1440" height="2600">
+            <feDropShadow dx="0" dy="5" stdDeviation="8" floodColor="#23304B"/>
+          </filter>
         </defs>
       </svg>
     </div>
   );
 }
-
-export default function Home(){
-  return (
-    <>
-      <PremiumSVGBackground />
 
 // --- Animated Button with Ripple/Scale ---
 function AnimatedButton({ onClick, children, big, secondary, style, type = "button" }: any) {
