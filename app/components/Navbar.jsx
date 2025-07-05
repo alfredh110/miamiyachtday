@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function Navbar({ onBook, onList }) {
   return (
@@ -27,7 +28,29 @@ export default function Navbar({ onBook, onList }) {
       }}>
         Miami Yacht Day
       </div>
-      <div style={{ display: "flex", gap: 24 }}>
+      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        <Link
+          href="/listings"
+          style={{
+            minWidth: 120,
+            height: 38,
+            borderRadius: 19,
+            background: "linear-gradient(90deg, #5EE6E6 0%, #4568DC 100%)",
+            border: "none",
+            color: "#fff",
+            fontFamily: "Montserrat, sans-serif",
+            fontWeight: 600,
+            fontSize: 17,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
+            cursor: "pointer",
+            transition: "background 0.2s"
+          }}
+        >
+          Listings
+        </Link>
         <button
           style={{
             minWidth: 120,
