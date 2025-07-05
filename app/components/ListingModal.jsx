@@ -9,21 +9,19 @@ export default function ListingModal({ onClose }) {
     length: "",
     guests: "",
     description: "",
-    photo: null
+    photo: "",
   });
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = e => {
-    const { name, value, files } = e.target;
-    setForm(prev => ({
-      ...prev,
-      [name]: files ? files[0] : value
-    }));
-    setError("");
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+    setError(""); // Clear error on change
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     if (
       !form.yachtName ||
@@ -37,8 +35,28 @@ export default function ListingModal({ onClose }) {
       setError("Please fill in all required fields.");
       return;
     }
-    // Optionally: Validate email/phone here
-    setSubmitted(true);
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/listing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Submission failed.");
+        setSubmitting(false);
+        return;
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -83,7 +101,7 @@ export default function ListingModal({ onClose }) {
             />
           </label>
           <label style={labelStyle}>
-            Owner Email*
+            Email*
             <input
               style={inputStyle}
               type="email"
@@ -110,25 +128,23 @@ export default function ListingModal({ onClose }) {
             <input
               style={inputStyle}
               type="number"
-              min={1}
               name="length"
               value={form.length}
               onChange={handleChange}
+              min={10}
               required
-              placeholder="e.g. 60"
             />
           </label>
           <label style={labelStyle}>
-            Number of Guests*
+            Max Guests*
             <input
               style={inputStyle}
               type="number"
-              min={1}
               name="guests"
               value={form.guests}
               onChange={handleChange}
+              min={1}
               required
-              placeholder="e.g. 12"
             />
           </label>
           <label style={labelStyle}>
@@ -139,93 +155,102 @@ export default function ListingModal({ onClose }) {
               value={form.description}
               onChange={handleChange}
               required
-              placeholder="Describe your yacht, amenities, crew, etc."
+              placeholder="Describe your yacht and amenities"
             />
           </label>
           <label style={labelStyle}>
-            Photo
+            Photo URL
             <input
               style={inputStyle}
-              type="file"
+              type="url"
               name="photo"
-              accept="image/*"
+              value={form.photo}
               onChange={handleChange}
+              placeholder="Paste a photo URL (optional)"
             />
-            <span style={{ fontSize: 12, color: "#8CA2C6" }}>
-              (optional, for demo only — not uploaded anywhere)
-            </span>
           </label>
           {error && <div style={{ color: "#FFD700", marginBottom: 8 }}>{error}</div>}
-          <button type="submit" style={actionButtonStyle}>Submit Listing</button>
+          <button
+            type="submit"
+            style={{
+              ...actionButtonStyle,
+              opacity: submitting ? 0.6 : 1,
+              pointerEvents: submitting ? "none" : "auto",
+            }}
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit Listing"}
+          </button>
         </form>
       </div>
     </div>
   );
 }
 
-// Styles (same as BookingModal for consistency)
+// Styles
 const overlayStyle = {
   position: "fixed",
-  zIndex: 1000,
-  left: 0, top: 0, right: 0, bottom: 0,
-  background: "rgba(20,26,38,0.76)",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "100vh",
+  background: "rgba(20,30,50,0.82)",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center"
+  justifyContent: "center",
+  zIndex: 1000,
 };
 
 const modalStyle = {
-  background: "rgba(36,44,61,0.96)",
-  borderRadius: 24,
-  padding: "2rem 2.3rem",
-  boxShadow: "0 8px 36px #151B2633",
+  background: "#192132",
+  color: "#fff",
+  borderRadius: 16,
+  padding: "28px 32px 24px 32px",
   minWidth: 340,
-  maxWidth: 400,
-  width: "90vw",
-  position: "relative"
+  maxWidth: 420,
+  boxShadow: "0 8px 32px rgba(10,30,80,0.12)",
+  position: "relative",
 };
 
 const closeButtonStyle = {
   position: "absolute",
-  right: 18,
-  top: 16,
-  fontSize: 30,
+  top: 8,
+  right: 14,
   background: "none",
-  color: "#5EE6E6",
   border: "none",
+  fontSize: 28,
+  color: "#7DE6E6",
   cursor: "pointer",
-  lineHeight: 1
+  fontWeight: 700,
 };
 
 const labelStyle = {
-  color: "#B0BED8",
-  fontWeight: 600,
-  fontSize: 16,
   display: "flex",
   flexDirection: "column",
-  gap: 4
+  fontWeight: 500,
+  color: "#B0BED8",
+  fontSize: 15,
+  gap: 6,
 };
 
 const inputStyle = {
-  marginTop: 4,
-  borderRadius: 10,
-  border: "1.3px solid #23304B",
-  padding: "0.55rem 0.9rem",
+  padding: "9px 12px",
+  borderRadius: 8,
+  border: "1px solid #314164",
   fontSize: 16,
-  background: "#22304B",
+  background: "#222A3C",
   color: "#fff",
-  outline: "none"
+  marginTop: 3,
 };
 
 const actionButtonStyle = {
-  marginTop: 8,
   background: "linear-gradient(90deg, #4568DC 0%, #5EE6E6 100%)",
   color: "#fff",
   border: "none",
-  borderRadius: 16,
+  borderRadius: 12,
   fontWeight: 700,
   fontSize: 17,
-  padding: "0.8rem 1.3rem",
+  padding: "0.7rem 1.2rem",
+  marginTop: 12,
   cursor: "pointer",
-  boxShadow: "0 2px 8px #151B2633"
 };
