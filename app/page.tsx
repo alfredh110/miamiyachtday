@@ -74,7 +74,7 @@ type ContactMessage = {
   submittedAt: string;
   archived?: boolean;
 };
-
+export default function Home() {
 // --- Premium SVG Marine Background ---
 function PremiumSVGBackground() {
   return (
