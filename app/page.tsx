@@ -823,7 +823,7 @@ function Home() {
         flexDirection: "column",
         position: "relative",
         overflow: "hidden",
-        background: "linear-gradient(135deg, #151B26 60%, #232B3B 100%)"
+        background: "linear-gradient(135deg, rgba(21,27,38,0.85) 60%, rgba(35,43,59,0.85) 100%)"
       }}
     >
       {/* NAVIGATION */}
