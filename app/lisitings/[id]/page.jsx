@@ -1,3 +1,36 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+// Dynamic metadata for SEO
+export async function generateMetadata({ params }) {
+  // Fetch yacht details from API (server-side) for meta tags
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/listings/${params.id}`, { cache: "no-store" });
+  if (!res.ok) return {};
+  const yacht = await res.json();
+  if (!yacht?.yachtName) return {};
+
+  return {
+    title: `${yacht.yachtName} | Yacht Details | YourAppName`,
+    description: yacht.description
+      ? yacht.description.slice(0, 160)
+      : `Details and booking for ${yacht.yachtName}.`,
+    openGraph: {
+      title: `${yacht.yachtName} | Yacht Details | YourAppName`,
+      description: yacht.description
+        ? yacht.description.slice(0, 160)
+        : `Details and booking for ${yacht.yachtName}.`,
+      images: [
+        {
+          url: yacht.photo || "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: yacht.yachtName,
+        },
+      ],
+    },
+  };
+}
+
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
