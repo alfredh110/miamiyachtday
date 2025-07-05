@@ -1,8 +1,108 @@
-/* Global CSS reset and styles for your app */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: system-ui, sans-serif;
-  background: #181F2B;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
+
+:root {
+  --primary-bg: #1A2330;
+  --navbar-bg: #23304B;
+  --accent-blue: #5EE6E6;
+  --accent-purple: #4568DC;
+  --accent-gold: #FFD700;
+  --neutral-light: #F5F7FA;
+  --neutral-grey: #B0BED8;
+  --glass-dark: rgba(35, 48, 75, 0.34);
+  --glass-overlay: rgba(36,44,61,0.82);
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--primary-bg);
+  color: var(--neutral-light);
+  font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--accent-gold);
+}
+
+.glass {
+  background: var(--glass-dark);
+  backdrop-filter: blur(12px);
+  border-radius: 36px;
+  box-shadow: 0 8px 36px #151B2633;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
   color: #fff;
+  border: none;
+  border-radius: 28px;
+  padding: 1rem 2.2rem;
+  font-weight: 700;
+  font-size: 1.12rem;
+  box-shadow: 0 2px 8px #151B2633;
+  transition: transform .08s, background 0.2s;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.btn-gold {
+  background: var(--accent-gold);
+  color: var(--primary-bg);
+  font-weight: 700;
+  border: none;
+  border-radius: 22px;
+  padding: 0.7rem 2rem;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px #151B2633;
+  transition: transform .1s;
+}
+
+.btn-gold:hover {
+  background: #fffbe3;
+  color: #b19700;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.section-title {
+  color: var(--accent-blue);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+.hero-glass {
+  background: var(--glass-dark);
+  backdrop-filter: blur(16px);
+  border-radius: 36px;
+  padding: 2.5rem 4rem;
+  box-shadow: 0 8px 36px #151B2633;
+  margin: 0 auto;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  max-width: 840px;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: var(--primary-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navbar-bg);
+  border-radius: 8px;
 }
