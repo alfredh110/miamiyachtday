@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const ADMIN_PASSWORD = "Boohoo39"; // Change this to your actual admin password!
+const ADMIN_PASSWORD = "Boohoo39";
 
 export default function AdminListings() {
   const [listings, setListings] = useState([]);
@@ -10,10 +10,11 @@ export default function AdminListings() {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
+  const [editing, setEditing] = useState(null);
 
   const fetchListings = () => {
     setLoading(true);
-    fetch("/api/listings")
+    fetch("/api/listings", { headers: { "x-admin": "true" } })
       .then(res => res.json())
       .then(data => {
         setListings(data);
@@ -22,9 +23,7 @@ export default function AdminListings() {
   };
 
   useEffect(() => {
-    if (authorized) {
-      fetchListings();
-    }
+    if (authorized) fetchListings();
   }, [authorized]);
 
   const handleLogin = (e) => {
@@ -55,6 +54,28 @@ export default function AdminListings() {
       alert("Failed to delete listing.");
     }
     setDeletingId(null);
+  };
+
+  const handleApprove = async (id, approved) => {
+    await fetch("/api/listings", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, approved }),
+    });
+    setListings(listings => listings.map(l => l.id === id ? { ...l, approved } : l));
+  };
+
+  const handleEdit = (listing) => setEditing(listing);
+
+  const handleEditSave = async (fields) => {
+    const { id, ...rest } = fields;
+    await fetch("/api/listings", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, ...rest }),
+    });
+    setListings(listings => listings.map(l => l.id === id ? { ...l, ...rest } : l));
+    setEditing(null);
   };
 
   if (!authorized) {
@@ -99,7 +120,7 @@ export default function AdminListings() {
   }
 
   return (
-    <div style={{ padding: "2rem", maxWidth: 1000, margin: "auto" }}>
+    <div style={{ padding: "2rem", maxWidth: 1200, margin: "auto" }}>
       <h1 style={{ color: "#5EE6E6", marginBottom: 32 }}>All Yacht Listings</h1>
       {loading ? (
         <div>Loading...</div>
@@ -119,7 +140,8 @@ export default function AdminListings() {
                 <th style={thStyle}>Description</th>
                 <th style={thStyle}>Photo</th>
                 <th style={thStyle}>Created</th>
-                <th style={thStyle}>Delete</th>
+                <th style={thStyle}>Approved</th>
+                <th style={thStyle}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -143,6 +165,39 @@ export default function AdminListings() {
                   </td>
                   <td style={tdStyle}>{new Date(l.createdAt).toLocaleString()}</td>
                   <td style={tdStyle}>
+                    {l.approved ? <span style={{ color: "#5EE6E6" }}>Yes</span> : <span style={{ color: "#ED5B68" }}>No</span>}
+                  </td>
+                  <td style={tdStyle}>
+                    <button
+                      onClick={() => handleApprove(l.id, !l.approved)}
+                      style={{
+                        padding: "0.4em 0.9em",
+                        background: l.approved ? "#ED5B68" : "#46E6A6",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: 7,
+                        fontWeight: 700,
+                        marginRight: 5,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {l.approved ? "Unapprove" : "Approve"}
+                    </button>
+                    <button
+                      onClick={() => handleEdit(l)}
+                      style={{
+                        padding: "0.4em 0.9em",
+                        background: "#FFA10A",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: 7,
+                        fontWeight: 700,
+                        marginRight: 5,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Edit
+                    </button>
                     <button
                       onClick={() => handleDelete(l.id)}
                       style={{
@@ -166,6 +221,66 @@ export default function AdminListings() {
           </table>
         </div>
       )}
+      {editing && (
+        <EditModal
+          listing={editing}
+          onSave={handleEditSave}
+          onCancel={() => setEditing(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+function EditModal({ listing, onSave, onCancel }) {
+  const [form, setForm] = useState({ ...listing });
+
+  const handleChange = (key, value) => setForm(f => ({ ...f, [key]: value }));
+
+  return (
+    <div style={{
+      position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
+      background: "rgba(30,40,56,0.93)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999
+    }}>
+      <div style={{ minWidth: 350, maxWidth: 420, background: "#232C3B", padding: 32, borderRadius: 12, color: "#fff" }}>
+        <h2 style={{ color: "#5EE6E6", marginBottom: 18 }}>Edit Listing</h2>
+        <div style={{ marginBottom: 10 }}>
+          <label>Yacht Name</label>
+          <input value={form.yachtName} onChange={e => handleChange("yachtName", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Owner Name</label>
+          <input value={form.ownerName} onChange={e => handleChange("ownerName", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Email</label>
+          <input value={form.email} onChange={e => handleChange("email", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Phone</label>
+          <input value={form.phone} onChange={e => handleChange("phone", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Length (ft)</label>
+          <input type="number" value={form.length} onChange={e => handleChange("length", Number(e.target.value))} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Max Guests</label>
+          <input type="number" value={form.guests} onChange={e => handleChange("guests", Number(e.target.value))} style={inputStyle} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Description</label>
+          <textarea value={form.description} onChange={e => handleChange("description", e.target.value)} style={{ ...inputStyle, minHeight: 60 }} />
+        </div>
+        <div style={{ marginBottom: 10 }}>
+          <label>Photo URL</label>
+          <input value={form.photo ?? ""} onChange={e => handleChange("photo", e.target.value)} style={inputStyle} />
+        </div>
+        <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
+          <button onClick={() => onSave(form)} style={{ ...inputStyle, background: "#46E6A6", color: "#222", fontWeight: 700 }}>Save</button>
+          <button onClick={onCancel} style={{ ...inputStyle, background: "#ED5B68", color: "#fff", fontWeight: 700 }}>Cancel</button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -183,4 +298,15 @@ const tdStyle = {
   padding: "10px 8px",
   borderBottom: "1px solid #23304B",
   fontSize: 15,
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: "7px 10px",
+  borderRadius: 6,
+  border: "1px solid #314164",
+  marginTop: 4,
+  fontSize: 15,
+  background: "#1A2231",
+  color: "#fff",
 };
