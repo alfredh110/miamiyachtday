@@ -1,18 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import yachts from "../data/yachts";
 
-export default function BookingModal({ onClose }) {
+// Accepts an optional 'yacht' prop for pre-selecting/locking yacht
+export default function BookingModal({ onClose, yacht: selectedYacht }) {
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     date: "",
-    yacht: "",
+    yacht: selectedYacht ? selectedYacht.yachtName || selectedYacht.name : "",
     message: ""
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const firstInputRef = useRef();
+
+  // Autofocus on name input when modal opens
+  useEffect(() => {
+    setTimeout(() => { firstInputRef.current && firstInputRef.current.focus(); }, 100);
+  }, []);
+
+  // Reset form if closed and reopened
+  useEffect(() => {
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      date: "",
+      yacht: selectedYacht ? selectedYacht.yachtName || selectedYacht.name : "",
+      message: ""
+    });
+    setSubmitted(false);
+    setError("");
+    setSubmitting(false);
+  }, [selectedYacht]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -59,7 +81,7 @@ export default function BookingModal({ onClose }) {
 
   if (submitted) {
     return (
-      <div style={overlayStyle}>
+      <div style={overlayStyle} role="dialog" aria-modal="true">
         <div style={modalStyle}>
           <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
           <h2 style={{ color: "#5EE6E6" }}>Thank you!</h2>
@@ -71,10 +93,12 @@ export default function BookingModal({ onClose }) {
   }
 
   return (
-    <div style={overlayStyle}>
+    <div style={overlayStyle} role="dialog" aria-modal="true">
       <div style={modalStyle}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
-        <h2 style={{ color: "#5EE6E6", marginBottom: 10 }}>Book a Yacht</h2>
+        <h2 style={{ color: "#5EE6E6", marginBottom: 10 }}>
+          Book {selectedYacht ? `the ${form.yacht}` : "a Yacht"}
+        </h2>
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <label style={labelStyle}>
             Name*
@@ -82,9 +106,12 @@ export default function BookingModal({ onClose }) {
               style={inputStyle}
               type="text"
               name="name"
+              ref={firstInputRef}
               value={form.name}
               onChange={handleChange}
               required
+              autoComplete="name"
+              aria-label="Name"
             />
           </label>
           <label style={labelStyle}>
@@ -96,6 +123,8 @@ export default function BookingModal({ onClose }) {
               value={form.email}
               onChange={handleChange}
               required
+              autoComplete="email"
+              aria-label="Email"
             />
           </label>
           <label style={labelStyle}>
@@ -108,6 +137,8 @@ export default function BookingModal({ onClose }) {
               onChange={handleChange}
               required
               placeholder="(555) 123-4567"
+              autoComplete="tel"
+              aria-label="Phone Number"
             />
           </label>
           <label style={labelStyle}>
@@ -119,23 +150,30 @@ export default function BookingModal({ onClose }) {
               value={form.date}
               onChange={handleChange}
               required
+              aria-label="Date"
             />
           </label>
-          <label style={labelStyle}>
-            Select Yacht*
-            <select
-              style={inputStyle}
-              name="yacht"
-              value={form.yacht}
-              onChange={handleChange}
-              required
-            >
-              <option value="">-- Choose a yacht --</option>
-              {yachts.map((y, i) => (
-                <option key={i} value={y.name}>{y.name}</option>
-              ))}
-            </select>
-          </label>
+          {!selectedYacht && (
+            <label style={labelStyle}>
+              Select Yacht*
+              <select
+                style={inputStyle}
+                name="yacht"
+                value={form.yacht}
+                onChange={handleChange}
+                required
+                aria-label="Yacht"
+              >
+                <option value="">-- Choose a yacht --</option>
+                {yachts.map((y, i) => (
+                  <option key={i} value={y.name}>{y.name}</option>
+                ))}
+              </select>
+            </label>
+          )}
+          {selectedYacht && (
+            <input type="hidden" name="yacht" value={form.yacht} />
+          )}
           <label style={labelStyle}>
             Message
             <textarea
@@ -144,6 +182,7 @@ export default function BookingModal({ onClose }) {
               value={form.message}
               onChange={handleChange}
               placeholder="Anything special we should know?"
+              aria-label="Message"
             />
           </label>
           {error && <div style={{ color: "#FFD700", marginBottom: 8 }}>{error}</div>}
@@ -155,6 +194,7 @@ export default function BookingModal({ onClose }) {
               pointerEvents: submitting ? "none" : "auto",
             }}
             disabled={submitting}
+            aria-busy={submitting}
           >
             {submitting ? "Submitting..." : "Submit Booking"}
           </button>
@@ -164,7 +204,7 @@ export default function BookingModal({ onClose }) {
   );
 }
 
-// Styles
+// Styles (same as your version)
 const overlayStyle = {
   position: "fixed",
   zIndex: 1000,
