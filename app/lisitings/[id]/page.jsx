@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import BookingModal from "../../components/BookingModal"; // adjust path if needed
 
 export default function YachtDetails() {
   const params = useParams();
   const { id } = params;
   const [yacht, setYacht] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showBooking, setShowBooking] = useState(false);
 
   useEffect(() => {
     fetch("/api/listings/" + id)
@@ -64,7 +66,6 @@ export default function YachtDetails() {
           }}>
             {yacht.description}
           </div>
-          {/* Replace this with your real booking modal logic */}
           <button
             style={{
               background: "linear-gradient(90deg,#4568DC 0%,#5EE6E6 100%)",
@@ -77,12 +78,18 @@ export default function YachtDetails() {
               cursor: "pointer",
               boxShadow: "0 2px 10px rgba(70,230,166,0.08)"
             }}
-            onClick={() => alert("Booking modal coming soon!")}
+            onClick={() => setShowBooking(true)}
           >
             Book Now
           </button>
         </div>
       </div>
+      {showBooking && (
+        <BookingModal
+          yacht={yacht} // Pass selected yacht info if your modal supports it
+          onClose={() => setShowBooking(false)}
+        />
+      )}
     </div>
   );
 }
