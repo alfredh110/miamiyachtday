@@ -10,12 +10,12 @@ export async function generateMetadata({ params }) {
   if (!yacht?.yachtName) return {};
 
   return {
-    title: `${yacht.yachtName} | Yacht Details | YourAppName`,
+    title: `${yacht.yachtName} | Yacht Details | MIAMI YACHT DAY`,
     description: yacht.description
       ? yacht.description.slice(0, 160)
       : `Details and booking for ${yacht.yachtName}.`,
     openGraph: {
-      title: `${yacht.yachtName} | Yacht Details | YourAppName`,
+      title: `${yacht.yachtName} | Yacht Details | MIAMI YACHT DAY`,
       description: yacht.description
         ? yacht.description.slice(0, 160)
         : `Details and booking for ${yacht.yachtName}.`,
