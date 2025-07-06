@@ -1,20 +1,3 @@
-export const metadata = {
-  title: "Yacht Listings | MIAMI YACHT DAY",
-  description: "Browse luxury yacht listings available for booking. Find the perfect yacht for your next adventure.",
-  openGraph: {
-    title: "Yacht Listings | MIAMI YACHT DAY",
-    description: "Browse luxury yacht listings available for booking. Find the perfect yacht for your next adventure.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Yachts on the water"
-      }
-    ]
-  }
-};
-
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
