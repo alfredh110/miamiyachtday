@@ -1,18 +1,17 @@
 "use client";
-import React, { useState } from "react";
-import Navbar from "./app/components/Navbar";
-import Hero from "./app/components/Hero";
-import WaveDivider from "./app/components/WaveDivider";
-import FeaturedYachts from "./app/components/FeaturedYachts";
-import HowItWorks from "./app/components/HowItWorks";
-import Gallery from "./app/components/Gallery";
-import Testimonials from "./app/components/Testimonials";
-import CTASection from "./app/components/CTASection";
-import Footer from "./app/components/Footer";
-import BookingModal from "./app/components/BookingModal";
-import ListingModal from "./app/components/ListingModal";
 
-// Adjust import paths if needed depending on your directory setup
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import WaveDivider from "./components/WaveDivider";
+import FeaturedYachts from "./components/FeaturedYachts";
+import HowItWorks from "./components/HowItWorks";
+import Gallery from "./components/Gallery";
+import Testimonials from "./components/Testimonials";
+import CTASection from "./components/CTASection";
+import Footer from "./components/Footer";
+import BookingModal from "./components/BookingModal";
+import ListingModal from "./components/ListingModal";
 
 export default function Page() {
   const [showBooking, setShowBooking] = useState(false);
