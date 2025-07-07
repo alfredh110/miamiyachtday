@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Navbar from "./app/components/Navbar";
 import Hero from "./app/components/Hero";
