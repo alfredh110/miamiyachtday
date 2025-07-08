@@ -17,6 +17,7 @@ export default function Gallery() {
         marginRight: "auto",
         boxShadow: "0 6px 24px #151B2633",
         minHeight: 260,
+        fontFamily: "'Inter', Arial, sans-serif" // Consistent font
       }}
     >
       <h3
@@ -26,7 +27,7 @@ export default function Gallery() {
           letterSpacing: "0.01em",
           color: "#6E4B28", // dark brown
           marginBottom: "2.1rem",
-          fontFamily: "Montserrat, sans-serif",
+          fontFamily: "'Inter', Arial, sans-serif", // Consistent font
           textAlign: "center",
         }}
       >
@@ -49,6 +50,7 @@ export default function Gallery() {
               gridColumn: "1/-1",
               padding: "2.5rem 0",
               opacity: 0.8,
+              fontFamily: "'Inter', Arial, sans-serif"
             }}
           >
             Gallery coming soon!
@@ -71,6 +73,7 @@ export default function Gallery() {
                 transition: "transform 0.18s, box-shadow 0.18s",
                 cursor: "pointer",
                 borderLeft: "6px solid #6E4B28",
+                fontFamily: "'Inter', Arial, sans-serif"
               }}
               tabIndex={0}
               aria-label={`Gallery image ${i + 1}`}
@@ -91,6 +94,7 @@ export default function Gallery() {
                   height: "100%",
                   objectFit: "cover",
                   borderRadius: 18,
+                  fontFamily: "'Inter', Arial, sans-serif"
                 }}
               />
             </div>
