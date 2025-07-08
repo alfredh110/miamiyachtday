@@ -6,7 +6,7 @@ export default function Hero({ onBook, onList }) {
       style={{
         width: "100vw",
         minHeight: 440,
-        background: "linear-gradient(180deg, #1A2330 0%, #5EE6E61F 100%)",
+        background: "#19243A", // solid navy background
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -18,13 +18,13 @@ export default function Hero({ onBook, onList }) {
       <svg style={{
         position: "absolute", top: 40, left: "50%", transform: "translateX(-50%)", zIndex: 0
       }} width="1040" height="170">
-        <ellipse cx="520" cy="85" rx="520" ry="85" fill="#5EE6E6" fillOpacity="0.10" />
+        <ellipse cx="520" cy="85" rx="520" ry="85" fill="#6E4B28" fillOpacity="0.10" />
       </svg>
       {/* Glassmorphic card */}
       <div
         style={{
           position: "relative",
-          background: "rgba(35,48,75,0.34)",
+          background: "rgba(255,255,255,0.23)",
           borderRadius: 36,
           padding: "2.5rem 3.7rem",
           boxShadow: "0 8px 36px #151B2633",
@@ -40,7 +40,7 @@ export default function Hero({ onBook, onList }) {
             fontFamily: "Montserrat, sans-serif",
             fontWeight: 700,
             fontSize: 48,
-            color: "#fff",
+            color: "#19243A", // navy
             marginBottom: 10,
             textAlign: "center"
           }}
@@ -50,7 +50,7 @@ export default function Hero({ onBook, onList }) {
         <p
           style={{
             fontSize: 24,
-            color: "#B0BED8",
+            color: "#6E4B28", // dark brown
             fontFamily: "Montserrat, sans-serif",
             marginBottom: 30,
             textAlign: "center"
@@ -64,7 +64,7 @@ export default function Hero({ onBook, onList }) {
               minWidth: 140,
               height: 48,
               borderRadius: 24,
-              background: "linear-gradient(90deg, #4568DC 0%, #5EE6E6 100%)",
+              background: "#6E4B28",
               border: "none",
               color: "#fff",
               fontFamily: "Montserrat, sans-serif",
@@ -72,6 +72,7 @@ export default function Hero({ onBook, onList }) {
               fontSize: 18,
               cursor: "pointer",
               marginRight: 8,
+              transition: "background 0.16s"
             }}
             onClick={onBook}
           >
@@ -82,13 +83,14 @@ export default function Hero({ onBook, onList }) {
               minWidth: 140,
               height: 48,
               borderRadius: 24,
-              background: "linear-gradient(90deg, #4568DC 0%, #5EE6E6 100%)",
-              border: "none",
-              color: "#fff",
+              background: "#fff",
+              border: `2px solid #6E4B28`,
+              color: "#6E4B28",
               fontFamily: "Montserrat, sans-serif",
               fontWeight: 700,
               fontSize: 18,
-              cursor: "pointer"
+              cursor: "pointer",
+              transition: "background 0.16s, color 0.16s"
             }}
             onClick={onList}
           >
