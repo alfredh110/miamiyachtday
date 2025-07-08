@@ -34,7 +34,7 @@ export default function FeaturedYachts({ onBook }) {
   return (
     <section style={{
       padding: "2.5rem 4vw",
-      background: "rgba(36,44,61,0.93)",
+      background: "#19243A", // navy blue
       borderRadius: "2rem",
       marginTop: "2rem",
       maxWidth: 1200, marginLeft: "auto", marginRight: "auto",
@@ -44,7 +44,7 @@ export default function FeaturedYachts({ onBook }) {
         fontSize: "1.7rem",
         fontWeight: 700,
         letterSpacing: "0.01em",
-        color: "#5EE6E6",
+        color: "#6E4B28", // dark brown
         marginBottom: "2.1rem",
         fontFamily: "Montserrat, sans-serif"
       }}>
@@ -60,7 +60,7 @@ export default function FeaturedYachts({ onBook }) {
           <div
             key={i}
             style={{
-              background: "rgba(51,60,88,1)",
+              background: "#fff", // card background white
               borderRadius: "1.6rem",
               boxShadow: "0 2px 16px #151B2633",
               width: 320,
@@ -71,11 +71,12 @@ export default function FeaturedYachts({ onBook }) {
               padding: "1.2rem 1.1rem 1.7rem 1.1rem",
               transition: "box-shadow 0.2s, transform 0.2s",
               cursor: "pointer",
-              position: "relative"
+              position: "relative",
+              borderLeft: "7px solid #6E4B28"
             }}
             tabIndex={0}
             aria-label={`Featured yacht: ${yacht.name}`}
-            onMouseOver={e => e.currentTarget.style.boxShadow = "0 8px 28px #5EE6E677"}
+            onMouseOver={e => e.currentTarget.style.boxShadow = "0 8px 28px #6E4B2888"}
             onMouseOut={e => e.currentTarget.style.boxShadow = "0 2px 16px #151B2633"}
           >
             <img
@@ -87,13 +88,13 @@ export default function FeaturedYachts({ onBook }) {
                 borderRadius: 18,
                 objectFit: "cover",
                 marginBottom: 18,
-                boxShadow: "0 2px 10px #232F4B33"
+                boxShadow: "0 2px 10px #19243A33"
               }}
             />
             <div style={{
               fontWeight: 700,
               fontSize: 20,
-              color: "#fff",
+              color: "#19243A", // navy
               marginBottom: 9,
               textAlign: "center",
               fontFamily: "Montserrat, sans-serif"
@@ -101,7 +102,7 @@ export default function FeaturedYachts({ onBook }) {
               {yacht.name}
             </div>
             <div style={{
-              color: "#A1B8EA",
+              color: "#6E4B28", // dark brown
               fontSize: 15,
               marginBottom: 12,
               textAlign: "center"
@@ -117,8 +118,8 @@ export default function FeaturedYachts({ onBook }) {
             }}>
               <span style={{ fontSize: 18, color: "#FFD700" }}>★ {yacht.rating}</span>
               <span style={{
-                background: "#5EE6E6",
-                color: "#232F4B",
+                background: "#F8F2E7", // light brownish
+                color: "#6E4B28",
                 borderRadius: 12,
                 padding: "2px 12px",
                 fontWeight: 600,
@@ -127,16 +128,17 @@ export default function FeaturedYachts({ onBook }) {
             </div>
             <button
               style={{
-                background: "linear-gradient(90deg,#5EE6E6 0%,#4568DC 100%)",
+                background: "#6E4B28", // dark brown
                 color: "#fff",
                 fontWeight: 700,
                 border: "none",
-                borderRadius: 7,
+                borderRadius: 16,
                 fontSize: 16,
                 padding: "10px 30px",
                 marginTop: "auto",
                 cursor: "pointer",
-                boxShadow: "0 1px 8px #151B2633"
+                boxShadow: "0 1px 8px #151B2633",
+                transition: "background 0.18s"
               }}
               onClick={onBook}
             >
@@ -146,13 +148,14 @@ export default function FeaturedYachts({ onBook }) {
               style={{
                 marginTop: 8,
                 background: "transparent",
-                border: "1px solid #5EE6E6",
-                color: "#5EE6E6",
+                border: "2px solid #6E4B28",
+                color: "#6E4B28",
                 fontWeight: 600,
-                borderRadius: 7,
+                borderRadius: 16,
                 fontSize: 15,
                 padding: "7px 18px",
-                cursor: "pointer"
+                cursor: "pointer",
+                transition: "color 0.16s, border-color 0.16s"
               }}
               onClick={() => alert('Details coming soon!')}
             >
