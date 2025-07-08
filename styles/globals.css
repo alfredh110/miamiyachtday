@@ -9,14 +9,47 @@ html {
   box-sizing: inherit;
 }
 
+/* Updated color palette */
 body {
   margin: 0;
   padding: 0;
-  background: #192135;
-  color: #fff;
+  background: #19243A;      /* Navy Blue */
+  color: #19243A;           /* Navy for text by default */
   font-family: 'Inter', Arial, sans-serif;
   min-height: 100vh;
   line-height: 1.55;
+}
+
+/* For lighter section backgrounds */
+.section,
+.container,
+.card {
+  background: #FFFFFF;      /* White */
+  color: #19243A;           /* Navy text */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #19243A;           /* Navy headings */
+}
+
+a {
+  color: #6E4B28;           /* Dark brown links */
+}
+
+button {
+  background: #6E4B28;      /* Dark brown */
+  color: #FFFFFF;           /* White text */
+  border: none;
+  border-radius: 25px;
+  padding: 12px 40px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+button:hover {
+  background: #C59C5D;      /* Optional gold accent on hover */
+  color: #19243A;
 }
 
 /* Images and media scale down */
@@ -34,10 +67,6 @@ h1, h2, h3, h4, h5, h6, p, label, input, button, select, textarea {
 /* Make buttons and inputs more finger-friendly */
 button, input, select, textarea {
   font-size: 1rem;
-}
-
-button {
-  cursor: pointer;
 }
 
 /* Utility class for mobile spacing if needed */
@@ -67,5 +96,4 @@ button {
   h2 {
     font-size: 1.5rem;
   }
-  /* You can add more specific tweaks for your components as you build */
 }
