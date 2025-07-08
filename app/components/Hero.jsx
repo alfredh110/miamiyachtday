@@ -12,6 +12,7 @@ export default function Hero({ onBook, onList }) {
         justifyContent: "center",
         position: "relative",
         overflow: "hidden",
+        fontFamily: "'Inter', Arial, sans-serif" // Consistent font
       }}
     >
       {/* Decorative ellipse */}
@@ -37,7 +38,7 @@ export default function Hero({ onBook, onList }) {
       >
         <h1
           style={{
-            fontFamily: "Montserrat, sans-serif",
+            fontFamily: "'Inter', Arial, sans-serif", // Consistent font
             fontWeight: 700,
             fontSize: 48,
             color: "#19243A", // navy
@@ -51,7 +52,7 @@ export default function Hero({ onBook, onList }) {
           style={{
             fontSize: 24,
             color: "#6E4B28", // dark brown
-            fontFamily: "Montserrat, sans-serif",
+            fontFamily: "'Inter', Arial, sans-serif", // Consistent font
             marginBottom: 30,
             textAlign: "center"
           }}
@@ -67,7 +68,7 @@ export default function Hero({ onBook, onList }) {
               background: "#6E4B28",
               border: "none",
               color: "#fff",
-              fontFamily: "Montserrat, sans-serif",
+              fontFamily: "'Inter', Arial, sans-serif", // Consistent font
               fontWeight: 700,
               fontSize: 18,
               cursor: "pointer",
@@ -86,7 +87,7 @@ export default function Hero({ onBook, onList }) {
               background: "#fff",
               border: `2px solid #6E4B28`,
               color: "#6E4B28",
-              fontFamily: "Montserrat, sans-serif",
+              fontFamily: "'Inter', Arial, sans-serif", // Consistent font
               fontWeight: 700,
               fontSize: 18,
               cursor: "pointer",
