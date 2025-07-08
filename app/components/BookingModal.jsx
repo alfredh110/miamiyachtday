@@ -120,8 +120,8 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
   }
 
   return (
-    <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
-      <div ref={modalRef} style={modalStyle}>
+    <div style={{ ...overlayStyle, fontFamily: "'Inter', Arial, sans-serif" }} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
+      <div ref={modalRef} style={{ ...modalStyle, fontFamily: "'Inter', Arial, sans-serif" }}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
         <h2 style={{ color: "#6E4B28", marginBottom: 10 }}>
           Book {selectedYacht ? `the ${form.yacht}` : "a Yacht"}
@@ -219,6 +219,7 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
               ...actionButtonStyle,
               opacity: submitting ? 0.6 : 1,
               pointerEvents: submitting ? "none" : "auto",
+              fontFamily: "'Inter', Arial, sans-serif",
             }}
             disabled={submitting}
             aria-busy={submitting}
@@ -245,13 +246,14 @@ const overlayStyle = {
 const modalStyle = {
   background: "#fff",
   borderRadius: 24,
-  padding: "2rem 2.3rem",
+  padding: "2.2rem 2.6rem",
   boxShadow: "0 8px 36px #151B2633",
   minWidth: 340,
   maxWidth: 400,
   width: "90vw",
   position: "relative",
-  color: "#19243A"
+  color: "#19243A",
+  fontFamily: "'Inter', Arial, sans-serif"
 };
 
 const closeButtonStyle = {
@@ -263,7 +265,8 @@ const closeButtonStyle = {
   color: "#6E4B28",
   border: "none",
   cursor: "pointer",
-  lineHeight: 1
+  lineHeight: 1,
+  fontFamily: "'Inter', Arial, sans-serif"
 };
 
 const labelStyle = {
@@ -272,7 +275,8 @@ const labelStyle = {
   fontSize: 16,
   display: "flex",
   flexDirection: "column",
-  gap: 4
+  gap: 4,
+  fontFamily: "'Inter', Arial, sans-serif"
 };
 
 const inputStyle = {
@@ -285,7 +289,8 @@ const inputStyle = {
   color: "#19243A",
   outline: "none",
   boxShadow: "0 0 0 2px transparent",
-  transition: "box-shadow 0.15s"
+  transition: "box-shadow 0.15s",
+  fontFamily: "'Inter', Arial, sans-serif"
 };
 
 const actionButtonStyle = {
@@ -299,5 +304,6 @@ const actionButtonStyle = {
   padding: "0.8rem 1.3rem",
   cursor: "pointer",
   boxShadow: "0 2px 8px #151B2633",
-  transition: "background 0.15s"
+  transition: "background 0.15s",
+  fontFamily: "'Inter', Arial, sans-serif"
 };
