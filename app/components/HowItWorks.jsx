@@ -23,7 +23,7 @@ export default function HowItWorks() {
     <section
       style={{
         padding: "2.5rem 4vw",
-        background: "rgba(35,48,75,0.85)",
+        background: "#19243A", // navy blue
         borderRadius: "2rem",
         marginTop: "2rem",
         maxWidth: 1100,
@@ -37,7 +37,7 @@ export default function HowItWorks() {
           fontSize: "2rem",
           fontWeight: 700,
           letterSpacing: "0.02em",
-          color: "#5EE6E6",
+          color: "#6E4B28", // dark brown
           marginBottom: "2.2rem",
           textAlign: "center",
           fontFamily: "Montserrat, sans-serif",
@@ -57,7 +57,7 @@ export default function HowItWorks() {
           <div
             key={i}
             style={{
-              background: "rgba(94,230,230,0.15)",
+              background: "#fff", // white card
               borderRadius: 36,
               width: 230,
               minHeight: 220,
@@ -68,13 +68,14 @@ export default function HowItWorks() {
               boxShadow: "0 4px 16px #151B2633",
               transition: "box-shadow 0.2s, transform 0.2s",
               textAlign: "center",
+              borderLeft: "6px solid #6E4B28",
             }}
           >
             <div style={{ fontSize: 54, marginBottom: 18 }}>{step.icon}</div>
             <div
               style={{
                 fontWeight: 800,
-                color: "#5EE6E6",
+                color: "#6E4B28", // dark brown
                 fontSize: 22,
                 marginBottom: 10,
                 fontFamily: "Montserrat, sans-serif",
@@ -84,7 +85,7 @@ export default function HowItWorks() {
             </div>
             <div
               style={{
-                color: "#B0BED8",
+                color: "#19243A", // navy for text
                 fontSize: 16,
                 fontWeight: 500,
                 lineHeight: 1.5,
