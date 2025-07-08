@@ -1,12 +1,9 @@
-import React from "react";
-
-export default function WaveDivider({ color = "#5EE6E6", opacity = 0.13, style = {} }) {
+export default function WaveDivider({ color = "#1fe6ff" }) {
   return (
-    <svg width="100%" height="70" viewBox="0 0 1440 70" fill="none" style={style}>
+    <svg viewBox="0 0 1440 100" width="100%" height="100" preserveAspectRatio="none" style={{ display: "block" }}>
       <path
-        d="M0 0 Q720 80 1440 0 V70 H0 V0Z"
         fill={color}
-        fillOpacity={opacity}
+        d="M0,64L30,74.7C60,85,120,107,180,112C240,117,300,107,360,90.7C420,75,480,53,540,53.3C600,53,660,75,720,85.3C780,96,840,96,900,90.7C960,85,1020,75,1080,80C1140,85,1200,107,1260,101.3C1320,96,1380,64,1410,48L1440,32L1440,0L1410,0C1380,0,1320,0,1260,0C1200,0,1140,0,1080,0C1020,0,960,0,900,0C840,0,780,0,720,0C660,0,600,0,540,0C480,0,420,0,360,0C300,0,240,0,180,0C120,0,60,0,30,0L0,0Z"
       />
     </svg>
   );
