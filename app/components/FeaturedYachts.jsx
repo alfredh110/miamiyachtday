@@ -12,7 +12,7 @@ const yachts = [
   },
   {
     name: "30' HURRICANE GRANDSON",
-    image: "AB-30FTHURRICANGRANDSON.jpg",
+    image: "AB-30FT HURRICANE GRANDSON.jpg",
     guests: 10,
     crew: true,
     cabins: 0,
@@ -21,7 +21,7 @@ const yachts = [
   },
   {
     name: "31' BLACK PEARL AMBERJACK",
-    image: "AB-31FTBLACKPEARAMBERJACK.jpg",
+    image: "AB-31FT BLACK PEAR AMBER JACK.jpg",
     guests: 13,
     crew: true,
     cabins: 1,
