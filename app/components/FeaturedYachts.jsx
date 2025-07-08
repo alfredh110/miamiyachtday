@@ -3,7 +3,7 @@ import React from "react";
 const yachts = [
   {
     name: "Sundeck 26' Sport Boat",
-    image: "AB-,ODELIT-BOAT-MIAMIYACHTDAY-18.jpg",
+    image: "AB-MODELIT-BOAT-MIAMIYACHTDAY-18.jpg",
     guests: 10,
     crew: true,
     cabins: 0,
