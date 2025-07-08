@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CTASection() {
+export default function CTASection({ onBook }) {
   return (
     <section
       style={{
@@ -12,6 +12,7 @@ export default function CTASection() {
         boxShadow: "0 6px 24px #151B2633",
         textAlign: "center",
         position: "relative",
+        fontFamily: "'Inter', Arial, sans-serif",
       }}
     >
       <h2
@@ -20,12 +21,12 @@ export default function CTASection() {
           fontSize: "2.2rem",
           fontWeight: 800,
           letterSpacing: ".03em",
-          fontFamily: "Montserrat, sans-serif",
           marginBottom: "1.2rem",
           textShadow: "0 2px 12px #151B2633",
+          fontFamily: "'Inter', Arial, sans-serif",
         }}
       >
-        Ready to sail? <span style={{ color: "#FFD700" }}>Book your Miami Yacht Day!</span>
+        Ready to sail? <span style={{ color: "#C59C5D" }}>Book your Miami Yacht Day!</span>
       </h2>
       <p
         style={{
@@ -33,7 +34,7 @@ export default function CTASection() {
           fontSize: "1.14rem",
           fontWeight: 500,
           marginBottom: "2rem",
-          fontFamily: "Montserrat, sans-serif",
+          fontFamily: "'Inter', Arial, sans-serif",
         }}
       >
         Reserve your luxury yacht today and make memories on the water. Hassle-free online booking. Friendly crew. Unforgettable moments.
@@ -50,8 +51,9 @@ export default function CTASection() {
           cursor: "pointer",
           boxShadow: "0 1px 8px #151B2633",
           transition: "background 0.18s, box-shadow 0.18s, transform 0.18s",
+          fontFamily: "'Inter', Arial, sans-serif",
         }}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        onClick={onBook || (() => window.scrollTo({ top: 0, behavior: "smooth" }))}
       >
         Book Now
       </button>
