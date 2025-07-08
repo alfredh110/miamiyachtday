@@ -204,7 +204,7 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
   );
 }
 
-// Styles (same as your version)
+// Styles
 const overlayStyle = {
   position: "fixed",
   zIndex: 1000,
