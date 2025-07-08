@@ -30,6 +30,7 @@ export default function HowItWorks() {
         marginLeft: "auto",
         marginRight: "auto",
         boxShadow: "0 6px 24px #151B2633",
+        fontFamily: "'Inter', Arial, sans-serif", // Consistent font
       }}
     >
       <h3
@@ -40,7 +41,7 @@ export default function HowItWorks() {
           color: "#6E4B28", // dark brown
           marginBottom: "2.2rem",
           textAlign: "center",
-          fontFamily: "Montserrat, sans-serif",
+          fontFamily: "'Inter', Arial, sans-serif", // Consistent font
         }}
       >
         How It Works
@@ -69,6 +70,7 @@ export default function HowItWorks() {
               transition: "box-shadow 0.2s, transform 0.2s",
               textAlign: "center",
               borderLeft: "6px solid #6E4B28",
+              fontFamily: "'Inter', Arial, sans-serif", // Consistent font
             }}
           >
             <div style={{ fontSize: 54, marginBottom: 18 }}>{step.icon}</div>
@@ -78,7 +80,7 @@ export default function HowItWorks() {
                 color: "#6E4B28", // dark brown
                 fontSize: 22,
                 marginBottom: 10,
-                fontFamily: "Montserrat, sans-serif",
+                fontFamily: "'Inter', Arial, sans-serif", // Consistent font
               }}
             >
               {step.title}
@@ -89,7 +91,7 @@ export default function HowItWorks() {
                 fontSize: 16,
                 fontWeight: 500,
                 lineHeight: 1.5,
-                fontFamily: "Montserrat, sans-serif",
+                fontFamily: "'Inter', Arial, sans-serif", // Consistent font
               }}
             >
               {step.desc}
