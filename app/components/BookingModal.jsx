@@ -15,6 +15,7 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const firstInputRef = useRef();
+  const modalRef = useRef();
 
   // Autofocus on name input when modal opens
   useEffect(() => {
@@ -35,6 +36,32 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
     setError("");
     setSubmitting(false);
   }, [selectedYacht]);
+
+  // Escape key closes modal
+  useEffect(() => {
+    const handleKey = e => {
+      if (e.key === "Escape") onClose();
+      // Tab trap for accessibility
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll('input,select,textarea,button,[tabindex]:not([tabindex="-1"])');
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  const handleOverlayClick = e => {
+    if (e.target === e.currentTarget) onClose();
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -81,20 +108,20 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
 
   if (submitted) {
     return (
-      <div style={overlayStyle} role="dialog" aria-modal="true">
-        <div style={modalStyle}>
+      <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
+        <div ref={modalRef} style={modalStyle}>
           <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
           <h2 style={{ color: "#5EE6E6" }}>Thank you!</h2>
           <p style={{ color: "#B0BED8" }}>Your booking request has been submitted.<br />We’ll contact you soon.</p>
-          <button style={actionButtonStyle} onClick={onClose}>Close</button>
+          <button style={actionButtonStyle} onClick={onClose} autoFocus>Close</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={overlayStyle} role="dialog" aria-modal="true">
-      <div style={modalStyle}>
+    <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
+      <div ref={modalRef} style={modalStyle}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
         <h2 style={{ color: "#5EE6E6", marginBottom: 10 }}>
           Book {selectedYacht ? `the ${form.yacht}` : "a Yacht"}
@@ -255,7 +282,9 @@ const inputStyle = {
   fontSize: 16,
   background: "#22304B",
   color: "#fff",
-  outline: "none"
+  outline: "none",
+  boxShadow: "0 0 0 2px transparent",
+  transition: "box-shadow 0.15s"
 };
 
 const actionButtonStyle = {
