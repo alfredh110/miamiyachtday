@@ -92,7 +92,7 @@ export default function Hero({ onBook, onList }) {
             }}
             onClick={onList}
           >
-            See Yachts
+            List Yachts
           </button>
         </div>
       </div>
