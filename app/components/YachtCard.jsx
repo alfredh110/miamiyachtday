@@ -4,13 +4,13 @@ export default function YachtCard({ yacht, onBook }) {
   return (
     <div
       style={{
-        background: "rgba(36,44,61,0.98)",
+        background: "#fff",
         borderRadius: "1.5rem",
         minWidth: 300,
         padding: "1.5rem",
         boxShadow: "0 4px 16px #151B2633",
         display: "flex", flexDirection: "column", alignItems: "center",
-        border: "1.5px solid #23304b",
+        border: "2px solid #6E4B28",
         cursor: "pointer",
         position: "relative",
         transition: "transform 0.22s cubic-bezier(.21,1.15,.65,1.01), box-shadow 0.2s, border 0.2s"
@@ -23,11 +23,11 @@ export default function YachtCard({ yacht, onBook }) {
             transition: "filter 0.25s"
           }} />
       </div>
-      <h4 style={{ fontWeight: 700, color: "#B06AB3", fontSize: "1.1rem", marginBottom: 2, marginTop: "1rem" }}>{yacht.name}</h4>
-      <div style={{ color: "#B0BED8", margin: "0.5rem 0", fontSize: "1rem" }}>{yacht.desc}</div>
+      <h4 style={{ fontWeight: 700, color: "#6E4B28", fontSize: "1.16rem", marginBottom: 2, marginTop: "1rem" }}>{yacht.name}</h4>
+      <div style={{ color: "#19243A", margin: "0.5rem 0", fontSize: "1rem" }}>{yacht.desc}</div>
       <button
         style={{
-          background: "linear-gradient(90deg, #4568DC 0%, #5EE6E6 100%)",
+          background: "#6E4B28",
           color: "#fff",
           border: "none",
           borderRadius: "2rem",
@@ -36,7 +36,8 @@ export default function YachtCard({ yacht, onBook }) {
           fontSize: "1.05rem",
           padding: "0.7rem 2rem",
           marginTop: 8,
-          cursor: "pointer"
+          cursor: "pointer",
+          transition: "background 0.15s"
         }}
         onClick={onBook}
       >
