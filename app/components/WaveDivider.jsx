@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function WaveDivider({ flip = false, color = "#5EE6E6", height = 48 }) {
+export default function WaveDivider({ flip = false, color = "#6E4B28", height = 48 }) {
   return (
     <div
       style={{
