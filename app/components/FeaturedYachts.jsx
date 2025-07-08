@@ -3,7 +3,7 @@ import React from "react";
 const yachts = [
   {
     name: "Sundeck 26' Sport Boat",
-    image: "AB-MODELIT-BOAT-MIAMIYACHTDAY-18.JPG",
+    image: "/AB-MODELIT-BOAT-MIAMIYACHTDAY-18.JPG",
     guests: 10,
     crew: true,
     cabins: 0,
@@ -12,7 +12,7 @@ const yachts = [
   },
   {
     name: "30' HURRICANE GRANDSON",
-    image: "AB-30FT HURRICANE GRANDSON.jpg",
+    image: "/AB-30FT HURRICANE GRANDSON.jpg",
     guests: 10,
     crew: true,
     cabins: 0,
@@ -21,7 +21,7 @@ const yachts = [
   },
   {
     name: "31' BLACK PEARL AMBERJACK",
-    image: "AB-31FT BLACK PEAR AMBERJACK.jpg",
+    image: "/AB-31FT BLACK PEAR AMBERJACK.jpg",
     guests: 13,
     crew: true,
     cabins: 1,
@@ -34,19 +34,20 @@ export default function FeaturedYachts({ onBook }) {
   return (
     <section style={{
       padding: "2.5rem 4vw",
-      background: "#19243A", // navy blue
+      background: "#19243A",
       borderRadius: "2rem",
       marginTop: "2rem",
       maxWidth: 1200, marginLeft: "auto", marginRight: "auto",
-      boxShadow: "0 6px 24px #151B2633"
+      boxShadow: "0 6px 24px #151B2633",
+      fontFamily: "'Inter', Arial, sans-serif"
     }}>
       <h3 style={{
         fontSize: "1.7rem",
         fontWeight: 700,
         letterSpacing: "0.01em",
-        color: "#6E4B28", // dark brown
+        color: "#6E4B28",
         marginBottom: "2.1rem",
-        fontFamily: "Montserrat, sans-serif"
+        fontFamily: "'Inter', Arial, sans-serif"
       }}>
         Featured Yachts
       </h3>
@@ -60,7 +61,7 @@ export default function FeaturedYachts({ onBook }) {
           <div
             key={i}
             style={{
-              background: "#fff", // card background white
+              background: "#fff",
               borderRadius: "1.6rem",
               boxShadow: "0 2px 16px #151B2633",
               width: 320,
@@ -72,7 +73,8 @@ export default function FeaturedYachts({ onBook }) {
               transition: "box-shadow 0.2s, transform 0.2s",
               cursor: "pointer",
               position: "relative",
-              borderLeft: "7px solid #6E4B28"
+              borderLeft: "7px solid #6E4B28",
+              fontFamily: "'Inter', Arial, sans-serif"
             }}
             tabIndex={0}
             aria-label={`Featured yacht: ${yacht.name}`}
@@ -94,20 +96,20 @@ export default function FeaturedYachts({ onBook }) {
             <div style={{
               fontWeight: 700,
               fontSize: 20,
-              color: "#19243A", // navy
+              color: "#19243A",
               marginBottom: 9,
-              textAlign: "center",
-              fontFamily: "Montserrat, sans-serif"
+              textAlign: "center"
             }}>
               {yacht.name}
             </div>
             <div style={{
-              color: "#6E4B28", // dark brown
+              color: "#6E4B28",
               fontSize: 15,
               marginBottom: 12,
               textAlign: "center"
             }}>
-              {yacht.guests} Guests • {yacht.crew ? "Crew Included" : "No Crew"}{yacht.cabins ? ` • ${yacht.cabins} Cabin${yacht.cabins > 1 ? "s" : ""}` : ""}
+              {yacht.guests} Guests • {yacht.crew ? "Crew Included" : "No Crew"}
+              {yacht.cabins ? ` • ${yacht.cabins} Cabin${yacht.cabins > 1 ? "s" : ""}` : ""}
             </div>
             <div style={{
               display: "flex",
@@ -116,9 +118,9 @@ export default function FeaturedYachts({ onBook }) {
               gap: 12,
               marginBottom: 10
             }}>
-              <span style={{ fontSize: 18, color: "#FFD700" }}>★ {yacht.rating}</span>
+              <span style={{ fontSize: 18, color: "#C59C5D" }}>★ {yacht.rating}</span>
               <span style={{
-                background: "#F8F2E7", // light brownish
+                background: "#F8F2E7",
                 color: "#6E4B28",
                 borderRadius: 12,
                 padding: "2px 12px",
@@ -128,7 +130,7 @@ export default function FeaturedYachts({ onBook }) {
             </div>
             <button
               style={{
-                background: "#6E4B28", // dark brown
+                background: "#6E4B28",
                 color: "#fff",
                 fontWeight: 700,
                 border: "none",
@@ -138,9 +140,11 @@ export default function FeaturedYachts({ onBook }) {
                 marginTop: "auto",
                 cursor: "pointer",
                 boxShadow: "0 1px 8px #151B2633",
-                transition: "background 0.18s"
+                transition: "background 0.18s",
+                fontFamily: "'Inter', Arial, sans-serif"
               }}
               onClick={onBook}
+              aria-label={`Book Now for ${yacht.name}`}
             >
               Book Now
             </button>
@@ -155,9 +159,11 @@ export default function FeaturedYachts({ onBook }) {
                 fontSize: 15,
                 padding: "7px 18px",
                 cursor: "pointer",
-                transition: "color 0.16s, border-color 0.16s"
+                transition: "color 0.16s, border-color 0.16s",
+                fontFamily: "'Inter', Arial, sans-serif"
               }}
               onClick={() => alert('Details coming soon!')}
+              aria-label={`View Details for ${yacht.name}`}
             >
               View Details
             </button>
