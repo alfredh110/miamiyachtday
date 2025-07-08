@@ -64,8 +64,8 @@ export default function ListingModal({ onClose }) {
       <div style={overlayStyle}>
         <div style={modalStyle}>
           <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
-          <h2 style={{ color: "#5EE6E6" }}>Thank you!</h2>
-          <p style={{ color: "#B0BED8" }}>Your yacht listing has been submitted.<br />We’ll contact you soon.</p>
+          <h2 style={{ color: "#6E4B28" }}>Thank you!</h2>
+          <p style={{ color: "#19243A" }}>Your yacht listing has been submitted.<br />We’ll contact you soon.</p>
           <button style={actionButtonStyle} onClick={onClose}>Close</button>
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function ListingModal({ onClose }) {
     <div style={overlayStyle}>
       <div style={modalStyle}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
-        <h2 style={{ color: "#5EE6E6", marginBottom: 10 }}>List Your Yacht</h2>
+        <h2 style={{ color: "#6E4B28", marginBottom: 10 }}>List Your Yacht</h2>
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <label style={labelStyle}>
             Yacht Name*
@@ -169,7 +169,7 @@ export default function ListingModal({ onClose }) {
               placeholder="Paste a photo URL (optional)"
             />
           </label>
-          {error && <div style={{ color: "#FFD700", marginBottom: 8 }}>{error}</div>}
+          {error && <div style={{ color: "#6E4B28", marginBottom: 8 }}>{error}</div>}
           <button
             type="submit"
             style={{
@@ -194,7 +194,7 @@ const overlayStyle = {
   left: 0,
   width: "100vw",
   height: "100vh",
-  background: "rgba(20,30,50,0.82)",
+  background: "rgba(25,36,58,0.82)", // navy overlay
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -202,13 +202,13 @@ const overlayStyle = {
 };
 
 const modalStyle = {
-  background: "#192132",
-  color: "#fff",
-  borderRadius: 16,
-  padding: "28px 32px 24px 32px",
+  background: "#fff",
+  color: "#19243A",
+  borderRadius: 24,
+  padding: "2rem 2.3rem",
   minWidth: 340,
   maxWidth: 420,
-  boxShadow: "0 8px 32px rgba(10,30,80,0.12)",
+  boxShadow: "0 8px 32px #151B2633",
   position: "relative",
 };
 
@@ -219,7 +219,7 @@ const closeButtonStyle = {
   background: "none",
   border: "none",
   fontSize: 28,
-  color: "#7DE6E6",
+  color: "#6E4B28",
   cursor: "pointer",
   fontWeight: 700,
 };
@@ -227,30 +227,35 @@ const closeButtonStyle = {
 const labelStyle = {
   display: "flex",
   flexDirection: "column",
-  fontWeight: 500,
-  color: "#B0BED8",
-  fontSize: 15,
+  fontWeight: 600,
+  color: "#6E4B28",
+  fontSize: 16,
   gap: 6,
 };
 
 const inputStyle = {
   padding: "9px 12px",
-  borderRadius: 8,
-  border: "1px solid #314164",
+  borderRadius: 10,
+  border: "1.3px solid #6E4B28",
   fontSize: 16,
-  background: "#222A3C",
-  color: "#fff",
+  background: "#fff",
+  color: "#19243A",
   marginTop: 3,
+  outline: "none",
+  boxShadow: "0 0 0 2px transparent",
+  transition: "box-shadow 0.15s"
 };
 
 const actionButtonStyle = {
-  background: "linear-gradient(90deg, #4568DC 0%, #5EE6E6 100%)",
+  background: "#6E4B28",
   color: "#fff",
   border: "none",
-  borderRadius: 12,
+  borderRadius: 16,
   fontWeight: 700,
   fontSize: 17,
   padding: "0.7rem 1.2rem",
   marginTop: 12,
   cursor: "pointer",
+  boxShadow: "0 2px 8px #151B2633",
+  transition: "background 0.15s"
 };
