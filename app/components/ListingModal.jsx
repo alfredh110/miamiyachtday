@@ -64,8 +64,8 @@ export default function ListingModal({ onClose }) {
       <div style={overlayStyle}>
         <div style={modalStyle}>
           <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
-          <h2 style={{ color: "#6E4B28" }}>Thank you!</h2>
-          <p style={{ color: "#19243A" }}>Your yacht listing has been submitted.<br />We’ll contact you soon.</p>
+          <h2 style={{ color: "#6E4B28", fontFamily: "'Inter', Arial, sans-serif" }}>Thank you!</h2>
+          <p style={{ color: "#19243A", fontFamily: "'Inter', Arial, sans-serif" }}>Your yacht listing has been submitted.<br />We’ll contact you soon.</p>
           <button style={actionButtonStyle} onClick={onClose}>Close</button>
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function ListingModal({ onClose }) {
     <div style={overlayStyle}>
       <div style={modalStyle}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
-        <h2 style={{ color: "#6E4B28", marginBottom: 10 }}>List Your Yacht</h2>
+        <h2 style={{ color: "#6E4B28", marginBottom: 10, fontFamily: "'Inter', Arial, sans-serif" }}>List Your Yacht</h2>
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <label style={labelStyle}>
             Yacht Name*
@@ -169,13 +169,14 @@ export default function ListingModal({ onClose }) {
               placeholder="Paste a photo URL (optional)"
             />
           </label>
-          {error && <div style={{ color: "#6E4B28", marginBottom: 8 }}>{error}</div>}
+          {error && <div style={{ color: "#6E4B28", marginBottom: 8, fontFamily: "'Inter', Arial, sans-serif" }}>{error}</div>}
           <button
             type="submit"
             style={{
               ...actionButtonStyle,
               opacity: submitting ? 0.6 : 1,
               pointerEvents: submitting ? "none" : "auto",
+              fontFamily: "'Inter', Arial, sans-serif",
             }}
             disabled={submitting}
           >
@@ -199,6 +200,7 @@ const overlayStyle = {
   alignItems: "center",
   justifyContent: "center",
   zIndex: 1000,
+  fontFamily: "'Inter', Arial, sans-serif",
 };
 
 const modalStyle = {
@@ -210,6 +212,7 @@ const modalStyle = {
   maxWidth: 420,
   boxShadow: "0 8px 32px #151B2633",
   position: "relative",
+  fontFamily: "'Inter', Arial, sans-serif",
 };
 
 const closeButtonStyle = {
@@ -222,6 +225,7 @@ const closeButtonStyle = {
   color: "#6E4B28",
   cursor: "pointer",
   fontWeight: 700,
+  fontFamily: "'Inter', Arial, sans-serif"
 };
 
 const labelStyle = {
@@ -231,6 +235,7 @@ const labelStyle = {
   color: "#6E4B28",
   fontSize: 16,
   gap: 6,
+  fontFamily: "'Inter', Arial, sans-serif"
 };
 
 const inputStyle = {
@@ -243,7 +248,8 @@ const inputStyle = {
   marginTop: 3,
   outline: "none",
   boxShadow: "0 0 0 2px transparent",
-  transition: "box-shadow 0.15s"
+  transition: "box-shadow 0.15s",
+  fontFamily: "'Inter', Arial, sans-serif"
 };
 
 const actionButtonStyle = {
@@ -257,5 +263,6 @@ const actionButtonStyle = {
   marginTop: 12,
   cursor: "pointer",
   boxShadow: "0 2px 8px #151B2633",
-  transition: "background 0.15s"
+  transition: "background 0.15s",
+  fontFamily: "'Inter', Arial, sans-serif"
 };
