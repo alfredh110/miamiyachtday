@@ -8,6 +8,7 @@ export default function WaveDivider({ flip = false, color = "#6E4B28", height = 
         overflow: "hidden",
         lineHeight: 0,
         background: "transparent",
+        fontFamily: "'Inter', Arial, sans-serif"
       }}
       aria-hidden="true"
     >
