@@ -8,11 +8,11 @@ import React from "react";
 
 export default function HomepageProfessional() {
   return (
-    <div style={{ background: "#F8F9FA", fontFamily: "'Inter', Arial, sans-serif", color: "#232323" }}>
+    <div style={{ background: "#FFFFFF", fontFamily: "'Inter', Arial, sans-serif", color: "#19243A" }}>
       {/* NAVBAR */}
       <nav style={{
-        background: "#fff",
-        borderBottom: "1px solid #ececec",
+        background: "#19243A",
+        borderBottom: "2px solid #6E4B28",
         padding: "1rem 4vw",
         display: "flex",
         alignItems: "center",
@@ -22,7 +22,7 @@ export default function HomepageProfessional() {
         zIndex: 100,
       }}>
         <span style={{
-          color: "#C59C5D",
+          color: "#6E4B28",
           fontSize: "2rem",
           fontWeight: 800,
           letterSpacing: ".03em",
@@ -31,15 +31,15 @@ export default function HomepageProfessional() {
           Miami Yacht Day
         </span>
         <div>
-          <button className="nav-btn" style={navBtnStyle}>Listings</button>
-          <button className="nav-btn" style={navBtnStyle}>Book a Yacht</button>
-          <button className="nav-btn" style={navBtnStyle}>List Yacht</button>
+          <button className="nav-btn" style={navBtnStyleNavy}>Listings</button>
+          <button className="nav-btn" style={navBtnStyleNavy}>Book a Yacht</button>
+          <button className="nav-btn" style={navBtnStyleNavy}>List Yacht</button>
         </div>
       </nav>
 
       {/* HERO SECTION */}
       <section style={{
-        background: "url(/hero-yacht.jpg) center/cover no-repeat",
+        background: "#19243A",
         minHeight: 440,
         padding: "6rem 0 4rem 0",
         textAlign: "center",
@@ -47,11 +47,13 @@ export default function HomepageProfessional() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        color: "#fff",
+        borderBottom: "8px solid #6E4B28"
       }}>
         <div style={{
-          background: "rgba(255,255,255,0.75)",
+          background: "rgba(255,255,255,0.10)",
           borderRadius: 22,
-          boxShadow: "0 8px 32px rgba(36,44,61,.06)",
+          boxShadow: "0 8px 32px rgba(25,36,58,0.12)",
           padding: "3rem 2.7rem 2.5rem 2.7rem",
           maxWidth: 560,
           margin: "0 auto",
@@ -62,26 +64,26 @@ export default function HomepageProfessional() {
             fontWeight: 700,
             letterSpacing: "0.01em",
             marginBottom: "1.1rem",
-            color: "#222",
+            color: "#fff",
             lineHeight: 1.18
           }}>
             Charter Miami's Finest Yachts
           </h1>
           <p style={{
-            color: "#636363",
+            color: "#C59C5D",
             fontSize: "1.13rem",
             marginBottom: "2.2rem"
           }}>
             Effortless booking. Unforgettable luxury.
           </p>
-          <button className="button" style={{ ...buttonStyle, marginRight: 14 }}>Book Now</button>
-          <button className="button" style={buttonStyle}>See Yachts</button>
+          <button className="button" style={{ ...buttonStyleNavy, marginRight: 14 }}>Book Now</button>
+          <button className="button" style={buttonStyleNavy}>See Yachts</button>
         </div>
       </section>
 
       {/* FEATURED YACHTS */}
-      <section className="section" style={sectionStyle}>
-        <h2 style={sectionTitleStyle}>Featured Yachts</h2>
+      <section className="section" style={sectionStyleNavy}>
+        <h2 style={sectionTitleStyleNavy}>Featured Yachts</h2>
         <div style={{
           display: "flex",
           gap: 24,
@@ -89,21 +91,21 @@ export default function HomepageProfessional() {
           flexWrap: "wrap",
           marginTop: 18,
         }}>
-          <YachtCard
+          <YachtCardNavy
             name="Sundeck 26' Sport Boat"
             guests="10 Guests • Crew Included"
             price="$550/day"
             rating={4.8}
             image="/yacht1.jpg"
           />
-          <YachtCard
+          <YachtCardNavy
             name="30' HURRICANE GRANDSON"
             guests="10 Guests • Crew Included"
             price="$660/day"
             rating={4.9}
             image="/yacht2.jpg"
           />
-          <YachtCard
+          <YachtCardNavy
             name="31' BLACK PEARL AMBERJACK"
             guests="13 Guests • Crew Included • 1 Cabin"
             price="$735/day"
@@ -114,8 +116,8 @@ export default function HomepageProfessional() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="section" style={sectionStyle}>
-        <h2 style={sectionTitleStyle}>How It Works</h2>
+      <section className="section" style={sectionStyleNavy}>
+        <h2 style={sectionTitleStyleNavy}>How It Works</h2>
         <div style={{
           display: "flex",
           justifyContent: "center",
@@ -123,17 +125,17 @@ export default function HomepageProfessional() {
           flexWrap: "wrap",
           marginTop: 18,
         }}>
-          <HowItWorksStep
+          <HowItWorksStepNavy
             icon="🚤"
             title="Choose Your Yacht"
             desc="Browse our fleet and select the perfect yacht for your day"
           />
-          <HowItWorksStep
+          <HowItWorksStepNavy
             icon="⚡"
             title="Book Instantly"
             desc="Reserve in a few clicks with transparent pricing and easy checkout."
           />
-          <HowItWorksStep
+          <HowItWorksStepNavy
             icon="🌴"
             title="Enjoy the Day"
             desc="Set sail stress-free! Our team handles the details for a memorable experience."
@@ -142,14 +144,14 @@ export default function HomepageProfessional() {
       </section>
 
       {/* GALLERY */}
-      <section className="section" style={sectionStyle}>
-        <h2 style={sectionTitleStyle}>Gallery</h2>
+      <section className="section" style={sectionStyleNavy}>
+        <h2 style={sectionTitleStyleNavy}>Gallery</h2>
         <div style={{
           minHeight: 110,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#868686",
+          color: "#6E4B28",
           fontStyle: "italic"
         }}>
           Gallery coming soon!
@@ -157,18 +159,18 @@ export default function HomepageProfessional() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="section" style={sectionStyle}>
+      <section className="section" style={sectionStyleNavy}>
         <div style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: 30
         }}>
-          <h2 style={{ ...sectionTitleStyle, margin: 0 }}>Testimonials</h2>
+          <h2 style={{ ...sectionTitleStyleNavy, margin: 0 }}>Testimonials</h2>
           <div>
-            <button className="nav-btn" style={navBtnStyle}>Listings</button>
-            <button className="nav-btn" style={navBtnStyle}>Book a Yacht</button>
-            <button className="nav-btn" style={navBtnStyle}>List Yacht</button>
+            <button className="nav-btn" style={navBtnStyleNavy}>Listings</button>
+            <button className="nav-btn" style={navBtnStyleNavy}>Book a Yacht</button>
+            <button className="nav-btn" style={navBtnStyleNavy}>List Yacht</button>
           </div>
         </div>
         <div style={{
@@ -177,15 +179,15 @@ export default function HomepageProfessional() {
           justifyContent: "center",
           flexWrap: "wrap"
         }}>
-          <TestimonialCard name="John Doe" text="Amazing experience! Highly recommend." />
-          <TestimonialCard name="Jane Smith" text="The booking was smooth and the yacht was fantastic." />
+          <TestimonialCardNavy name="John Doe" text="Amazing experience! Highly recommend." />
+          <TestimonialCardNavy name="Jane Smith" text="The booking was smooth and the yacht was fantastic." />
         </div>
       </section>
 
       {/* CTA SECTION */}
       <section className="section" style={{
-        ...sectionStyle,
-        background: "linear-gradient(120deg,#232323 60%,#C59C5D 120%)",
+        ...sectionStyleNavy,
+        background: "linear-gradient(120deg,#19243A 60%,#6E4B28 120%)",
         color: "#fff",
         textAlign: "center",
         marginBottom: 28
@@ -199,7 +201,7 @@ export default function HomepageProfessional() {
           color: "#fff",
           textShadow: "0 2px 16px #151B2633"
         }}>
-          Ready to sail? <span style={{ color: "#FFD700" }}>Book your Miami Yacht Day!</span>
+          Ready to sail? <span style={{ color: "#C59C5D" }}>Book your Miami Yacht Day!</span>
         </h2>
         <p style={{
           color: "#F7F7F7",
@@ -211,17 +213,17 @@ export default function HomepageProfessional() {
           Reserve your luxury yacht today and make memories on the water. Hassle-free online booking. Friendly crew. Unforgettable moments.
         </p>
         <button className="button" style={{
-          ...buttonStyle,
+          ...buttonStyleNavy,
           background: "#fff",
-          color: "#232323",
-          border: "2px solid #C59C5D"
+          color: "#6E4B28",
+          border: "2px solid #6E4B28"
         }}>Book Now</button>
       </section>
 
       {/* FOOTER */}
       <footer style={{
-        background: "#232323",
-        color: "#FFD700",
+        background: "#19243A",
+        color: "#6E4B28",
         textAlign: "left",
         padding: "1.1rem 4vw 1.1rem 4vw",
         fontSize: "1.15rem",
@@ -232,13 +234,13 @@ export default function HomepageProfessional() {
         <div style={{ color: "#fff", fontSize: "1rem" }}>
           © Miami Yacht Day
           <span style={{ marginLeft: 18 }}>
-            <a href="#" style={{ color: "#FFD700", margin: "0 8px" }}>
+            <a href="#" style={{ color: "#6E4B28", margin: "0 8px" }}>
               <i className="fab fa-instagram"></i>
             </a>
-            <a href="#" style={{ color: "#FFD700", margin: "0 8px" }}>
+            <a href="#" style={{ color: "#6E4B28", margin: "0 8px" }}>
               <i className="fab fa-facebook"></i>
             </a>
-            <a href="#" style={{ color: "#FFD700", margin: "0 8px" }}>
+            <a href="#" style={{ color: "#6E4B28", margin: "0 8px" }}>
               <i className="fab fa-youtube"></i>
             </a>
           </span>
@@ -250,17 +252,18 @@ export default function HomepageProfessional() {
 
 // ------ Subcomponents ------
 
-function YachtCard({ name, guests, price, rating, image }) {
+function YachtCardNavy({ name, guests, price, rating, image }) {
   return (
     <div style={{
       background: "#fff",
       borderRadius: 13,
-      boxShadow: "0 2px 16px rgba(36,44,61,0.07)",
+      boxShadow: "0 2px 16px rgba(25,36,58,0.07)",
       padding: "1.1rem 1.2rem 2rem 1.2rem",
       width: 260,
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
+      borderLeft: "6px solid #6E4B28"
     }}>
       <img src={image} alt={name} style={{
         width: "100%",
@@ -273,9 +276,9 @@ function YachtCard({ name, guests, price, rating, image }) {
         fontSize: "1.17rem",
         fontWeight: 700,
         margin: "0 0 6px 0",
-        color: "#232323"
+        color: "#19243A"
       }}>{name}</h3>
-      <div style={{ color: "#636363", fontSize: 14, marginBottom: 7 }}>{guests}</div>
+      <div style={{ color: "#6E4B28", fontSize: 14, marginBottom: 7 }}>{guests}</div>
       <div style={{
         display: "flex",
         alignItems: "center",
@@ -286,7 +289,7 @@ function YachtCard({ name, guests, price, rating, image }) {
         <span style={{ fontWeight: 700, fontSize: 16 }}>★ {rating}</span>
         <span style={{
           background: "#f8f2e7",
-          color: "#C59C5D",
+          color: "#6E4B28",
           padding: "2px 10px",
           borderRadius: 6,
           fontWeight: 600,
@@ -294,85 +297,87 @@ function YachtCard({ name, guests, price, rating, image }) {
         }}>{price}</span>
       </div>
       <div>
-        <button className="button" style={{ ...buttonStyle, marginRight: 8, border: "2px solid #C59C5D" }}>Book Now</button>
-        <button className="button" style={{ ...buttonStyle, background: "#232323", color: "#fff", border: "none" }}>View Details</button>
+        <button className="button" style={{ ...buttonStyleNavy, marginRight: 8, border: "2px solid #6E4B28" }}>Book Now</button>
+        <button className="button" style={{ ...buttonStyleNavy, background: "#6E4B28", color: "#fff", border: "none" }}>View Details</button>
       </div>
     </div>
   );
 }
 
-function HowItWorksStep({ icon, title, desc }) {
+function HowItWorksStepNavy({ icon, title, desc }) {
   return (
     <div style={{
       background: "#fff",
       borderRadius: 12,
-      boxShadow: "0 1px 10px rgba(36,44,61,0.04)",
+      boxShadow: "0 1px 10px rgba(25,36,58,0.04)",
       padding: "1.7rem 1.4rem",
       width: 220,
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
+      borderTop: "4px solid #6E4B28"
     }}>
       <span style={{ fontSize: 38, marginBottom: 10 }}>{icon}</span>
       <h4 style={{
         fontWeight: 700,
         fontSize: 18,
         margin: "0 0 8px 0",
-        color: "#232323"
+        color: "#19243A"
       }}>{title}</h4>
-      <div style={{ color: "#636363", fontSize: 15, textAlign: "center" }}>{desc}</div>
+      <div style={{ color: "#6E4B28", fontSize: 15, textAlign: "center" }}>{desc}</div>
     </div>
   );
 }
 
-function TestimonialCard({ name, text }) {
+function TestimonialCardNavy({ name, text }) {
   return (
     <div style={{
       background: "#fff",
       borderRadius: 13,
-      boxShadow: "0 2px 16px rgba(36,44,61,0.07)",
+      boxShadow: "0 2px 16px rgba(25,36,58,0.07)",
       padding: "2.1rem 1.5rem 1.7rem 1.5rem",
       width: 280,
-      textAlign: "center"
+      textAlign: "center",
+      borderBottom: "5px solid #6E4B28"
     }}>
       <div style={{
         width: 64,
         height: 64,
         borderRadius: "50%",
-        background: "#e8e8e8",
+        background: "#19243A",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         fontWeight: 700,
         fontSize: 20,
-        color: "#232323",
+        color: "#fff",
         margin: "0 auto 18px auto"
       }}>
         {name.split(" ").map(w => w[0]).join("")}
       </div>
-      <div style={{ fontWeight: 700, marginBottom: 6 }}>{name}</div>
-      <div style={{ color: "#636363", fontSize: 15, fontStyle: "italic" }}>{text}</div>
+      <div style={{ fontWeight: 700, marginBottom: 6, color: "#6E4B28" }}>{name}</div>
+      <div style={{ color: "#19243A", fontSize: 15, fontStyle: "italic" }}>{text}</div>
     </div>
   );
 }
 
 // ------ Styles ------
-const buttonStyle = {
-  background: "#fff",
-  color: "#232323",
-  border: "2px solid #C59C5D",
+const buttonStyleNavy = {
+  background: "#6E4B28",
+  color: "#FFFFFF",
+  border: "none",
   borderRadius: 25,
-  padding: "11px 34px",
+  padding: "12px 40px",
   fontWeight: 500,
   fontSize: "1rem",
   letterSpacing: "0.01em",
   cursor: "pointer",
-  transition: "all 0.15s"
+  transition: "background 0.15s"
 };
 
-const navBtnStyle = {
+const navBtnStyleNavy = {
   background: "none",
-  color: "#232323",
+  color: "#FFFFFF",
   border: "none",
   fontSize: "1rem",
   marginLeft: "1.3rem",
@@ -381,20 +386,20 @@ const navBtnStyle = {
   transition: "color 0.14s"
 };
 
-const sectionStyle = {
+const sectionStyleNavy = {
   background: "#fff",
   borderRadius: 14,
-  boxShadow: "0 4px 24px rgba(36,44,61,0.06)",
+  boxShadow: "0 4px 24px rgba(25,36,58,0.08)",
   padding: "3rem 2rem",
   margin: "2.5rem auto",
   maxWidth: 1100,
 };
 
-const sectionTitleStyle = {
+const sectionTitleStyleNavy = {
   fontSize: "1.6rem",
   fontWeight: 700,
   letterSpacing: ".01em",
-  color: "#232323",
+  color: "#19243A",
   marginBottom: 14,
   fontFamily: "inherit",
 };
