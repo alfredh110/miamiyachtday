@@ -111,8 +111,8 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
       <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
         <div ref={modalRef} style={modalStyle}>
           <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
-          <h2 style={{ color: "#5EE6E6" }}>Thank you!</h2>
-          <p style={{ color: "#B0BED8" }}>Your booking request has been submitted.<br />We’ll contact you soon.</p>
+          <h2 style={{ color: "#6E4B28" }}>Thank you!</h2>
+          <p style={{ color: "#19243A" }}>Your booking request has been submitted.<br />We’ll contact you soon.</p>
           <button style={actionButtonStyle} onClick={onClose} autoFocus>Close</button>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
     <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
       <div ref={modalRef} style={modalStyle}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
-        <h2 style={{ color: "#5EE6E6", marginBottom: 10 }}>
+        <h2 style={{ color: "#6E4B28", marginBottom: 10 }}>
           Book {selectedYacht ? `the ${form.yacht}` : "a Yacht"}
         </h2>
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -212,7 +212,7 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
               aria-label="Message"
             />
           </label>
-          {error && <div style={{ color: "#FFD700", marginBottom: 8 }}>{error}</div>}
+          {error && <div style={{ color: "#6E4B28", marginBottom: 8 }}>{error}</div>}
           <button
             type="submit"
             style={{
@@ -236,21 +236,22 @@ const overlayStyle = {
   position: "fixed",
   zIndex: 1000,
   left: 0, top: 0, right: 0, bottom: 0,
-  background: "rgba(20,26,38,0.76)",
+  background: "rgba(25,36,58,0.82)", // navy overlay
   display: "flex",
   alignItems: "center",
   justifyContent: "center"
 };
 
 const modalStyle = {
-  background: "rgba(36,44,61,0.96)",
+  background: "#fff",
   borderRadius: 24,
   padding: "2rem 2.3rem",
   boxShadow: "0 8px 36px #151B2633",
   minWidth: 340,
   maxWidth: 400,
   width: "90vw",
-  position: "relative"
+  position: "relative",
+  color: "#19243A"
 };
 
 const closeButtonStyle = {
@@ -259,14 +260,14 @@ const closeButtonStyle = {
   top: 16,
   fontSize: 30,
   background: "none",
-  color: "#5EE6E6",
+  color: "#6E4B28",
   border: "none",
   cursor: "pointer",
   lineHeight: 1
 };
 
 const labelStyle = {
-  color: "#B0BED8",
+  color: "#6E4B28",
   fontWeight: 600,
   fontSize: 16,
   display: "flex",
@@ -277,11 +278,11 @@ const labelStyle = {
 const inputStyle = {
   marginTop: 4,
   borderRadius: 10,
-  border: "1.3px solid #23304B",
+  border: "1.3px solid #6E4B28",
   padding: "0.55rem 0.9rem",
   fontSize: 16,
-  background: "#22304B",
-  color: "#fff",
+  background: "#fff",
+  color: "#19243A",
   outline: "none",
   boxShadow: "0 0 0 2px transparent",
   transition: "box-shadow 0.15s"
@@ -289,7 +290,7 @@ const inputStyle = {
 
 const actionButtonStyle = {
   marginTop: 8,
-  background: "linear-gradient(90deg, #4568DC 0%, #5EE6E6 100%)",
+  background: "#6E4B28",
   color: "#fff",
   border: "none",
   borderRadius: 16,
@@ -297,5 +298,6 @@ const actionButtonStyle = {
   fontSize: 17,
   padding: "0.8rem 1.3rem",
   cursor: "pointer",
-  boxShadow: "0 2px 8px #151B2633"
+  boxShadow: "0 2px 8px #151B2633",
+  transition: "background 0.15s"
 };
