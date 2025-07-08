@@ -8,7 +8,7 @@ export default function CTASection() {
         padding: "2.5rem 4vw",
         maxWidth: 800,
         borderRadius: "2rem",
-        background: "linear-gradient(120deg,#232F4B 80%,#5EE6E6 140%)",
+        background: "linear-gradient(120deg,#19243A 80%,#6E4B28 140%)", // navy to dark brown
         boxShadow: "0 6px 24px #151B2633",
         textAlign: "center",
         position: "relative",
@@ -29,7 +29,7 @@ export default function CTASection() {
       </h2>
       <p
         style={{
-          color: "#B0BED8",
+          color: "#fff",
           fontSize: "1.14rem",
           fontWeight: 500,
           marginBottom: "2rem",
@@ -40,11 +40,11 @@ export default function CTASection() {
       </p>
       <button
         style={{
-          background: "linear-gradient(90deg,#5EE6E6 0%,#4568DC 100%)",
+          background: "#6E4B28", // dark brown
           color: "#fff",
           fontWeight: 700,
           border: "none",
-          borderRadius: 7,
+          borderRadius: 16,
           fontSize: 18,
           padding: "14px 44px",
           cursor: "pointer",
