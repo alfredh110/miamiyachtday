@@ -4,10 +4,10 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: "#232F4B",
+        background: "#19243A", // navy blue
         padding: "2.2rem 0 0.5rem 0",
         marginTop: "2rem",
-        color: "#FFD700",
+        color: "#6E4B28", // dark brown accent
         fontFamily: "Montserrat, sans-serif",
         fontWeight: 700,
         letterSpacing: ".03em",
@@ -42,12 +42,12 @@ export default function Footer() {
               style={{ display: "inline-flex" }}
             >
               <svg width="27" height="27" viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="8" fill="#FFD700" />
+                <rect width="32" height="32" rx="8" fill="#6E4B28" />
                 <g>
-                  <circle cx="16" cy="16" r="6" stroke="#232F4B" strokeWidth="2"/>
-                  <circle cx="23" cy="9" r="1.3" fill="#232F4B" />
+                  <circle cx="16" cy="16" r="6" stroke="#fff" strokeWidth="2"/>
+                  <circle cx="23" cy="9" r="1.3" fill="#fff" />
                 </g>
-                <rect x="6" y="6" width="20" height="20" rx="6" stroke="#232F4B" strokeWidth="2"/>
+                <rect x="6" y="6" width="20" height="20" rx="6" stroke="#fff" strokeWidth="2"/>
               </svg>
             </a>
             <a
@@ -58,8 +58,8 @@ export default function Footer() {
               style={{ display: "inline-flex" }}
             >
               <svg width="27" height="27" viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="8" fill="#FFD700" />
-                <path d="M20.5 17.5L21 14.5H18V12.5C18 11.7 18.3 11 19.5 11H21V8.4C20.8 8.3 20.1 8 19 8C16.9 8 15.5 9.2 15.5 12V14.5H13V17.5H15.5V24H18V17.5H20.5Z" fill="#232F4B"/>
+                <rect width="32" height="32" rx="8" fill="#6E4B28" />
+                <path d="M20.5 17.5L21 14.5H18V12.5C18 11.7 18.3 11 19.5 11H21V8.4C20.8 8.3 20.1 8 19 8C16.9 8 15.5 9.2 15.5 12V14.5H13V17.5H15.5V24H18V17.5H20.5Z" fill="#fff"/>
               </svg>
             </a>
             <a
@@ -70,15 +70,15 @@ export default function Footer() {
               style={{ display: "inline-flex" }}
             >
               <svg width="27" height="27" viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="8" fill="#FFD700" />
-                <path d="M12 10h2.5l2.7 3.7L20 10h2l-3.6 5L22 22h-2.5l-3-4.1L13 22h-2l3.8-5.5L10 10zm3 4.6l2.4 3.4h.1l.1-.1-2.4-3.3h-.2zm.8 1.1l-2.4 3.3h-.1l-.1-.1 2.4-3.2h.2z" fill="#232F4B"/>
+                <rect width="32" height="32" rx="8" fill="#6E4B28" />
+                <path d="M12 10h2.5l2.7 3.7L20 10h2l-3.6 5L22 22h-2.5l-3-4.1L13 22h-2l3.8-5.5L10 10zm3 4.6l2.4 3.4h.1l.1-.1-2.4-3.3h-.2zm.8 1.1l-2.4 3.3h-.1l-.1-.1 2.4-3.2h.2z" fill="#fff"/>
               </svg>
             </a>
           </div>
         </div>
         <div style={{
           fontWeight: 400,
-          color: "#B0BED8",
+          color: "#fff",
           fontSize: 15,
           letterSpacing: ".01em",
           textAlign: "center"
