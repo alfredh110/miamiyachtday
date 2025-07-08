@@ -8,7 +8,7 @@ export default function Footer() {
         padding: "2.2rem 0 0.5rem 0",
         marginTop: "2rem",
         color: "#6E4B28", // dark brown accent
-        fontFamily: "Montserrat, sans-serif",
+        fontFamily: "'Inter', Arial, sans-serif", // updated for consistency
         fontWeight: 700,
         letterSpacing: ".03em",
         fontSize: 18,
@@ -81,7 +81,8 @@ export default function Footer() {
           color: "#fff",
           fontSize: 15,
           letterSpacing: ".01em",
-          textAlign: "center"
+          textAlign: "center",
+          fontFamily: "'Inter', Arial, sans-serif" // ensure copyright is consistent
         }}>
           © Miami Yacht Day
         </div>
