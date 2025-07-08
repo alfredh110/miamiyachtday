@@ -19,7 +19,7 @@ export default function Testimonials() {
     <section
       style={{
         padding: "2.5rem 4vw",
-        background: "rgba(36,44,61,0.92)",
+        background: "#19243A", // navy
         borderRadius: "2rem",
         marginTop: "2rem",
         maxWidth: 1100,
@@ -33,7 +33,7 @@ export default function Testimonials() {
           fontSize: "1.7rem",
           fontWeight: 700,
           letterSpacing: "0.01em",
-          color: "#5EE6E6",
+          color: "#6E4B28", // dark brown
           marginBottom: "2.1rem",
           fontFamily: "Montserrat, sans-serif",
           textAlign: "center",
@@ -53,7 +53,7 @@ export default function Testimonials() {
           <div
             key={i}
             style={{
-              background: "rgba(51,60,88,1)",
+              background: "#fff",
               borderRadius: "1.6rem",
               boxShadow: "0 2px 16px #151B2633",
               width: 340,
@@ -64,6 +64,7 @@ export default function Testimonials() {
               padding: "2rem 1.4rem 1.7rem 1.4rem",
               textAlign: "center",
               position: "relative",
+              border: "2px solid #6E4B28"
             }}
           >
             <img
@@ -74,21 +75,21 @@ export default function Testimonials() {
                 height: 64,
                 borderRadius: "50%",
                 objectFit: "cover",
-                boxShadow: "0 2px 8px #232F4B55",
+                boxShadow: "0 2px 8px #6E4B2822",
                 marginBottom: 18,
-                border: "3px solid #5EE6E6",
+                border: "3px solid #6E4B28",
                 background: "#fff"
               }}
               onError={e => {
                 e.target.src =
-                  "https://ui-avatars.com/api/?background=5EE6E6&color=232F4B&name=" +
+                  "https://ui-avatars.com/api/?background=6E4B28&color=fff&name=" +
                   encodeURIComponent(t.name);
               }}
             />
             <div
               style={{
                 fontWeight: 700,
-                color: "#5EE6E6",
+                color: "#6E4B28", // dark brown
                 fontSize: 18,
                 marginBottom: 8,
                 fontFamily: "Montserrat, sans-serif",
@@ -98,7 +99,7 @@ export default function Testimonials() {
             </div>
             <div
               style={{
-                color: "#B0BED8",
+                color: "#19243A", // navy
                 fontSize: 16,
                 fontStyle: "italic",
                 fontWeight: 500,
