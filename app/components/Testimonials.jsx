@@ -26,6 +26,7 @@ export default function Testimonials() {
         marginLeft: "auto",
         marginRight: "auto",
         boxShadow: "0 6px 24px #151B2633",
+        fontFamily: "'Inter', Arial, sans-serif",
       }}
     >
       <h3
@@ -35,7 +36,7 @@ export default function Testimonials() {
           letterSpacing: "0.01em",
           color: "#6E4B28", // dark brown
           marginBottom: "2.1rem",
-          fontFamily: "Montserrat, sans-serif",
+          fontFamily: "'Inter', Arial, sans-serif",
           textAlign: "center",
         }}
       >
@@ -64,7 +65,8 @@ export default function Testimonials() {
               padding: "2rem 1.4rem 1.7rem 1.4rem",
               textAlign: "center",
               position: "relative",
-              border: "2px solid #6E4B28"
+              border: "2px solid #6E4B28",
+              fontFamily: "'Inter', Arial, sans-serif",
             }}
           >
             <img
@@ -92,7 +94,7 @@ export default function Testimonials() {
                 color: "#6E4B28", // dark brown
                 fontSize: 18,
                 marginBottom: 8,
-                fontFamily: "Montserrat, sans-serif",
+                fontFamily: "'Inter', Arial, sans-serif",
               }}
             >
               {t.name}
@@ -104,7 +106,7 @@ export default function Testimonials() {
                 fontStyle: "italic",
                 fontWeight: 500,
                 lineHeight: 1.5,
-                fontFamily: "Montserrat, sans-serif",
+                fontFamily: "'Inter', Arial, sans-serif",
               }}
             >
               &ldquo;{t.text}&rdquo;
