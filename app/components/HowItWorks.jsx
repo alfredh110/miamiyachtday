@@ -23,14 +23,14 @@ export default function HowItWorks() {
     <section
       style={{
         padding: "2.5rem 4vw",
-        background: "#19243A", // navy blue
+        background: "#19243A",
         borderRadius: "2rem",
         marginTop: "2rem",
         maxWidth: 1100,
         marginLeft: "auto",
         marginRight: "auto",
         boxShadow: "0 6px 24px #151B2633",
-        fontFamily: "'Inter', Arial, sans-serif", // Consistent font
+        fontFamily: "'Inter', Arial, sans-serif",
       }}
     >
       <h3
@@ -38,10 +38,9 @@ export default function HowItWorks() {
           fontSize: "2rem",
           fontWeight: 700,
           letterSpacing: "0.02em",
-          color: "#6E4B28", // dark brown
+          color: "#6E4B28",
           marginBottom: "2.2rem",
           textAlign: "center",
-          fontFamily: "'Inter', Arial, sans-serif", // Consistent font
         }}
       >
         How It Works
@@ -58,7 +57,7 @@ export default function HowItWorks() {
           <div
             key={i}
             style={{
-              background: "#fff", // white card
+              background: "#fff",
               borderRadius: 36,
               width: 230,
               minHeight: 220,
@@ -70,28 +69,35 @@ export default function HowItWorks() {
               transition: "box-shadow 0.2s, transform 0.2s",
               textAlign: "center",
               borderLeft: "6px solid #6E4B28",
-              fontFamily: "'Inter', Arial, sans-serif", // Consistent font
+            }}
+            tabIndex={0}
+            aria-label={`${step.title}: ${step.desc}`}
+            onMouseOver={e => {
+              e.currentTarget.style.boxShadow = "0 8px 28px #6E4B2888";
+              e.currentTarget.style.transform = "scale(1.03)";
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.boxShadow = "0 4px 16px #151B2633";
+              e.currentTarget.style.transform = "scale(1)";
             }}
           >
             <div style={{ fontSize: 54, marginBottom: 18 }}>{step.icon}</div>
             <div
               style={{
                 fontWeight: 800,
-                color: "#6E4B28", // dark brown
+                color: "#6E4B28",
                 fontSize: 22,
                 marginBottom: 10,
-                fontFamily: "'Inter', Arial, sans-serif", // Consistent font
               }}
             >
               {step.title}
             </div>
             <div
               style={{
-                color: "#19243A", // navy for text
+                color: "#19243A",
                 fontSize: 16,
                 fontWeight: 500,
                 lineHeight: 1.5,
-                fontFamily: "'Inter', Arial, sans-serif", // Consistent font
               }}
             >
               {step.desc}
