@@ -362,6 +362,7 @@ export default function Home() {
           List My Yacht
         </a>
       </section>
+  
     </main>
   );
 }
