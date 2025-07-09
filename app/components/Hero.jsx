@@ -113,6 +113,4 @@ export default function Hero({ onBook, onList }) {
       </div>
     </section>
   );
-}n>
-  );
 }
