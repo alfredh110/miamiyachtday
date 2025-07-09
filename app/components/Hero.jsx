@@ -6,19 +6,29 @@ export default function Hero({ onBook, onList }) {
       style={{
         width: "100vw",
         minHeight: 440,
-        background: "#19243A", // solid navy background
+        background: "#19243A",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
         overflow: "hidden",
-        fontFamily: "'Inter', Arial, sans-serif" // Consistent font
+        fontFamily: "'Inter', Arial, sans-serif"
       }}
     >
       {/* Decorative ellipse */}
-      <svg style={{
-        position: "absolute", top: 40, left: "50%", transform: "translateX(-50%)", zIndex: 0
-      }} width="1040" height="170">
+      <svg
+        style={{
+          position: "absolute",
+          top: 40,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 0
+        }}
+        width="1040"
+        height="170"
+        aria-hidden="true"
+        focusable="false"
+      >
         <ellipse cx="520" cy="85" rx="520" ry="85" fill="#6E4B28" fillOpacity="0.10" />
       </svg>
       {/* Glassmorphic card */}
@@ -38,10 +48,10 @@ export default function Hero({ onBook, onList }) {
       >
         <h1
           style={{
-            fontFamily: "'Inter', Arial, sans-serif", // Consistent font
+            fontFamily: "'Inter', Arial, sans-serif",
             fontWeight: 700,
             fontSize: 48,
-            color: "#19243A", // navy
+            color: "#19243A",
             marginBottom: 10,
             textAlign: "center"
           }}
@@ -51,15 +61,15 @@ export default function Hero({ onBook, onList }) {
         <p
           style={{
             fontSize: 24,
-            color: "#6E4B28", // dark brown
-            fontFamily: "'Inter', Arial, sans-serif", // Consistent font
+            color: "#6E4B28",
+            fontFamily: "'Inter', Arial, sans-serif",
             marginBottom: 30,
             textAlign: "center"
           }}
         >
           Effortless booking. Unforgettable luxury.
         </p>
-        <div style={{ display: "flex", gap: 24 }}>
+        <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
           <button
             style={{
               minWidth: 140,
@@ -68,7 +78,7 @@ export default function Hero({ onBook, onList }) {
               background: "#6E4B28",
               border: "none",
               color: "#fff",
-              fontFamily: "'Inter', Arial, sans-serif", // Consistent font
+              fontFamily: "'Inter', Arial, sans-serif",
               fontWeight: 700,
               fontSize: 18,
               cursor: "pointer",
@@ -76,6 +86,7 @@ export default function Hero({ onBook, onList }) {
               transition: "background 0.16s"
             }}
             onClick={onBook}
+            aria-label="Book a yacht now"
           >
             Book Now
           </button>
@@ -87,18 +98,21 @@ export default function Hero({ onBook, onList }) {
               background: "#fff",
               border: `2px solid #6E4B28`,
               color: "#6E4B28",
-              fontFamily: "'Inter', Arial, sans-serif", // Consistent font
+              fontFamily: "'Inter', Arial, sans-serif",
               fontWeight: 700,
               fontSize: 18,
               cursor: "pointer",
               transition: "background 0.16s, color 0.16s"
             }}
             onClick={onList}
+            aria-label="List your yacht"
           >
             List Yachts
           </button>
         </div>
       </div>
     </section>
+  );
+}n>
   );
 }
