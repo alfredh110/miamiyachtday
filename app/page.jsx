@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import WaveDivider from "./components/WaveDivider";
@@ -13,12 +13,12 @@ import Footer from "./components/Footer";
 import BookingModal from "./components/BookingModal";
 import ListingModal from "./components/ListingModal";
 
-export default function Page() {
+export default function HomePage() {
   const [showBooking, setShowBooking] = useState(false);
   const [showListing, setShowListing] = useState(false);
 
   return (
-    <>
+    <Fragment>
       <Navbar onBook={() => setShowBooking(true)} onList={() => setShowListing(true)} />
       <Hero onBook={() => setShowBooking(true)} onList={() => setShowListing(true)} />
       <WaveDivider />
@@ -33,6 +33,6 @@ export default function Page() {
       <Footer />
       {showBooking && <BookingModal onClose={() => setShowBooking(false)} />}
       {showListing && <ListingModal onClose={() => setShowListing(false)} />}
-    </>
+    </Fragment>
   );
 }
