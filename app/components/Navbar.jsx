@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 export default function ListingModal({ onClose }) {
   const [form, setForm] = useState({
@@ -14,6 +14,41 @@ export default function ListingModal({ onClose }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const firstInputRef = useRef();
+  const modalRef = useRef();
+
+  // Autofocus on the first input
+  useEffect(() => {
+    setTimeout(() => { firstInputRef.current?.focus(); }, 100);
+  }, []);
+
+  // Escape key closes modal, tab trap for accessibility
+  useEffect(() => {
+    const handleKey = e => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'input,select,textarea,button,[tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusable.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  const handleOverlayClick = e => {
+    if (e.target === e.currentTarget) onClose();
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -45,7 +80,8 @@ export default function ListingModal({ onClose }) {
       });
 
       if (!res.ok) {
-        const data = await res.json();
+        let data = {};
+        try { data = await res.json(); } catch {}
         setError(data.error || "Submission failed.");
         setSubmitting(false);
         return;
@@ -61,20 +97,20 @@ export default function ListingModal({ onClose }) {
 
   if (submitted) {
     return (
-      <div style={overlayStyle}>
-        <div style={modalStyle}>
+      <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
+        <div ref={modalRef} style={modalStyle}>
           <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
           <h2 style={{ color: "#6E4B28", fontFamily: "'Inter', Arial, sans-serif" }}>Thank you!</h2>
           <p style={{ color: "#19243A", fontFamily: "'Inter', Arial, sans-serif" }}>Your yacht listing has been submitted.<br />We’ll contact you soon.</p>
-          <button style={actionButtonStyle} onClick={onClose}>Close</button>
+          <button style={actionButtonStyle} onClick={onClose} autoFocus>Close</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={overlayStyle}>
-      <div style={modalStyle}>
+    <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
+      <div ref={modalRef} style={modalStyle}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
         <h2 style={{ color: "#6E4B28", marginBottom: 10, fontFamily: "'Inter', Arial, sans-serif" }}>List Your Yacht</h2>
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -87,6 +123,8 @@ export default function ListingModal({ onClose }) {
               value={form.yachtName}
               onChange={handleChange}
               required
+              ref={firstInputRef}
+              autoComplete="off"
             />
           </label>
           <label style={labelStyle}>
@@ -98,6 +136,7 @@ export default function ListingModal({ onClose }) {
               value={form.ownerName}
               onChange={handleChange}
               required
+              autoComplete="off"
             />
           </label>
           <label style={labelStyle}>
@@ -109,6 +148,7 @@ export default function ListingModal({ onClose }) {
               value={form.email}
               onChange={handleChange}
               required
+              autoComplete="email"
             />
           </label>
           <label style={labelStyle}>
@@ -121,6 +161,7 @@ export default function ListingModal({ onClose }) {
               onChange={handleChange}
               required
               placeholder="(555) 123-4567"
+              autoComplete="tel"
             />
           </label>
           <label style={labelStyle}>
@@ -179,6 +220,7 @@ export default function ListingModal({ onClose }) {
               fontFamily: "'Inter', Arial, sans-serif",
             }}
             disabled={submitting}
+            aria-busy={submitting}
           >
             {submitting ? "Submitting..." : "Submit Listing"}
           </button>
@@ -195,7 +237,7 @@ const overlayStyle = {
   left: 0,
   width: "100vw",
   height: "100vh",
-  background: "rgba(25,36,58,0.82)", // navy overlay
+  background: "rgba(25,36,58,0.82)",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
