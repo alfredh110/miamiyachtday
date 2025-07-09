@@ -1,0 +1,367 @@
+import Image from "next/image";
+
+export default function Home() {
+  return (
+    <main style={{ fontFamily: "'Inter', serif", background: "#f8f7f3", minHeight: "100vh" }}>
+      {/* Hero Section */}
+      <section
+        style={{
+          width: "100%",
+          minHeight: 520,
+          background: "linear-gradient(180deg, #151b26 60%, #6E4B28 100%)",
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0",
+        }}
+      >
+        {/* Luxury Miami water background */}
+        <Image
+          src="/miami-water.jpg"
+          alt=""
+          fill
+          style={{
+            objectFit: "cover",
+            opacity: 0.55,
+            zIndex: 0,
+          }}
+          priority
+        />
+        {/* Overlay content */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            background: "rgba(255,255,255,0.93)",
+            borderRadius: "1.6rem",
+            maxWidth: 430,
+            padding: "2.7rem 2.2rem 2rem 2.2rem",
+            margin: "0 2vw",
+            boxShadow: "0 8px 32px #151B2630",
+            border: "2px solid #6E4B28",
+          }}
+        >
+          <h1
+            style={{
+              color: "#19243A",
+              fontSize: "2.6rem",
+              fontWeight: 800,
+              fontFamily: "'Playfair Display', serif",
+              marginBottom: 16,
+              letterSpacing: "-0.01em",
+              lineHeight: 1.08,
+            }}
+          >
+            Effortless Miami Yacht Luxury
+          </h1>
+          <p
+            style={{
+              color: "#6E4B28",
+              fontWeight: 500,
+              fontSize: "1.22rem",
+              marginBottom: 26,
+              fontFamily: "'Inter', serif",
+              letterSpacing: "0.01em",
+            }}
+          >
+            Book or list a yacht with a touch of old money elegance. Welcome to <span style={{fontWeight:700}}>MiamiYachtDay.co</span>
+          </p>
+          {/* Booking Search UI (luxury styled) */}
+          <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <input
+              type="text"
+              placeholder="Departure (e.g. Miami Beach)"
+              style={{
+                padding: "0.87rem 1.1rem",
+                borderRadius: "0.7rem",
+                border: "1.5px solid #C59C5D",
+                fontSize: "1.07rem",
+                fontFamily: "'Inter', serif",
+                marginBottom: 2,
+              }}
+            />
+            <div style={{ display: "flex", gap: 12 }}>
+              <input
+                type="date"
+                style={{
+                  flex: 1,
+                  padding: "0.7rem",
+                  borderRadius: "0.7rem",
+                  border: "1.5px solid #C59C5D",
+                  fontSize: "1.07rem",
+                  fontFamily: "'Inter', serif",
+                }}
+              />
+              <input
+                type="date"
+                style={{
+                  flex: 1,
+                  padding: "0.7rem",
+                  borderRadius: "0.7rem",
+                  border: "1.5px solid #C59C5D",
+                  fontSize: "1.07rem",
+                  fontFamily: "'Inter', serif",
+                }}
+              />
+            </div>
+            <select
+              style={{
+                padding: "0.85rem 1.1rem",
+                borderRadius: "0.7rem",
+                border: "1.5px solid #C59C5D",
+                fontSize: "1.07rem",
+                fontFamily: "'Inter', serif",
+                color: "#19243A",
+              }}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Yacht type (All)
+              </option>
+              <option>Motor Yacht</option>
+              <option>Sailing Yacht</option>
+              <option>Catamaran</option>
+            </select>
+            <button
+              style={{
+                marginTop: 6,
+                background: "linear-gradient(90deg, #151B26 55%, #6E4B28 100%)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "2rem",
+                fontWeight: 700,
+                fontFamily: "'Inter', serif",
+                fontSize: "1.18rem",
+                padding: "0.9rem 2rem",
+                boxShadow: "0 2px 10px #151B2633",
+                cursor: "pointer",
+                letterSpacing: "0.04em",
+                transition: "background 0.17s"
+              }}
+              type="submit"
+            >
+              Search Yachts
+            </button>
+          </form>
+          <div
+            style={{
+              marginTop: 22,
+              fontSize: "1.02rem",
+              color: "#19243A",
+              fontFamily: "'Inter', serif",
+              fontWeight: 500,
+              textAlign: "center",
+              opacity: 0.8,
+            }}
+          >
+            or <a href="#list" style={{ color: "#6E4B28", fontWeight: 700, textDecoration: "underline" }}>List your yacht</a> in minutes
+          </div>
+        </div>
+      </section>
+
+      {/* Yacht Types/Featured Destinations */}
+      <section style={{ margin: "68px auto 0 auto", maxWidth: 1200, padding: "0 3vw" }}>
+        <h2
+          style={{
+            fontSize: "2.05rem",
+            fontWeight: 700,
+            color: "#151B26",
+            textAlign: "center",
+            marginBottom: 30,
+            fontFamily: "'Playfair Display', serif",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          Explore by Yacht Type or Destination
+        </h2>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "2.1rem",
+            justifyItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          {/* Example yacht/destination cards */}
+          {[
+            { name: "Motor Yachts", img: "/motor-yacht.jpg" },
+            { name: "Catamarans", img: "/catamaran.jpg" },
+            { name: "Sailing Yachts", img: "/sailing-yacht.jpg" },
+            { name: "Miami Beach", img: "/miami-beach.jpg" },
+            { name: "Fisher Island", img: "/fisher-island.jpg" },
+            { name: "Key Biscayne", img: "/key-biscayne.jpg" },
+          ].map((item) => (
+            <div
+              key={item.name}
+              style={{
+                width: 260,
+                height: 156,
+                borderRadius: "1.1rem",
+                overflow: "hidden",
+                boxShadow: "0 4px 16px #151B2633",
+                position: "relative",
+                border: "2px solid #6E4B28",
+                background: "#fff",
+                cursor: "pointer",
+                transition: "transform 0.15s"
+              }}
+              tabIndex={0}
+            >
+              <Image
+                src={item.img}
+                alt={item.name}
+                fill
+                style={{
+                  objectFit: "cover",
+                  filter: "saturate(0.92) brightness(0.95)",
+                }}
+              />
+              <span
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  padding: "0.7rem 1rem",
+                  background: "linear-gradient(0deg, #151B2670 80%, transparent 100%)",
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: "1.19rem",
+                  fontFamily: "'Inter', serif",
+                  textShadow: "0 1px 8px #19243A77"
+                }}
+              >
+                {item.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section style={{ margin: "74px auto 0 auto", maxWidth: 1100, padding: "0 3vw" }}>
+        <h2
+          style={{
+            fontSize: "2rem",
+            fontWeight: 700,
+            color: "#151B26",
+            textAlign: "center",
+            marginBottom: 22,
+            fontFamily: "'Playfair Display', serif",
+          }}
+        >
+          What Guests Are Saying
+        </h2>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "2rem",
+            justifyItems: "center",
+          }}
+        >
+          {/* Example testimonials */}
+          {[
+            {
+              name: "William",
+              text: "A day of pure luxury on the water. Seamless booking, incredible crew, and the yacht was like a floating Hamptons estate.",
+              avatar: "/avatar1.png",
+            },
+            {
+              name: "Charlotte",
+              text: "Felt like Gatsby in Miami. Everything was elegant and easy. Highly recommend listing your yacht here.",
+              avatar: "/avatar2.png",
+            },
+            {
+              name: "Julian",
+              text: "Old money vibes, new money tech. Listing my yacht took just minutes and the guests were fantastic.",
+              avatar: "/avatar3.png",
+            },
+          ].map((t) => (
+            <div
+              key={t.name}
+              style={{
+                background: "#fff",
+                borderRadius: "1.2rem",
+                boxShadow: "0 4px 24px #151B2633",
+                width: 340,
+                minHeight: 180,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "2rem 1.4rem 1.7rem 1.4rem",
+                border: "2px solid #6E4B28",
+                fontFamily: "'Inter', serif",
+                textAlign: "center"
+              }}
+            >
+              <Image
+                src={t.avatar}
+                alt={t.name}
+                width={64}
+                height={64}
+                style={{
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  boxShadow: "0 2px 8px #6E4B2822",
+                  marginBottom: 18,
+                  border: "3px solid #6E4B28",
+                  background: "#fff"
+                }}
+              />
+              <div style={{ fontWeight: 700, color: "#6E4B28", fontSize: 18, marginBottom: 8 }}>
+                {t.name}
+              </div>
+              <div style={{ color: "#19243A", fontSize: 16, fontStyle: "italic", fontWeight: 500, lineHeight: 1.5 }}>
+                &ldquo;{t.text}&rdquo;
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Owner Call to Action */}
+      <section id="list" style={{ margin: "80px auto 0 auto", maxWidth: 650, textAlign: "center", padding: "0 3vw" }}>
+        <h3 style={{
+          fontSize: "1.4rem",
+          fontWeight: 700,
+          color: "#151B26",
+          marginBottom: 18,
+          fontFamily: "'Inter', serif",
+        }}>
+          Own a Yacht?
+        </h3>
+        <p style={{
+          color: "#6E4B28",
+          fontSize: "1.08rem",
+          fontWeight: 500,
+          marginBottom: 18,
+        }}>
+          List your yacht in under five minutes and join Miami’s most exclusive fleet.
+        </p>
+        <a
+          href="/list-your-yacht"
+          style={{
+            background: "linear-gradient(90deg, #151B26 55%, #6E4B28 100%)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "2rem",
+            fontWeight: 700,
+            fontFamily: "'Inter', serif",
+            fontSize: "1.13rem",
+            padding: "0.85rem 2.6rem",
+            boxShadow: "0 2px 10px #151B2633",
+            cursor: "pointer",
+            textDecoration: "none",
+            marginBottom: 12,
+            display: "inline-block"
+          }}
+        >
+          List My Yacht
+        </a>
+      </section>
+    </main>
+  );
+}
