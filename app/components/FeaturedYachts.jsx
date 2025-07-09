@@ -31,6 +31,11 @@ const yachts = [
 ];
 
 export default function FeaturedYachts({ onBook }) {
+  // Handler for Book Now to pass yacht info if needed
+  const handleBook = (yacht) => {
+    if (onBook) onBook(yacht);
+  };
+
   return (
     <section style={{
       padding: "2.5rem 4vw",
@@ -46,8 +51,7 @@ export default function FeaturedYachts({ onBook }) {
         fontWeight: 700,
         letterSpacing: "0.01em",
         color: "#6E4B28",
-        marginBottom: "2.1rem",
-        fontFamily: "'Inter', Arial, sans-serif"
+        marginBottom: "2.1rem"
       }}>
         Featured Yachts
       </h3>
@@ -140,10 +144,9 @@ export default function FeaturedYachts({ onBook }) {
                 marginTop: "auto",
                 cursor: "pointer",
                 boxShadow: "0 1px 8px #151B2633",
-                transition: "background 0.18s",
-                fontFamily: "'Inter', Arial, sans-serif"
+                transition: "background 0.18s"
               }}
-              onClick={onBook}
+              onClick={() => handleBook(yacht)}
               aria-label={`Book Now for ${yacht.name}`}
             >
               Book Now
@@ -159,8 +162,7 @@ export default function FeaturedYachts({ onBook }) {
                 fontSize: 15,
                 padding: "7px 18px",
                 cursor: "pointer",
-                transition: "color 0.16s, border-color 0.16s",
-                fontFamily: "'Inter', Arial, sans-serif"
+                transition: "color 0.16s, border-color 0.16s"
               }}
               onClick={() => alert('Details coming soon!')}
               aria-label={`View Details for ${yacht.name}`}
