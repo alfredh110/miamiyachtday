@@ -65,7 +65,7 @@ export default function Home() {
               letterSpacing: "0.01em",
             }}
           >
-            Book or list a yacht with a touch of old money elegance. Welcome to <span style={{fontWeight:700}}>MiamiYachtDay.co</span>
+            Book or List the yacht of your choice. Welcome to <span style={{fontWeight:700}}>MiamiYachtDay.co</span>
           </p>
           {/* Booking Search UI (luxury styled) */}
           <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
