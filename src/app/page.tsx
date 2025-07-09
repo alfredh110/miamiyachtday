@@ -2,13 +2,18 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main style={{ fontFamily: "'Inter', serif", background: "#f8f7f3", minHeight: "100vh" }}>
+    <main style={{
+      fontFamily: "'Inter', serif",
+      background: "#f9ffff",
+      minHeight: "100vh",
+      color: "#003567"
+    }}>
       {/* Hero Section */}
       <section
         style={{
           width: "100%",
           minHeight: 520,
-          background: "linear-gradient(180deg, #151b26 60%, #6E4B28 100%)",
+          background: "linear-gradient(180deg, #003567 60%, #e88d9f 100%)",
           position: "relative",
           display: "flex",
           alignItems: "center",
@@ -23,7 +28,7 @@ export default function Home() {
           fill
           style={{
             objectFit: "cover",
-            opacity: 0.55,
+            opacity: 0.45,
             zIndex: 0,
           }}
           priority
@@ -33,18 +38,18 @@ export default function Home() {
           style={{
             position: "relative",
             zIndex: 2,
-            background: "rgba(255,255,255,0.93)",
+            background: "#f9ffffee",
             borderRadius: "1.6rem",
             maxWidth: 430,
             padding: "2.7rem 2.2rem 2rem 2.2rem",
             margin: "0 2vw",
-            boxShadow: "0 8px 32px #151B2630",
-            border: "2px solid #6E4B28",
+            boxShadow: "0 8px 32px #00356722",
+            border: "2px solid #e88d9f",
           }}
         >
           <h1
             style={{
-              color: "#19243A",
+              color: "#003567",
               fontSize: "2.6rem",
               fontWeight: 800,
               fontFamily: "'Playfair Display', serif",
@@ -57,7 +62,7 @@ export default function Home() {
           </h1>
           <p
             style={{
-              color: "#6E4B28",
+              color: "#e88d9f",
               fontWeight: 500,
               fontSize: "1.22rem",
               marginBottom: 26,
@@ -65,7 +70,7 @@ export default function Home() {
               letterSpacing: "0.01em",
             }}
           >
-            Book or List the yacht of your choice. Welcome to <span style={{fontWeight:700}}>MiamiYachtDay.co</span>
+            Book or list a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
           </p>
           {/* Booking Search UI (luxury styled) */}
           <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -75,10 +80,12 @@ export default function Home() {
               style={{
                 padding: "0.87rem 1.1rem",
                 borderRadius: "0.7rem",
-                border: "1.5px solid #C59C5D",
+                border: "1.5px solid #e88d9f",
                 fontSize: "1.07rem",
                 fontFamily: "'Inter', serif",
                 marginBottom: 2,
+                background: "#f9ffff",
+                color: "#003567"
               }}
             />
             <div style={{ display: "flex", gap: 12 }}>
@@ -88,9 +95,11 @@ export default function Home() {
                   flex: 1,
                   padding: "0.7rem",
                   borderRadius: "0.7rem",
-                  border: "1.5px solid #C59C5D",
+                  border: "1.5px solid #e88d9f",
                   fontSize: "1.07rem",
                   fontFamily: "'Inter', serif",
+                  background: "#f9ffff",
+                  color: "#003567"
                 }}
               />
               <input
@@ -99,9 +108,11 @@ export default function Home() {
                   flex: 1,
                   padding: "0.7rem",
                   borderRadius: "0.7rem",
-                  border: "1.5px solid #C59C5D",
+                  border: "1.5px solid #e88d9f",
                   fontSize: "1.07rem",
                   fontFamily: "'Inter', serif",
+                  background: "#f9ffff",
+                  color: "#003567"
                 }}
               />
             </div>
@@ -109,10 +120,11 @@ export default function Home() {
               style={{
                 padding: "0.85rem 1.1rem",
                 borderRadius: "0.7rem",
-                border: "1.5px solid #C59C5D",
+                border: "1.5px solid #e88d9f",
                 fontSize: "1.07rem",
                 fontFamily: "'Inter', serif",
-                color: "#19243A",
+                color: "#003567",
+                background: "#f9ffff"
               }}
               defaultValue=""
             >
@@ -126,15 +138,15 @@ export default function Home() {
             <button
               style={{
                 marginTop: 6,
-                background: "linear-gradient(90deg, #151B26 55%, #6E4B28 100%)",
-                color: "#fff",
+                background: "linear-gradient(90deg, #003567 55%, #e88d9f 100%)",
+                color: "#f9ffff",
                 border: "none",
                 borderRadius: "2rem",
                 fontWeight: 700,
                 fontFamily: "'Inter', serif",
                 fontSize: "1.18rem",
                 padding: "0.9rem 2rem",
-                boxShadow: "0 2px 10px #151B2633",
+                boxShadow: "0 2px 10px #00356722",
                 cursor: "pointer",
                 letterSpacing: "0.04em",
                 transition: "background 0.17s"
@@ -148,14 +160,14 @@ export default function Home() {
             style={{
               marginTop: 22,
               fontSize: "1.02rem",
-              color: "#19243A",
+              color: "#003567",
               fontFamily: "'Inter', serif",
               fontWeight: 500,
               textAlign: "center",
               opacity: 0.8,
             }}
           >
-            or <a href="#list" style={{ color: "#6E4B28", fontWeight: 700, textDecoration: "underline" }}>List your yacht</a> in minutes
+            or <a href="#list" style={{ color: "#e88d9f", fontWeight: 700, textDecoration: "underline" }}>List your yacht</a> in minutes
           </div>
         </div>
       </section>
@@ -166,7 +178,7 @@ export default function Home() {
           style={{
             fontSize: "2.05rem",
             fontWeight: 700,
-            color: "#151B26",
+            color: "#003567",
             textAlign: "center",
             marginBottom: 30,
             fontFamily: "'Playfair Display', serif",
@@ -200,10 +212,10 @@ export default function Home() {
                 height: 156,
                 borderRadius: "1.1rem",
                 overflow: "hidden",
-                boxShadow: "0 4px 16px #151B2633",
+                boxShadow: "0 4px 16px #00356722",
                 position: "relative",
-                border: "2px solid #6E4B28",
-                background: "#fff",
+                border: "2px solid #e88d9f",
+                background: "#f9ffff",
                 cursor: "pointer",
                 transition: "transform 0.15s"
               }}
@@ -215,7 +227,7 @@ export default function Home() {
                 fill
                 style={{
                   objectFit: "cover",
-                  filter: "saturate(0.92) brightness(0.95)",
+                  filter: "saturate(0.98) brightness(0.97)",
                 }}
               />
               <span
@@ -225,12 +237,12 @@ export default function Home() {
                   right: 0,
                   bottom: 0,
                   padding: "0.7rem 1rem",
-                  background: "linear-gradient(0deg, #151B2670 80%, transparent 100%)",
-                  color: "#fff",
+                  background: "linear-gradient(0deg, #00356780 80%, transparent 100%)",
+                  color: "#f9ffff",
                   fontWeight: 700,
                   fontSize: "1.19rem",
                   fontFamily: "'Inter', serif",
-                  textShadow: "0 1px 8px #19243A77"
+                  textShadow: "0 1px 8px #00356733"
                 }}
               >
                 {item.name}
@@ -246,7 +258,7 @@ export default function Home() {
           style={{
             fontSize: "2rem",
             fontWeight: 700,
-            color: "#151B26",
+            color: "#003567",
             textAlign: "center",
             marginBottom: 22,
             fontFamily: "'Playfair Display', serif",
@@ -283,16 +295,16 @@ export default function Home() {
             <div
               key={t.name}
               style={{
-                background: "#fff",
+                background: "#f9ffff",
                 borderRadius: "1.2rem",
-                boxShadow: "0 4px 24px #151B2633",
+                boxShadow: "0 4px 24px #00356722",
                 width: 340,
                 minHeight: 180,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 padding: "2rem 1.4rem 1.7rem 1.4rem",
-                border: "2px solid #6E4B28",
+                border: "2px solid #e88d9f",
                 fontFamily: "'Inter', serif",
                 textAlign: "center"
               }}
@@ -305,16 +317,16 @@ export default function Home() {
                 style={{
                   borderRadius: "50%",
                   objectFit: "cover",
-                  boxShadow: "0 2px 8px #6E4B2822",
+                  boxShadow: "0 2px 8px #e88d9f11",
                   marginBottom: 18,
-                  border: "3px solid #6E4B28",
-                  background: "#fff"
+                  border: "3px solid #e88d9f",
+                  background: "#f9ffff"
                 }}
               />
-              <div style={{ fontWeight: 700, color: "#6E4B28", fontSize: 18, marginBottom: 8 }}>
+              <div style={{ fontWeight: 700, color: "#e88d9f", fontSize: 18, marginBottom: 8 }}>
                 {t.name}
               </div>
-              <div style={{ color: "#19243A", fontSize: 16, fontStyle: "italic", fontWeight: 500, lineHeight: 1.5 }}>
+              <div style={{ color: "#003567", fontSize: 16, fontStyle: "italic", fontWeight: 500, lineHeight: 1.5 }}>
                 &ldquo;{t.text}&rdquo;
               </div>
             </div>
@@ -327,14 +339,14 @@ export default function Home() {
         <h3 style={{
           fontSize: "1.4rem",
           fontWeight: 700,
-          color: "#151B26",
+          color: "#003567",
           marginBottom: 18,
           fontFamily: "'Inter', serif",
         }}>
           Own a Yacht?
         </h3>
         <p style={{
-          color: "#6E4B28",
+          color: "#e88d9f",
           fontSize: "1.08rem",
           fontWeight: 500,
           marginBottom: 18,
@@ -344,15 +356,15 @@ export default function Home() {
         <a
           href="/list-your-yacht"
           style={{
-            background: "linear-gradient(90deg, #151B26 55%, #6E4B28 100%)",
-            color: "#fff",
+            background: "linear-gradient(90deg, #003567 55%, #e88d9f 100%)",
+            color: "#f9ffff",
             border: "none",
             borderRadius: "2rem",
             fontWeight: 700,
             fontFamily: "'Inter', serif",
             fontSize: "1.13rem",
             padding: "0.85rem 2.6rem",
-            boxShadow: "0 2px 10px #151B2633",
+            boxShadow: "0 2px 10px #00356722",
             cursor: "pointer",
             textDecoration: "none",
             marginBottom: 12,
@@ -362,7 +374,6 @@ export default function Home() {
           List My Yacht
         </a>
       </section>
-  
     </main>
   );
 }
