@@ -18,16 +18,30 @@ export default function YachtCard({ yacht, onBook }) {
         transition: "transform 0.22s cubic-bezier(.21,1.15,.65,1.01), box-shadow 0.2s, border 0.2s",
         fontFamily: "'Inter', Arial, sans-serif"
       }}
+      tabIndex={0}
+      aria-label={`${yacht.name}: ${yacht.desc}. Book now`}
+      onKeyPress={e => {
+        if (e.key === "Enter" || e.key === " ") {
+          onBook();
+        }
+      }}
     >
       <div style={{ position: "relative", width: "100%", height: 180 }}>
-        <img src={yacht.img} alt={yacht.name}
+        <img
+          src={yacht.img}
+          alt={yacht.name}
           style={{
             width: "100%",
             borderRadius: "1rem",
             objectFit: "cover",
             height: 180,
             transition: "filter 0.25s"
-          }} />
+          }}
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = "https://ui-avatars.com/api/?background=6E4B28&color=fff&name=" + encodeURIComponent(yacht.name);
+          }}
+        />
       </div>
       <h4
         style={{
@@ -36,7 +50,6 @@ export default function YachtCard({ yacht, onBook }) {
           fontSize: "1.16rem",
           marginBottom: 2,
           marginTop: "1rem",
-          fontFamily: "'Inter', Arial, sans-serif"
         }}
       >
         {yacht.name}
@@ -46,7 +59,6 @@ export default function YachtCard({ yacht, onBook }) {
           color: "#19243A",
           margin: "0.5rem 0",
           fontSize: "1rem",
-          fontFamily: "'Inter', Arial, sans-serif"
         }}
       >
         {yacht.desc}
@@ -64,9 +76,9 @@ export default function YachtCard({ yacht, onBook }) {
           marginTop: 8,
           cursor: "pointer",
           transition: "background 0.15s",
-          fontFamily: "'Inter', Arial, sans-serif"
         }}
         onClick={onBook}
+        aria-label={`Book ${yacht.name} now`}
       >
         Book Now
       </button>
