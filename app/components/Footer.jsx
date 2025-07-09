@@ -82,4 +82,17 @@ export default function Footer() {
         </div>
         <div style={{
           fontWeight: 400,
-         
+          color: "#fff",
+          fontSize: 15,
+          letterSpacing: ".01em",
+          textAlign: "center",
+          fontFamily: "'Inter', Arial, sans-serif"
+        }}>
+          <span aria-label="Copyright">
+            &copy; {new Date().getFullYear()} Miami Yacht Day
+          </span>
+        </div>
+      </div>
+    </footer>
+  );
+}
