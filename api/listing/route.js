@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+const globalForPrisma = globalThis;
+const prisma = globalForPrisma.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export async function POST(req) {
   try {
@@ -18,7 +20,7 @@ export async function POST(req) {
     ) {
       return new Response(
         JSON.stringify({ error: "Missing required fields." }),
-        { status: 400 }
+        { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -43,7 +45,7 @@ export async function POST(req) {
     console.error("Error in listing API:", err);
     return new Response(
       JSON.stringify({ error: "Server error" }),
-      { status: 500 }
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
