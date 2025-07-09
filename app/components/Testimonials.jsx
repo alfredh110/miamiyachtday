@@ -19,7 +19,7 @@ export default function Testimonials() {
     <section
       style={{
         padding: "2.5rem 4vw",
-        background: "#19243A", // navy
+        background: "#19243A",
         borderRadius: "2rem",
         marginTop: "2rem",
         maxWidth: 1100,
@@ -34,9 +34,8 @@ export default function Testimonials() {
           fontSize: "1.7rem",
           fontWeight: 700,
           letterSpacing: "0.01em",
-          color: "#6E4B28", // dark brown
+          color: "#6E4B28",
           marginBottom: "2.1rem",
-          fontFamily: "'Inter', Arial, sans-serif",
           textAlign: "center",
         }}
       >
@@ -66,12 +65,11 @@ export default function Testimonials() {
               textAlign: "center",
               position: "relative",
               border: "2px solid #6E4B28",
-              fontFamily: "'Inter', Arial, sans-serif",
             }}
           >
             <img
               src={t.avatar}
-              alt={t.name}
+              alt={`${t.name} avatar`}
               style={{
                 width: 64,
                 height: 64,
@@ -80,9 +78,10 @@ export default function Testimonials() {
                 boxShadow: "0 2px 8px #6E4B2822",
                 marginBottom: 18,
                 border: "3px solid #6E4B28",
-                background: "#fff"
+                background: "#fff",
               }}
               onError={e => {
+                e.target.onerror = null;
                 e.target.src =
                   "https://ui-avatars.com/api/?background=6E4B28&color=fff&name=" +
                   encodeURIComponent(t.name);
@@ -91,22 +90,20 @@ export default function Testimonials() {
             <div
               style={{
                 fontWeight: 700,
-                color: "#6E4B28", // dark brown
+                color: "#6E4B28",
                 fontSize: 18,
                 marginBottom: 8,
-                fontFamily: "'Inter', Arial, sans-serif",
               }}
             >
               {t.name}
             </div>
             <div
               style={{
-                color: "#19243A", // navy
+                color: "#19243A",
                 fontSize: 16,
                 fontStyle: "italic",
                 fontWeight: 500,
                 lineHeight: 1.5,
-                fontFamily: "'Inter', Arial, sans-serif",
               }}
             >
               &ldquo;{t.text}&rdquo;
