@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CTASection({ onBook }) {
+export default function CTASection({ onBook = () => window.scrollTo({ top: 0, behavior: "smooth" }) }) {
   return (
     <section
       style={{
@@ -8,7 +8,7 @@ export default function CTASection({ onBook }) {
         padding: "2.5rem 4vw",
         maxWidth: 800,
         borderRadius: "2rem",
-        background: "linear-gradient(120deg,#19243A 80%,#6E4B28 140%)", // navy to dark brown
+        background: "linear-gradient(120deg,#19243A 80%,#6E4B28 140%)",
         boxShadow: "0 6px 24px #151B2633",
         textAlign: "center",
         position: "relative",
@@ -23,7 +23,6 @@ export default function CTASection({ onBook }) {
           letterSpacing: ".03em",
           marginBottom: "1.2rem",
           textShadow: "0 2px 12px #151B2633",
-          fontFamily: "'Inter', Arial, sans-serif",
         }}
       >
         Ready to sail? <span style={{ color: "#C59C5D" }}>Book your Miami Yacht Day!</span>
@@ -34,14 +33,14 @@ export default function CTASection({ onBook }) {
           fontSize: "1.14rem",
           fontWeight: 500,
           marginBottom: "2rem",
-          fontFamily: "'Inter', Arial, sans-serif",
         }}
       >
         Reserve your luxury yacht today and make memories on the water. Hassle-free online booking. Friendly crew. Unforgettable moments.
       </p>
       <button
+        aria-label="Book your Miami Yacht Day"
         style={{
-          background: "#6E4B28", // dark brown
+          background: "#6E4B28",
           color: "#fff",
           fontWeight: 700,
           border: "none",
@@ -51,9 +50,8 @@ export default function CTASection({ onBook }) {
           cursor: "pointer",
           boxShadow: "0 1px 8px #151B2633",
           transition: "background 0.18s, box-shadow 0.18s, transform 0.18s",
-          fontFamily: "'Inter', Arial, sans-serif",
         }}
-        onClick={onBook || (() => window.scrollTo({ top: 0, behavior: "smooth" }))}
+        onClick={onBook}
       >
         Book Now
       </button>
