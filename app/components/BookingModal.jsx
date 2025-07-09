@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import yachts from "../data/yachts";
 
-// Accepts an optional 'yacht' prop for pre-selecting/locking yacht
 export default function BookingModal({ onClose, yacht: selectedYacht }) {
   const [form, setForm] = useState({
     name: "",
@@ -19,10 +18,10 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
 
   // Autofocus on name input when modal opens
   useEffect(() => {
-    setTimeout(() => { firstInputRef.current && firstInputRef.current.focus(); }, 100);
+    setTimeout(() => { firstInputRef.current?.focus(); }, 100);
   }, []);
 
-  // Reset form if closed and reopened
+  // Reset form if closed and reopened or if selectedYacht changes
   useEffect(() => {
     setForm({
       name: "",
@@ -37,13 +36,15 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
     setSubmitting(false);
   }, [selectedYacht]);
 
-  // Escape key closes modal
+  // Escape key closes modal, tab trap for accessibility
   useEffect(() => {
     const handleKey = e => {
       if (e.key === "Escape") onClose();
-      // Tab trap for accessibility
       if (e.key === "Tab" && modalRef.current) {
-        const focusable = modalRef.current.querySelectorAll('input,select,textarea,button,[tabindex]:not([tabindex="-1"])');
+        const focusable = modalRef.current.querySelectorAll(
+          'input,select,textarea,button,[tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusable.length) return;
         const first = focusable[0], last = focusable[focusable.length - 1];
         if (!e.shiftKey && document.activeElement === last) {
           e.preventDefault();
@@ -92,7 +93,9 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
       });
 
       if (!res.ok) {
-        const data = await res.json();
+        // Defensive: API may not return JSON
+        let data = {};
+        try { data = await res.json(); } catch {}
         setError(data.error || "Submission failed.");
         setSubmitting(false);
         return;
@@ -106,21 +109,30 @@ export default function BookingModal({ onClose, yacht: selectedYacht }) {
     }
   };
 
+  // Success message
   if (submitted) {
     return (
       <div style={overlayStyle} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
         <div ref={modalRef} style={modalStyle}>
           <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
           <h2 style={{ color: "#6E4B28" }}>Thank you!</h2>
-          <p style={{ color: "#19243A" }}>Your booking request has been submitted.<br />We’ll contact you soon.</p>
+          <p style={{ color: "#19243A" }}>
+            Your booking request has been submitted.<br />We’ll contact you soon.
+          </p>
           <button style={actionButtonStyle} onClick={onClose} autoFocus>Close</button>
         </div>
       </div>
     );
   }
 
+  // Booking form
   return (
-    <div style={{ ...overlayStyle, fontFamily: "'Inter', Arial, sans-serif" }} role="dialog" aria-modal="true" onClick={handleOverlayClick}>
+    <div
+      style={{ ...overlayStyle, fontFamily: "'Inter', Arial, sans-serif" }}
+      role="dialog"
+      aria-modal="true"
+      onClick={handleOverlayClick}
+    >
       <div ref={modalRef} style={{ ...modalStyle, fontFamily: "'Inter', Arial, sans-serif" }}>
         <button style={closeButtonStyle} onClick={onClose} aria-label="Close">&times;</button>
         <h2 style={{ color: "#6E4B28", marginBottom: 10 }}>
