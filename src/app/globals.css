@@ -1,14 +1,18 @@
 body {
   margin: 0;
   padding: 0;
-  background: #f8f7f3;
-  color: #19243A;
+  background: #f9ffff;
+  color: #003567;
   font-family: 'Inter', Arial, sans-serif;
   min-height: 100vh;
 }
 a {
-  color: inherit;
+  color: #e88d9f;
   text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #003567;
 }
 * {
   box-sizing: border-box;
