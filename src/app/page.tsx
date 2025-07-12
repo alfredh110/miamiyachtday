@@ -198,12 +198,12 @@ export default function Home() {
         >
           {/* Example yacht/destination cards */}
           {[
-            { name: "Motor Yachts", img: "/motor-yacht.jpg" },
+            { name: "Motor Yachts", img: "/45' MAXUM CRUISER IN MIAMI FL 2025 WITH @MIAMIYACHTDAY.png" },
             { name: "Catamarans", img: "/catamaran.jpg" },
             { name: "Sailing Yachts", img: "/sailing-yacht.jpg" },
-            { name: "Miami Beach", img: "/miami-beach.jpg" },
-            { name: "Fisher Island", img: "/fisher-island.jpg" },
-            { name: "Key Biscayne", img: "/key-biscayne.jpg" },
+            { name: "Hobie Beach", img: "/miami-beach.jpg" },
+            { name: "Nixon Beach", img: "/fisher-island.jpg" },
+            { name: "Marine Stadium", img: "/key-biscayne.jpg" },
           ].map((item) => (
             <div
               key={item.name}
