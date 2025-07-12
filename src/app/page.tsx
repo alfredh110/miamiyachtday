@@ -71,7 +71,7 @@ export default function Home() {
             }}
           >
             Book or list a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
-          </p>
+          </h1>
           {/* Booking Search UI (luxury styled) */}
           <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <input
@@ -88,87 +88,87 @@ export default function Home() {
                 color: "#003567"
               }}
             />
-         <div style={{ marginBottom: 14 }}>
-  <div style={{
-    display: "flex",
-    gap: 12,
-    flexWrap: "wrap",
-    width: "100%"
-  }}>
-    <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-      <label style={{
-        color: "#003567",
-        fontWeight: 600,
-        fontSize: "0.97rem",
-        marginBottom: 3,
-        marginLeft: 4
-      }}>
-        Date
-      </label>
-      <input
-        type="date"
-        style={{
-          width: "100%",
-          padding: "0.7rem",
-          borderRadius: "0.7rem",
-          border: "1.5px solid #e88d9f",
-          fontSize: ".70rem",
-          fontFamily: "'Inter', serif",
-          background: "#f9ffff",
-          color: "#003567"
-        }}
-      />
-    </div>
-    <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-      <label style={{
-        color: "#003567",
-        fontWeight: 600,
-        fontSize: "0.97rem",
-        marginBottom: 3,
-        marginLeft: 4
-      }}>
-        Departure
-      </label>
-      <input
-        type="time"
-        style={{
-          width: "100%",
-          padding: "0.7rem",
-          borderRadius: "0.7rem",
-          border: "1.5px solid #e88d9f",
-          fontSize: "1.07rem",
-          fontFamily: "'Inter', serif",
-          background: "#f9ffff",
-          color: "#003567"
-        }}
-      />
-    </div>
-    <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-      <label style={{
-        color: "#003567",
-        fontWeight: 600,
-        fontSize: "0.97rem",
-        marginBottom: 3,
-        marginLeft: 4
-      }}>
-        Arrival 
-      </label>
-      <input
-        type="time"
-        style={{
-          width: "100%",
-          padding: "0.7rem",
-          borderRadius: "0.7rem",
-          border: "1.5px solid #e88d9f",
-          fontSize: "1.07rem",
-          fontFamily: "'Inter', serif",
-          background: "#f9ffff",
-          color: "#003567"
-        }}
-      />
-    </div>
-  </div>
-</div>
+            <div style={{ marginBottom: 14 }}>
+              <div style={{
+                display: "flex",
+                gap: 12,
+                flexWrap: "wrap",
+                width: "100%"
+              }}>
+                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+                  <label style={{
+                    color: "#003567",
+                    fontWeight: 600,
+                    fontSize: "0.97rem",
+                    marginBottom: 3,
+                    marginLeft: 4
+                  }}>
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    style={{
+                      width: "100%",
+                      padding: "0.7rem",
+                      borderRadius: "0.7rem",
+                      border: "1.5px solid #e88d9f",
+                      fontSize: ".85rem",
+                      fontFamily: "'Inter', serif",
+                      background: "#f9ffff",
+                      color: "#003567"
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+                  <label style={{
+                    color: "#003567",
+                    fontWeight: 600,
+                    fontSize: "0.97rem",
+                    marginBottom: 3,
+                    marginLeft: 4
+                  }}>
+                    Departure 
+                  </label>
+                  <input
+                    type="time"
+                    style={{
+                      width: "100%",
+                      padding: "0.7rem",
+                      borderRadius: "0.7rem",
+                      border: "1.5px solid #e88d9f",
+                      fontSize: "1.07rem",
+                      fontFamily: "'Inter', serif",
+                      background: "#f9ffff",
+                      color: "#003567"
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+                  <label style={{
+                    color: "#003567",
+                    fontWeight: 600,
+                    fontSize: "0.97rem",
+                    marginBottom: 3,
+                    marginLeft: 4
+                  }}>
+                    Arrival 
+                  </label>
+                  <input
+                    type="time"
+                    style={{
+                      width: "100%",
+                      padding: "0.7rem",
+                      borderRadius: "0.7rem",
+                      border: "1.5px solid #e88d9f",
+                      fontSize: "1.07rem",
+                      fontFamily: "'Inter', serif",
+                      background: "#f9ffff",
+                      color: "#003567"
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
             <select
               style={{
                 padding: "0.85rem 1.1rem",
