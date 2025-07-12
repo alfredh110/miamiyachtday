@@ -270,9 +270,9 @@ export default function Home() {
             { name: "Motor Yachts", img: "/45' MAXUM CRUISER IN MIAMI FL 2025 WITH @MIAMIYACHTDAY.png" },
             { name: "Catamarans", img: "/catamaran.jpg" },
             { name: "Sailing Yachts", img: "/sailing-yacht.jpg" },
-            { name: "Hobie Beach", img: "/miami-beach.jpg" },
-            { name: "Nixon Beach", img: "/fisher-island.jpg" },
-            { name: "Marine Stadium", img: "/key-biscayne.jpg" },
+            { name: "Hobie Beach", img: "/HOBIE BEACH.webp" },
+            { name: "Nixon Beach", img: "/NIXON SANDBAR.webp" },
+            { name: "Marine Stadium", img: "/MARINE STADIUM.jpg" },
           ].map((item) => (
             <div
               key={item.name}
