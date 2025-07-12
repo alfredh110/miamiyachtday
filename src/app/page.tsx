@@ -48,18 +48,18 @@ export default function Home() {
           }}
         >
           <h1
-            style={{
-              color: "#003567",
-              fontSize: "2.6rem",
-              fontWeight: 800,
-              fontFamily: "'Playfair Display', serif",
-              marginBottom: 16,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.08,
-            }}
-          >
-            Book or list a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
-          </h1>
+  style={{
+    color: "#003567",
+    fontSize: "1.65rem",
+    fontWeight: 800,
+    fontFamily: "'Playfair Display', serif",
+    marginBottom: 16,
+    letterSpacing: "-0.01em",
+    lineHeight: 1.22,
+  }}
+>
+  Book or list a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
+</h1>
           {/* Booking Search UI (luxury styled) */}
           <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <input
