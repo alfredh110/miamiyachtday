@@ -88,34 +88,50 @@ export default function Home() {
                 color: "#003567"
               }}
             />
-            <div style={{ display: "flex", gap: 12 }}>
-              <input
-                type="date"
-                style={{
-                  flex: 1,
-                  padding: "0.7rem",
-                  borderRadius: "0.7rem",
-                  border: "1.5px solid #e88d9f",
-                  fontSize: "1.07rem",
-                  fontFamily: "'Inter', serif",
-                  background: "#f9ffff",
-                  color: "#003567"
-                }}
-              />
-              <input
-                type="time"
-                style={{
-                  flex: 1,
-                  padding: "0.7rem",
-                  borderRadius: "0.7rem",
-                  border: "1.5px solid #e88d9f",
-                  fontSize: "1.07rem",
-                  fontFamily: "'Inter', serif",
-                  background: "#f9ffff",
-                  color: "#003567"
-                }}
-              />
-            </div>
+          <div style={{ display: "flex", gap: 12, marginBottom: 14 }}>
+  <input
+    type="date"
+    placeholder="Date"
+    style={{
+      flex: 2,
+      padding: "0.7rem",
+      borderRadius: "0.7rem",
+      border: "1.5px solid #e88d9f",
+      fontSize: "1.07rem",
+      fontFamily: "'Inter', serif",
+      background: "#f9ffff",
+      color: "#003567"
+    }}
+  />
+  <input
+    type="time"
+    placeholder="Departure Time"
+    style={{
+      flex: 1,
+      padding: "0.7rem",
+      borderRadius: "0.7rem",
+      border: "1.5px solid #e88d9f",
+      fontSize: "1.07rem",
+      fontFamily: "'Inter', serif",
+      background: "#f9ffff",
+      color: "#003567"
+    }}
+  />
+  <input
+    type="time"
+    placeholder="Arrival Time"
+    style={{
+      flex: 1,
+      padding: "0.7rem",
+      borderRadius: "0.7rem",
+      border: "1.5px solid #e88d9f",
+      fontSize: "1.07rem",
+      fontFamily: "'Inter', serif",
+      background: "#f9ffff",
+      color: "#003567"
+    }}
+  />
+</div>
             <select
               style={{
                 padding: "0.85rem 1.1rem",
