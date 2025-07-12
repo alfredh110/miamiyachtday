@@ -17,10 +17,10 @@ export default function Navbar() {
         MiamiYachtDay
       </div>
       <div style={{ display: "flex", gap: "2.3rem", alignItems: "center" }}>
-        <a href="#featured" style={{ fontWeight: 600, color: "#f9ffff" }}>Featured</a>
+        <a href="#charter yachts" style={{ fontWeight: 600, color: "#f9ffff" }}>Charter Yachts</a>
         <a href="#testimonials" style={{ fontWeight: 600, color: "#f9ffff" }}>Testimonials</a>
         <a href="#list" style={{ fontWeight: 600, color: "#e88d9f" }}>List Your Yacht</a>
-        <a href="/login" style={{
+        <a href="/Subscribe" style={{
           fontWeight: 500,
           background: "#e88d9f",
           color: "#003567",
