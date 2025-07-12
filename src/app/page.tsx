@@ -76,7 +76,7 @@ export default function Home() {
           <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <input
               type="text"
-              placeholder="Departure (e.g. Miami Beach)"
+              placeholder="Location"
               style={{
                 padding: "0.87rem 1.1rem",
                 borderRadius: "0.7rem",
@@ -103,7 +103,7 @@ export default function Home() {
                 }}
               />
               <input
-                type="date"
+                type="time"
                 style={{
                   flex: 1,
                   padding: "0.7rem",
@@ -131,9 +131,25 @@ export default function Home() {
               <option value="" disabled>
                 Yacht type (All)
               </option>
-              <option>Motor Yacht</option>
-              <option>Sailing Yacht</option>
-              <option>Catamaran</option>
+              <option>26' Sundeck Sport Boat</option>
+              <option>30' Hurrican Grandson</option>
+              <option>31' Black Pearl Sea Ray</option>
+              <option>33' Mr. Gems Sea Ray</option>
+              <option>36' Boston Whaler</option>
+              <option>38' Sundancer</option>
+              <option>40' Quest Yacht</option>
+              <option>42' Cranchi</option>
+              <option>42' Mr. Gem Sea Ray</option>
+              <option>42' Regal</option>
+              <option>44' Sundancer Sea Ray</option>
+              <option>45' Miami Mistress</option>
+              <option>45' Sundancer</option>
+              <option>45' Maxum</option>
+              <option>50' Azimut Odyssey</option>
+              <option>50' Azimut Barolo</option>
+              <option>50' Carpe Diem Sea Ray</option>
+              <option>50' Bandido</option>
+              <option>50' Good Vibes Azimut</option>
             </select>
             <button
               style={{
