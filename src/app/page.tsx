@@ -26,25 +26,13 @@ export default function Home() {
           src="/NIXON SANDBAR.webp"
           alt=""
           fill
-          quality={100}
-          sizes="100vw"
           style={{
             objectFit: "cover",
-            objectPosition: "center",
-            opacity: 0.5,
+            opacity: 0.45,
             zIndex: 0,
-            filter: "contrast(1.08) saturate(1.1)"
           }}
           priority
         />
-        {/* Optional subtle overlay for luxury/HD effect */}
-        <div style={{
-          position: "absolute",
-          top: 0, left: 0, width: "100%", height: "100%",
-          background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(232,141,159,0.08) 100%)",
-          zIndex: 1,
-          pointerEvents: "none"
-        }} />
         {/* Overlay content */}
         <div
           style={{
