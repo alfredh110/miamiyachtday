@@ -16,7 +16,7 @@ export default function Footer() {
         MiamiYachtDay.co
       </div>
       <div style={{ margin: "0.8rem 0", color: "#e88d9f", fontWeight: 500 }}>
-        Luxury Yacht Rentals & Listings | Miami, FL
+        Luxury Yacht Charters & Listings | Miami, FL
       </div>
       <div style={{ fontSize: "0.98rem", opacity: 0.9 }}>
         &copy; {new Date().getFullYear()} MiamiYachtDay. All rights reserved.
