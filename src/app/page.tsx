@@ -106,7 +106,7 @@ export default function Home() {
         Date
       </label>
       <input
-        type="day"
+        type="date"
         style={{
           width: "100%",
           padding: "0.7rem",
@@ -160,7 +160,7 @@ export default function Home() {
           padding: "0.7rem",
           borderRadius: "0.7rem",
           border: "1.5px solid #e88d9f",
-          fontSize: "1.07rem",
+          fontSize: "0.7rem",
           fontFamily: "'Inter', serif",
           background: "#f9ffff",
           color: "#003567"
