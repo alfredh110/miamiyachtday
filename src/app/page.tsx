@@ -23,7 +23,7 @@ export default function Home() {
       >
         {/* Luxury Miami water background */}
         <Image
-          src="/miami-water.jpg"
+          src="/NIXON SANDBAR.webp"
           alt=""
           fill
           style={{
