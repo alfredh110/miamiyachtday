@@ -28,7 +28,7 @@ export default function Navbar() {
           padding: "0.45rem 1.3rem",
           marginLeft: "1.5rem",
           boxShadow: "0 2px 8px #0002"
-        }}>Login</a>
+        }}>Subscribe</a>
       </div>
     </nav>
   );
