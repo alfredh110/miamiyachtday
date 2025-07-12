@@ -127,7 +127,7 @@ export default function Home() {
         marginBottom: 3,
         marginLeft: 4
       }}>
-        Departure Time
+        Departure
       </label>
       <input
         type="time"
@@ -151,7 +151,7 @@ export default function Home() {
         marginBottom: 3,
         marginLeft: 4
       }}>
-        Arrival Time
+        Arrival 
       </label>
       <input
         type="time"
