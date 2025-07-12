@@ -89,8 +89,13 @@ export default function Home() {
               }}
             />
          <div style={{ marginBottom: 14 }}>
-  <div style={{ display: "flex", gap: 12 }}>
-    <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+  <div style={{
+    display: "flex",
+    gap: 12,
+    flexWrap: "wrap",
+    width: "100%"
+  }}>
+    <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
       <label style={{
         color: "#003567",
         fontWeight: 600,
@@ -103,6 +108,7 @@ export default function Home() {
       <input
         type="date"
         style={{
+          width: "100%",
           padding: "0.7rem",
           borderRadius: "0.7rem",
           border: "1.5px solid #e88d9f",
@@ -113,7 +119,7 @@ export default function Home() {
         }}
       />
     </div>
-    <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
       <label style={{
         color: "#003567",
         fontWeight: 600,
@@ -126,6 +132,7 @@ export default function Home() {
       <input
         type="time"
         style={{
+          width: "100%",
           padding: "0.7rem",
           borderRadius: "0.7rem",
           border: "1.5px solid #e88d9f",
@@ -136,7 +143,7 @@ export default function Home() {
         }}
       />
     </div>
-    <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
       <label style={{
         color: "#003567",
         fontWeight: 600,
@@ -149,6 +156,7 @@ export default function Home() {
       <input
         type="time"
         style={{
+          width: "100%",
           padding: "0.7rem",
           borderRadius: "0.7rem",
           border: "1.5px solid #e88d9f",
