@@ -23,7 +23,7 @@ export default function Home() {
       >
         {/* Luxury Miami water background */}
         <Image
-          src="/NIXON SANDBAR.webp"
+          src="/miami-water.jpg"
           alt=""
           fill
           style={{
@@ -58,7 +58,7 @@ export default function Home() {
     lineHeight: 1.22,
   }}
 >
-  Book or list a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
+  Book a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
 </h1>
           {/* Booking Search UI (luxury styled) */}
           <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
