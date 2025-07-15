@@ -170,28 +170,12 @@ export default function Home() {
               defaultValue=""
             >
               <option value="" disabled>
-                Yacht type (All)
+                Party Size (All)
               </option>
-              <option>26' Sundeck Sport Boat</option>
-              <option>30' Hurrican Grandson</option>
-              <option>31' Black Pearl Sea Ray</option>
-              <option>33' Mr. Gems Sea Ray</option>
-              <option>36' Boston Whaler</option>
-              <option>38' Sundancer</option>
-              <option>40' Quest Yacht</option>
-              <option>42' Cranchi</option>
-              <option>42' Mr. Gem Sea Ray</option>
-              <option>42' Regal</option>
-              <option>44' Sundancer Sea Ray</option>
-              <option>45' Miami Mistress</option>
-              <option>45' Sundancer</option>
-              <option>45' Maxum</option>
-              <option>50' Azimut Odyssey</option>
-              <option>50' Azimut Barolo</option>
-              <option>50' Carpe Diem Sea Ray</option>
-              <option>50' Bandido</option>
-              <option>50' Good Vibes Azimut</option>
-            </select>
+              <option>26' Up to 9 Guest Aboard</option>
+              <option>30' Up to 11 Guest Aboard</option>
+              <option>31' Up to 13 Guest Aboard</option>
+           </select>
             <button
               style={{
                 marginTop: 6,
