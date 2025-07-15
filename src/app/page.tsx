@@ -1,3 +1,4 @@
+import BookingForm from '../components/BookingForm';
 import Image from "next/image";
 
 export default function Home() {
@@ -60,160 +61,21 @@ export default function Home() {
 >
   Book a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
 </h1>
-          {/* Booking Search UI (luxury styled) */}
-          <form style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <input
-              type="text"
-              placeholder="Location"
-              style={{
-                padding: "0.87rem 1.1rem",
-                borderRadius: "0.7rem",
-                border: "1.5px solid #e88d9f",
-                fontSize: "1.07rem",
-                fontFamily: "'Inter', serif",
-                marginBottom: 2,
-                background: "#f9ffff",
-                color: "#003567"
-              }}
-            />
-            <div style={{ marginBottom: 14 }}>
-              <div style={{
-                display: "flex",
-                gap: 12,
-                flexWrap: "wrap",
-                width: "100%"
-              }}>
-                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-                  <label style={{
-                    color: "#003567",
-                    fontWeight: 600,
-                    fontSize: "0.97rem",
-                    marginBottom: 3,
-                    marginLeft: 4
-                  }}>
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    style={{
-                      width: "100%",
-                      padding: "0.7rem",
-                      borderRadius: "0.7rem",
-                      border: "1.5px solid #e88d9f",
-                      fontSize: ".85rem",
-                      fontFamily: "'Inter', serif",
-                      background: "#f9ffff",
-                      color: "#003567"
-                    }}
-                  />
-                </div>
-                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-                  <label style={{
-                    color: "#003567",
-                    fontWeight: 600,
-                    fontSize: "0.97rem",
-                    marginBottom: 3,
-                    marginLeft: 4
-                  }}>
-                    Departure 
-                  </label>
-                  <input
-                    type="time"
-                    style={{
-                      width: "100%",
-                      padding: "0.7rem",
-                      borderRadius: "0.7rem",
-                      border: "1.5px solid #e88d9f",
-                      fontSize: "1.07rem",
-                      fontFamily: "'Inter', serif",
-                      background: "#f9ffff",
-                      color: "#003567"
-                    }}
-                  />
-                </div>
-                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-                  <label style={{
-                    color: "#003567",
-                    fontWeight: 600,
-                    fontSize: "0.97rem",
-                    marginBottom: 3,
-                    marginLeft: 4
-                  }}>
-                    Arrival 
-                  </label>
-                  <input
-                    type="time"
-                    style={{
-                      width: "100%",
-                      padding: "0.7rem",
-                      borderRadius: "0.7rem",
-                      border: "1.5px solid #e88d9f",
-                      fontSize: "1.07rem",
-                      fontFamily: "'Inter', serif",
-                      background: "#f9ffff",
-                      color: "#003567"
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <select
-              style={{
-                padding: "0.85rem 1.1rem",
-                borderRadius: "0.7rem",
-                border: "1.5px solid #e88d9f",
-                fontSize: "1.07rem",
-                fontFamily: "'Inter', serif",
-                color: "#003567",
-                background: "#f9ffff"
-              }}
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Party Size (All)
-              </option>
-              <option>Up to 9 Guest Aboard</option>
-              <option>Up to 11 Guest Aboard</option>
-              <option>Up to 13 Guest Aboard</option>
-              <option>Over 13 Guest Aboard Special Event </option>
-           </select>
-            <button
-              style={{
-                marginTop: 6,
-                background: "linear-gradient(90deg, #003567 55%, #e88d9f 100%)",
-                color: "#f9ffff",
-                border: "none",
-                borderRadius: "2rem",
-                fontWeight: 700,
-                fontFamily: "'Inter', serif",
-                fontSize: "1.18rem",
-                padding: "0.9rem 2rem",
-                boxShadow: "0 2px 10px #00356722",
-                cursor: "pointer",
-                letterSpacing: "0.04em",
-                transition: "background 0.17s"
-              }}
-              type="submit"
-            >
-              Miami Yachts
-            </button>
-          </form>
-          <div
-            style={{
-              marginTop: 22,
-              fontSize: "1.02rem",
-              color: "#003567",
-              fontFamily: "'Inter', serif",
-              fontWeight: 500,
-              textAlign: "center",
-              opacity: 0.8,
-            }}
-          >
-            or <a href="#list" style={{ color: "#e88d9f", fontWeight: 700, textDecoration: "underline" }}>List your yacht</a> in minutes
-          </div>
-        </div>
-      </section>
+       <BookingForm />
+       import React from 'react';
+import BookingForm from '../components/BookingForm'; // Adjust path as needed
 
+export default function HomePage() {
+  return (
+    <main>
+      {/* ... other content on your page ... */}
+      <section className="booking-section"> {/* Or wherever you want the form */}
+        <BookingForm />
+      </section>
+      {/* ... rest of your page content ... */}
+    </main>
+  );
+}
       {/* Yacht Types/Featured Destinations */}
       <section style={{ margin: "68px auto 0 auto", maxWidth: 1200, padding: "0 3vw" }}>
         <h2
