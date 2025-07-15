@@ -49,33 +49,22 @@ export default function Home() {
           }}
         >
           <h1
-  style={{
-    color: "#003567",
-    fontSize: "1.65rem",
-    fontWeight: 800,
-    fontFamily: "'Playfair Display', serif",
-    marginBottom: 16,
-    letterSpacing: "-0.01em",
-    lineHeight: 1.22,
-  }}
->
-  Book a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
-</h1>
-       <BookingForm />
-       import React from 'react';
-import BookingForm from '../components/BookingForm'; // Adjust path as needed
-
-export default function HomePage() {
-  return (
-    <main>
-      {/* ... other content on your page ... */}
-      <section className="booking-section"> {/* Or wherever you want the form */}
-        <BookingForm />
+            style={{
+              color: "#003567",
+              fontSize: "1.65rem",
+              fontWeight: 800,
+              fontFamily: "'Playfair Display', serif",
+              marginBottom: 16,
+              letterSpacing: "-0.01em",
+              lineHeight: 1.22,
+            }}
+          >
+            Book a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
+          </h1>
+          <BookingForm />
+        </div>
       </section>
-      {/* ... rest of your page content ... */}
-    </main>
-  );
-}
+
       {/* Yacht Types/Featured Destinations */}
       <section style={{ margin: "68px auto 0 auto", maxWidth: 1200, padding: "0 3vw" }}>
         <h2
