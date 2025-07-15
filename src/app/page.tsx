@@ -59,7 +59,7 @@ export default function Home() {
               lineHeight: 1.22,
             }}
           >
-           Welcome to <span style={{fontWeight:700, color:'#f9ffffee'}}>MiamiYachtDay</span>
+           <span style={{fontWeight:700, color:'#003567'}}> Welcome to Miami Yacht Day</span>
           </h1>
           <BookingForm />
         </div>
