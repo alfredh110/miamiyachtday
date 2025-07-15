@@ -17,3 +17,66 @@ a:hover {
 * {
   box-sizing: border-box;
 }
+/* globals.css or a dedicated CSS module for the form */
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between form fields */
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: #f9ffff; /* Light background for the form */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 500px; /* Adjust as needed */
+  margin: 0 auto; /* Center the form */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-label {
+  color: #003567; /* Dark blue for labels */
+  font-weight: 600;
+  font-size: 0.97rem;
+  margin-bottom: 0.3rem;
+  margin-left: 0.25rem;
+}
+
+.required {
+  color: #e88d9f; /* Pink for required indicator */
+  font-weight: bold;
+  margin-left: 0.25rem;
+}
+
+.styled-select,
+.styled-textarea {
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.7rem;
+  border: 1.5px solid #e88d9f; /* Pink border */
+  font-size: 1.07rem;
+  font-family: 'Inter', serif; /* Use your preferred font */
+  color: #003567;
+  background-color: #ffffff; /* White background for inputs */
+  outline: none; /* Remove default outline on focus */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.styled-select:focus,
+.styled-textarea:focus {
+  border-color: #003567; /* Darker border on focus */
+  box-shadow: 0 0 0 3px rgba(0, 53, 103, 0.2); /* Light shadow on focus */
+}
+
+.styled-textarea {
+  min-height: 80px; /* Give textarea some initial height */
+  resize: vertical; /* Allow vertical resizing */
+}
+
+/* Optional: Placeholder styling */
+.styled-select option[value=""][disabled],
+.styled-textarea::placeholder {
+  color: #a0a0a0; /* Lighter color for placeholders */
+}
