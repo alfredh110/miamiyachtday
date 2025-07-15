@@ -195,7 +195,7 @@ export default function Home() {
               }}
               type="submit"
             >
-              Search Yachts
+              Miami Yachts
             </button>
           </form>
           <div
