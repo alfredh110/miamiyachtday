@@ -172,9 +172,9 @@ export default function Home() {
               <option value="" disabled>
                 Party Size (All)
               </option>
-              <option>26' Up to 9 Guest Aboard</option>
-              <option>30' Up to 11 Guest Aboard</option>
-              <option>31' Up to 13 Guest Aboard</option>
+              <option>Up to 9 Guest Aboard</option>
+              <option>Up to 11 Guest Aboard</option>
+              <option>Up to 13 Guest Aboard</option>
            </select>
             <button
               style={{
