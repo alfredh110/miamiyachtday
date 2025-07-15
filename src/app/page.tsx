@@ -175,6 +175,7 @@ export default function Home() {
               <option>Up to 9 Guest Aboard</option>
               <option>Up to 11 Guest Aboard</option>
               <option>Up to 13 Guest Aboard</option>
+              <option>Over 13 Guest Aboard Special Event </option>
            </select>
             <button
               style={{
