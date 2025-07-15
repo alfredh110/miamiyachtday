@@ -59,7 +59,7 @@ export default function Home() {
               lineHeight: 1.22,
             }}
           >
-            Book a yacht with a touch of refined elegance. Welcome to <span style={{fontWeight:700, color:'#003567'}}>MiamiYachtDay.co</span>
+           Welcome to <span style={{fontWeight:700, color:'#f9ffffee'}}>MiamiYachtDay</span>
           </h1>
           <BookingForm />
         </div>
