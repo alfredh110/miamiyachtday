@@ -18,7 +18,6 @@ a:hover {
   box-sizing: border-box;
 }
 /* globals.css or a dedicated CSS module for the form */
-
 .booking-form {
   display: flex;
   flex-direction: column;
