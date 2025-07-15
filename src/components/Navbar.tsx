@@ -28,7 +28,7 @@ export default function Navbar() {
           padding: "0.45rem 1.3rem",
           marginLeft: "1.5rem",
           boxShadow: "0 2px 8px #0002"
-        }}>MIAMI MANDY B MODELUVIN EVENT & MEDIA PRODUCTIONS.png.png</a>
+        }}>Subcribe</a>
       </div>
     </nav>
   );
