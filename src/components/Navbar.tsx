@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -17,10 +18,12 @@ export default function Navbar() {
         MiamiYachtDay
       </div>
       <div style={{ display: "flex", gap: "2.3rem", alignItems: "center" }}>
-        <a href="#charter yachts" style={{ fontWeight: 600, color: "#f9ffff" }}>Charter Yachts</a>
+        <Link href="/yachts" style={{ fontWeight: 600, color: "#f9ffff" }}>
+          Charter Yachts
+        </Link>
         <a href="#testimonials" style={{ fontWeight: 600, color: "#f9ffff" }}>Testimonials</a>
         <a href="#list" style={{ fontWeight: 600, color: "#e88d9f" }}>List Your Yacht</a>
-        <a href="/Subscribe" style={{
+        <Link href="/Subscribe" style={{
           fontWeight: 500,
           background: "#e88d9f",
           color: "#003567",
@@ -28,7 +31,7 @@ export default function Navbar() {
           padding: "0.45rem 1.3rem",
           marginLeft: "1.5rem",
           boxShadow: "0 2px 8px #0002"
-        }}>Subcribe</a>
+        }}>Subscribe</Link>
       </div>
     </nav>
   );
