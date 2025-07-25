@@ -11,7 +11,10 @@ const YACHTS = [
     img: "/AB-31FT BLACK PEAR AMBERJACK.jpg",
     description: "Luxury, comfort, and style—perfect for your day out."
   },
-  // Add more yachts here...
+  {
+    name: "30' Hurricane Grandson",
+    img: "/AB-30FT HURRICANE GRANDSON.jpg",
+    description: "Comfort and Style for Miami Adventures."
 ];
 
 export default function YachtsPage() {
