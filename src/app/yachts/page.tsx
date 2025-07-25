@@ -3,12 +3,12 @@ import Image from "next/image";
 const YACHTS = [
   {
     name: "26' Sundeck Sport Boat",
-    img: "/sundeck-sport-boat.jpg",
+    img: "/AB-MODELIT-BOAT-MIAMIYACHTDAY-18.JPG",
     description: "Sporty and spacious for Miami adventures."
   },
   {
     name: "31' Black Pearl Sea Ray",
-    img: "/black-pearl-sea-ray.jpg",
+    img: "/AB-31FT BLACK PEAR AMBERJACK.jpg",
     description: "Luxury, comfort, and style—perfect for your day out."
   },
   // Add more yachts here...
