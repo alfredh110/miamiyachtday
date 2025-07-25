@@ -35,7 +35,7 @@ export default function YachtsPage() {
         margin: "0 auto",
         padding: "0 3vw",
       }}>
-        {YACHTS.map((yacht, i) => (
+        {YACHTS.map((yacht) => (
           <div
             key={yacht.name}
             style={{
@@ -56,7 +56,7 @@ export default function YachtsPage() {
               alt={yacht.name}
               width={260}
               height={156}
-              style={{ borderRadius: "1rem", objectFit: "cover", marginBottom: 18 }}
+              style={{ borderRadius: "1rem", objectFit: "cover", marginBottom: 14 }}
             />
             <div style={{ fontWeight: 700, color: "#003567", fontSize: "1.15rem", marginBottom: 6 }}>
               {yacht.name}
