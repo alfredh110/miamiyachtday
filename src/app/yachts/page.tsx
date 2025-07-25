@@ -15,6 +15,7 @@ const YACHTS = [
     name: "30' Hurricane Grandson",
     img: "/AB-30FT HURRICANE GRANDSON.jpg",
     description: "Comfort and Style for Miami Adventures."
+  },
 ];
 
 export default function YachtsPage() {
