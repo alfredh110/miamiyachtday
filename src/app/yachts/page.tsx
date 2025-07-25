@@ -48,7 +48,7 @@ export default function YachtsPage() {
       </h1>
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat (3, 1fr)",
+        gridTemplateColumns: "repeat (auto-fit, minmax(320px, 1fr)",
         gap: "2.4rem",
         maxWidth: 1200,
         margin: "0 auto",
